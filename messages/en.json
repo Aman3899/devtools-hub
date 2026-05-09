@@ -132,7 +132,26 @@
     "notFound": {
       "title": "Page Not Found",
       "desc": "The tool or page you are looking for does not exist or has been moved.",
-      "return": "Return to Dashboard"
+      "return": "Return to Dashboard",
+      "goBack": "Go back to previous page",
+      "lost": "Lost? Search for a tool on our {link}."
+    },
+    "navigation": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "landing": {
+      "title": "Developer Utilities",
+      "subtitle": "Privacy-first, client-side tools for your daily development workflow.",
+      "searchPlaceholder": "Search tools (e.g. 'json', 'jwt', 'regex')...",
+      "categories": "Categories",
+      "allTools": "All Tools",
+      "privacyNote": "Privacy Note",
+      "privacyDesc": "All tools run entirely in your browser. Your data never leaves your machine.",
+      "clientSide": "Client-side",
+      "noTools": "No tools found",
+      "noToolsDesc": "Try adjusting your search or category filters.",
+      "clearFilters": "Clear all filters"
     }
   },
   "tools": {
@@ -451,6 +470,12 @@
       "color2": "Color 2",
       "angle": "Angle",
       "presets": "Quick Presets",
+      "type": "Type",
+      "linear": "Linear",
+      "radial": "Radial",
+      "colorStops": "Color Stops",
+      "output": "CSS Output",
+      "tip": "Drag the sliders to adjust color positions. You can have up to 5 color stops for complex gradients.",
       "article": "CSS gradients let you display smooth transitions between two or more specified colors. This generator supports both linear and radial gradients, allowing you to visually design complex backgrounds and instantly copy the CSS code.",
       "faqs": {
         "q0": "How many color stops can I add?",

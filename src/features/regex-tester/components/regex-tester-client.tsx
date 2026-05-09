@@ -1,6 +1,6 @@
-'use client';
+"use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,8 +9,17 @@ import { useTranslations } from 'next-intl';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Settings2, Search, Replace, Info } from 'lucide-react';
+import { Settings2, Search, Replace, Info, Download, Share2, RefreshCw, Trash2, Check, Copy } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
+
+const SAMPLE_DATA = {
+  regex: "([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]{2,})",
+  test: "Contact us at support@example.com or sales@devhub.io for more info.",
+  replace: "HIDDEN_EMAIL"
+};
+
+import { ToolNavigation } from '@/components/tool-navigation';
 
 export function RegexTesterClient() {
   const t = useTranslations('tools.regex-tester');
@@ -22,8 +31,12 @@ export function RegexTesterClient() {
   const [matches, setMatches] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [replacedResult, setReplacedResult] = useState('');
+  const [downloaded, setDownloaded] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
+  const isEnglish = tCommon('hero.searchPlaceholder' as any) === 'Find a tool...';
+
+  const runRegex = useCallback(() => {
     if (!regex) {
       setMatches([]);
       setError(null);
@@ -58,161 +71,244 @@ export function RegexTesterClient() {
     }
   }, [regex, flags, testString, replaceString]);
 
+  useEffect(() => {
+    runRegex();
+  }, [runRegex]);
+
   const toggleFlag = (flag: string) => {
     setFlags(prev => prev.includes(flag) ? prev.replace(flag, '') : prev + flag);
   };
 
+  const loadSample = () => {
+    setRegex(SAMPLE_DATA.regex);
+    setTestString(SAMPLE_DATA.test);
+    setReplaceString(SAMPLE_DATA.replace);
+  };
+
+  const downloadResults = () => {
+    const content = JSON.stringify({
+      regex,
+      flags,
+      testString,
+      replaceString,
+      matches: matches.map(m => ({ index: m.index, value: m[0], groups: m.slice(1) })),
+      replacedResult
+    }, null, 2);
+    const blob = new Blob([content], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `regex-results-${new Date().getTime()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setDownloaded(true);
+    setTimeout(() => setDownloaded(false), 2000);
+  };
+
+  const copyResult = () => {
+    navigator.clipboard.writeText(replacedResult || testString);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-      <div className="space-y-6">
-        <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md overflow-hidden">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-              <Search className="h-4 w-4" />
-              {t('pattern')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex gap-4">
-              <div className="flex-1 relative group">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-mono">/</span>
-                <Input
-                  placeholder="[a-zA-Z]+"
-                  className="font-mono pl-7 pr-7 h-12 rounded-xl bg-muted/30 border-muted-foreground/10 focus-visible:ring-primary"
-                  value={regex}
-                  onChange={(e) => setRegex(e.target.value)}
-                />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground font-mono">/</span>
+    <div className="space-y-12">
+      <div className="grid gap-6 lg:grid-cols-12 items-start">
+        <div className="lg:col-span-9 space-y-4">
+          {/* Pattern Card */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('pattern')}</Label>
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                  <RefreshCw className="h-3 w-3" />
+                  {isEnglish ? 'Sample' : 'مثال'}
+                </Button>
+                <Button variant="ghost" size="icon" onClick={() => { setRegex(''); setTestString(''); setReplaceString(''); }} className="h-6 w-6 text-muted-foreground hover:text-destructive">
+                  <Trash2 className="h-3 w-3" />
+                </Button>
               </div>
-              <Input
-                placeholder="flags"
-                className="w-24 font-mono h-12 rounded-xl bg-muted/30 border-muted-foreground/10"
-                value={flags}
-                onChange={(e) => setFlags(e.target.value)}
-              />
             </div>
-            {error && <p className="text-xs text-destructive font-medium px-2">Error: {error}</p>}
-          </CardContent>
-        </Card>
-
-        <Tabs defaultValue="match" className="space-y-4">
-          <TabsList className="bg-muted/50 p-1 rounded-2xl border border-muted-foreground/5 h-12">
-            <TabsTrigger value="match" className="rounded-xl px-6 data-[state=active]:bg-background data-[state=active]:shadow-sm">
-              <Search className="h-4 w-4 mr-2" />
-              {t('matches')}
-            </TabsTrigger>
-            <TabsTrigger value="replace" className="rounded-xl px-6 data-[state=active]:bg-background data-[state=active]:shadow-sm">
-              <Replace className="h-4 w-4 mr-2" />
-              {t('replace')}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="match">
-            <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md overflow-hidden">
-              <CardContent className="p-4 flex flex-col md:flex-row gap-6">
-                <div className="flex-1 space-y-2">
-                  <Label className="text-xs uppercase tracking-widest text-muted-foreground px-2">{t('testString')}</Label>
-                  <Textarea
-                    className="min-h-[200px] font-mono text-sm resize-none border-none focus-visible:ring-0 p-4 bg-muted/30 rounded-2xl"
-                    value={testString}
-                    onChange={(e) => setTestString(e.target.value)}
+            <Card className="border border-border shadow-none rounded-md bg-background overflow-hidden p-2">
+              <div className="flex items-center gap-2">
+                <div className="flex-1 flex items-center gap-1.5 px-2 py-1 bg-muted/30 rounded border border-border group focus-within:border-foreground/20 transition-colors">
+                  <span className="text-muted-foreground font-mono text-sm">/</span>
+                  <Input
+                    placeholder="[a-zA-Z]+"
+                    className="font-mono text-sm h-8 border-none focus-visible:ring-0 bg-transparent p-0 shadow-none"
+                    value={regex}
+                    onChange={(e) => setRegex(e.target.value)}
                   />
+                  <span className="text-muted-foreground font-mono text-sm">/</span>
                 </div>
-                <div className="w-full md:w-64 space-y-2">
-                  <Label className="text-xs uppercase tracking-widest text-muted-foreground px-2">{t('results')}</Label>
-                  <div className="h-[200px] bg-muted/30 rounded-2xl p-4 overflow-auto space-y-2 border border-muted-foreground/5">
-                    {matches.length > 0 ? (
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between text-xs font-bold text-primary">
-                          <span>{t('totalMatches')}</span>
-                          <Badge variant="secondary" className="bg-primary/10 text-primary border-none">{matches.length}</Badge>
-                        </div>
-                        {matches.map((m, i) => (
-                          <div key={i} className="p-2 rounded-lg bg-background/50 border border-muted-foreground/5 text-xs font-mono">
-                            <div className="text-muted-foreground mb-1 flex justify-between">
-                              <span>Match {i + 1}</span>
-                              <span>pos: {m.index}</span>
-                            </div>
-                            <div className="text-foreground font-bold truncate">{m[0]}</div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="h-full flex flex-col items-center justify-center text-muted-foreground text-xs text-center space-y-2">
-                        <Info className="h-4 w-4" />
-                        <p>{t('noMatches')}</p>
-                      </div>
+                <Input
+                  placeholder="flags"
+                  className="w-16 font-mono text-sm h-8 bg-muted/30 border-border text-center"
+                  value={flags}
+                  onChange={(e) => setFlags(e.target.value)}
+                />
+              </div>
+              {error && <p className="text-[10px] text-destructive font-medium px-2 mt-2">{isEnglish ? 'Error' : 'خرابی'}: {error}</p>}
+            </Card>
+          </div>
+
+          <Tabs defaultValue="match" className="space-y-4">
+            <TabsList className="bg-muted/50 p-0.5 border border-border h-9">
+              <TabsTrigger value="match" className="h-8 text-xs px-4 data-[state=active]:bg-background data-[state=active]:shadow-none">
+                <Search className="h-3 w-3 mr-2" />
+                {t('matches')}
+              </TabsTrigger>
+              <TabsTrigger value="replace" className="h-8 text-xs px-4 data-[state=active]:bg-background data-[state=active]:shadow-none">
+                <Replace className="h-3 w-3 mr-2" />
+                {t('replace')}
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="match" className="m-0 space-y-4">
+              <div className="grid gap-4 md:grid-cols-12">
+                <div className="md:col-span-8 flex flex-col gap-2">
+                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('testString')}</Label>
+                  <Card className="border border-border shadow-none rounded-md bg-background focus-within:border-foreground/20 transition-colors">
+                    <Textarea
+                      className="min-h-[300px] font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
+                      value={testString}
+                      onChange={(e) => setTestString(e.target.value)}
+                      placeholder={isEnglish ? "Enter text to test against the pattern..." : "پیٹرن کے خلاف ٹیسٹ کرنے کے لیے متن درج کریں..."}
+                    />
+                  </Card>
+                </div>
+                <div className="md:col-span-4 flex flex-col gap-2">
+                  <div className="flex items-center justify-between px-1">
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('results')}</Label>
+                    {matches.length > 0 && (
+                      <Button variant="ghost" size="sm" onClick={downloadResults} className="h-5 px-1.5 text-[9px] gap-1 text-muted-foreground hover:text-foreground">
+                        {downloaded ? <Check className="h-2.5 w-2.5 text-green-500" /> : <Download className="h-2.5 w-2.5" />}
+                        {isEnglish ? 'Export' : 'ایکسپورٹ'}
+                      </Button>
                     )}
                   </div>
+                  <Card className="border border-border shadow-none rounded-md bg-muted/20 flex-1 min-h-[300px] overflow-hidden flex flex-col">
+                    <div className="p-3 overflow-auto space-y-2 flex-1">
+                      {matches.length > 0 ? (
+                        <>
+                          <div className="flex items-center justify-between text-[10px] font-bold text-foreground pb-2 border-b border-border/50">
+                            <span>{isEnglish ? 'Total Matches' : 'کل نتائج'}</span>
+                            <Badge variant="outline" className="h-5 px-1.5 rounded-sm text-[9px] bg-foreground/5">{matches.length}</Badge>
+                          </div>
+                          {matches.map((m, i) => (
+                            <div key={i} className="p-2 rounded bg-background border border-border text-[10px] font-mono group hover:border-foreground/20 transition-colors">
+                              <div className="text-muted-foreground mb-1 flex justify-between">
+                                <span>{isEnglish ? 'Match' : 'میچ'} {i + 1}</span>
+                                <span className="opacity-50">index: {m.index}</span>
+                              </div>
+                              <div className="text-foreground font-semibold break-all">{m[0]}</div>
+                            </div>
+                          ))}
+                        </>
+                      ) : (
+                        <div className="h-full flex flex-col items-center justify-center text-muted-foreground text-[10px] text-center space-y-2 py-8">
+                          <div className="p-2 rounded-full bg-muted/50 border border-border">
+                            <Info className="h-4 w-4 opacity-30" />
+                          </div>
+                          <p>{isEnglish ? 'No matches found' : 'کوئی میچ نہیں ملا'}</p>
+                        </div>
+                      )}
+                    </div>
+                  </Card>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+              </div>
+            </TabsContent>
 
-          <TabsContent value="replace">
-            <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md overflow-hidden">
-              <CardContent className="p-4 space-y-6">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label className="text-xs uppercase tracking-widest text-muted-foreground px-2">{t('replacementText')}</Label>
+            <TabsContent value="replace" className="m-0 space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('replacementText')}</Label>
+                  <Card className="p-2 border border-border shadow-none rounded-md bg-background focus-within:border-foreground/20 transition-colors">
                     <Input
                       placeholder="e.g. $1"
-                      className="h-12 rounded-xl bg-muted/30 border-muted-foreground/10"
+                      className="h-8 font-mono text-sm border-none focus-visible:ring-0 shadow-none bg-transparent"
                       value={replaceString}
                       onChange={(e) => setReplaceString(e.target.value)}
                     />
+                  </Card>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between px-1">
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{tCommon('ui.result')}</Label>
+                    <Button variant="ghost" size="sm" onClick={copyResult} disabled={!replacedResult} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                      {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                      {tCommon('copy')}
+                    </Button>
                   </div>
-                  <div className="space-y-2">
-                    <Label className="text-xs uppercase tracking-widest text-muted-foreground px-2">{tCommon('ui.result')}</Label>
-                    <div className="h-12 rounded-xl bg-muted/30 border border-muted-foreground/5 flex items-center px-4 font-mono text-sm overflow-hidden truncate">
-                      {replacedResult || testString}
+                  <Card className="p-2 border border-border shadow-none rounded-md bg-muted/20 h-[44px] flex items-center px-3">
+                    <div className="font-mono text-xs truncate w-full">
+                      {replacedResult || testString || (isEnglish ? 'Replacement result...' : 'تبدیلی کا نتیجہ...')}
                     </div>
-                  </div>
+                  </Card>
                 </div>
-                <div className="space-y-2">
-                  <Label className="text-xs uppercase tracking-widest text-muted-foreground px-2">{t('previewArea')}</Label>
-                  <div className="min-h-[150px] font-mono text-sm p-4 bg-muted/30 rounded-2xl overflow-auto whitespace-pre-wrap border border-muted-foreground/5">
-                    {replacedResult || testString}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
-
-      <div className="space-y-6">
-        <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md">
-          <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
-              <Settings2 className="h-4 w-4 text-primary" />
-              Flags
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {[
-              { id: 'g', label: 'Global (g)', desc: 'Don\'t return after first match' },
-              { id: 'i', label: 'Case-insensitive (i)', desc: 'Ignore case' },
-              { id: 'm', label: 'Multiline (m)', desc: '^ and $ match lines' },
-              { id: 's', label: 'Dot All (s)', desc: 'Dot matches newline' },
-              { id: 'u', label: 'Unicode (u)', desc: 'Unicode support' },
-              { id: 'y', label: 'Sticky (y)', desc: 'Matches from lastIndex' }
-            ].map((f) => (
-              <div key={f.id} className="flex items-center justify-between group cursor-pointer" onClick={() => toggleFlag(f.id)}>
-                <div className="space-y-0.5">
-                  <Label className="cursor-pointer">{f.label}</Label>
-                  <p className="text-[10px] text-muted-foreground">{f.desc}</p>
-                </div>
-                <Switch 
-                  checked={flags.includes(f.id)} 
-                  onCheckedChange={() => toggleFlag(f.id)} 
-                  className="data-[state=checked]:bg-primary"
-                />
               </div>
-            ))}
-          </CardContent>
-        </Card>
+              <div className="flex flex-col gap-2">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('previewArea')}</Label>
+                <Card className="border border-border shadow-none rounded-md bg-background min-h-[200px] overflow-hidden">
+                  <div className="p-3 font-mono text-xs whitespace-pre-wrap break-all leading-relaxed h-[200px] overflow-auto">
+                    {replacedResult || testString || (isEnglish ? 'Full preview...' : 'مکمل پیش نظارہ...')}
+                  </div>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        {/* Settings Card */}
+        <div className="lg:col-span-3 space-y-4">
+          <Card className="border border-border shadow-none rounded-md bg-background">
+            <CardHeader className="py-3 px-4 border-b">
+              <CardTitle className="text-xs font-semibold flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Settings2 className="h-3.5 w-3.5" />
+                  {isEnglish ? 'Flags' : 'فلیگز'}
+                </div>
+                <Share2 className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-pointer" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4">
+              {[
+                { id: 'g', label: 'Global (g)', desc: isEnglish ? 'Full search' : 'مکمل تلاش' },
+                { id: 'i', label: 'Case-insensitive (i)', desc: isEnglish ? 'Ignore case' : 'کیس کو نظر انداز کریں' },
+                { id: 'm', label: 'Multiline (m)', desc: isEnglish ? '^ and $ boundary' : '^ اور $ باؤنڈری' },
+                { id: 's', label: 'Dot All (s)', desc: isEnglish ? 'Dot matches \\n' : 'ڈاٹ \\n سے میچ کرتا ہے' },
+                { id: 'u', label: 'Unicode (u)', desc: isEnglish ? 'Unicode support' : 'یونیکوڈ سپورٹ' }
+              ].map((f) => (
+                <div key={f.id} className="flex items-center justify-between group cursor-pointer" onClick={() => toggleFlag(f.id)}>
+                  <div className="space-y-0.5">
+                    <Label className="text-xs cursor-pointer">{f.label}</Label>
+                    <p className="text-[9px] text-muted-foreground leading-tight">{f.desc}</p>
+                  </div>
+                  <Switch 
+                    checked={flags.includes(f.id)} 
+                    onCheckedChange={() => toggleFlag(f.id)} 
+                    className="scale-75 origin-right"
+                  />
+                </div>
+              ))}
+              
+              <div className="pt-2 border-t border-border">
+                <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
+                  <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
+                    <Info className="h-3 w-3" />
+                    {isEnglish ? 'Quick Tip' : 'فوری مشورہ'}
+                  </div>
+                  <p className="text-[10px] text-muted-foreground leading-relaxed">
+                    {t('article').split('.')[1]}.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
+      
+      <ToolNavigation currentToolId="regex-tester" />
     </div>
   );
 }

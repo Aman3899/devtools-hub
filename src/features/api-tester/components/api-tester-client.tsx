@@ -1,6 +1,6 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,14 +9,18 @@ import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Trash2, Send, Settings2, Code, History, Globe } from 'lucide-react';
+import { Plus, Trash2, Send, Settings2, Code, History, Globe, Download, Copy, Check, Info, Share2, Activity, RefreshCw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 interface Header {
   key: string;
   value: string;
   enabled: boolean;
 }
+
+import { ToolNavigation } from '@/components/tool-navigation';
 
 export function ApiTesterClient() {
   const t = useTranslations('tools.api-tester');
@@ -29,6 +33,10 @@ export function ApiTesterClient() {
   ]);
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
+
+  const isEnglish = tCommon('hero.searchPlaceholder' as any) === 'Find a tool...';
 
   const addHeader = () => {
     setHeaders([...headers, { key: '', value: '', enabled: true }]);
@@ -73,142 +81,253 @@ export function ApiTesterClient() {
         error: e.message,
         status: e.response?.status,
         data: e.response?.data,
+        time: 0
       });
     } finally {
       setLoading(false);
     }
   };
 
+  const downloadResponse = () => {
+    const content = JSON.stringify(response?.data, null, 2);
+    const blob = new Blob([content], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `response-${new Date().getTime()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setDownloaded(true);
+    setTimeout(() => setDownloaded(false), 2000);
+  };
+
+  const copyAsCurl = () => {
+    let curl = `curl -X ${method} "${url}"`;
+    headers.filter(h => h.enabled && h.key).forEach(h => {
+      curl += ` -H "${h.key}: ${h.value}"`;
+    });
+    if (body && method !== 'GET') {
+      curl += ` -d '${body}'`;
+    }
+    navigator.clipboard.writeText(curl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="space-y-6">
-      <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md overflow-hidden">
-        <CardContent className="p-4 pt-4 md:p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <Select value={method} onValueChange={(value) => value && setMethod(value)}>
-              <SelectTrigger className="w-full md:w-[140px] h-14 rounded-2xl bg-muted/30 border-muted-foreground/10 text-lg font-bold">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="rounded-2xl">
-                {['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'].map(m => (
-                  <SelectItem key={m} value={m} className="font-bold">{m}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <div className="flex-1 relative group">
-              <Globe className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-              <Input 
-                className="h-14 pl-12 text-lg rounded-2xl bg-muted/30 border-muted-foreground/10 focus-visible:ring-primary shadow-sm" 
-                placeholder={t('url')} 
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-              />
+    <div className="space-y-12">
+      <div className="grid gap-6 lg:grid-cols-12 items-start">
+        <div className="lg:col-span-12">
+          <Card className="border border-border shadow-none rounded-md bg-background overflow-hidden p-2">
+            <div className="flex flex-col md:flex-row gap-2">
+              <Select value={method} onValueChange={(v) => v && setMethod(v)}>
+                <SelectTrigger className="w-full md:w-[120px] h-9 text-xs font-bold bg-muted/30 border-border">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'].map(m => (
+                    <SelectItem key={m} value={m} className="text-xs font-bold">{m}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="flex-1 relative flex items-center">
+                <Globe className="absolute left-3 h-3.5 w-3.5 text-muted-foreground" />
+                <Input 
+                  className="h-9 pl-9 text-xs font-mono bg-muted/30 border-border focus-visible:ring-0 shadow-none" 
+                  placeholder="https://api.example.com/v1/resource" 
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                />
+              </div>
+              <Button 
+                onClick={sendRequest} 
+                disabled={loading}
+                className="h-9 px-6 text-xs font-bold gap-2 min-w-[100px]"
+              >
+                {loading ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
+                {loading ? (isEnglish ? 'Sending...' : 'بھیج رہا ہے...') : t('send')}
+              </Button>
             </div>
-            <Button 
-              onClick={sendRequest} 
-              disabled={loading}
-              className="h-14 px-8 rounded-2xl gap-2 text-lg font-bold shadow-lg shadow-primary/20"
-            >
-              {loading ? (
-                <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <Send className="h-5 w-5" />
-              )}
-              {loading ? t('sending') : t('send')}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </Card>
+        </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_400px]">
-        <Tabs defaultValue="headers" className="space-y-6">
-          <TabsList className="bg-muted/50 p-1 rounded-2xl border border-muted-foreground/5 h-12">
-            <TabsTrigger value="headers" className="rounded-xl px-6 data-[state=active]:bg-background data-[state=active]:shadow-sm">
-              {t('headers')}
-              <Badge variant="secondary" className="ml-2 bg-primary/5 text-primary border-none">{headers.length}</Badge>
-            </TabsTrigger>
-            <TabsTrigger value="body" className="rounded-xl px-6 data-[state=active]:bg-background data-[state=active]:shadow-sm">
-              {t('body')}
-            </TabsTrigger>
-          </TabsList>
+        <div className="lg:col-span-7 space-y-4">
+          <Tabs defaultValue="headers" className="space-y-4">
+            <TabsList className="bg-muted/50 p-0.5 border border-border h-9">
+              <TabsTrigger value="headers" className="h-8 text-xs px-4 data-[state=active]:bg-background data-[state=active]:shadow-none">
+                {t('headers')}
+                <Badge variant="outline" className="ml-2 h-4 px-1 rounded-sm text-[9px] bg-foreground/5">{headers.length}</Badge>
+              </TabsTrigger>
+              <TabsTrigger value="body" className="h-8 text-xs px-4 data-[state=active]:bg-background data-[state=active]:shadow-none">
+                {t('body')}
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="headers">
-            <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md">
-              <CardContent className="p-4 space-y-4">
-                {headers.map((header, i) => (
-                  <div key={i} className="flex gap-3 items-center">
-                    <Input 
-                      placeholder="Header" 
-                      value={header.key}
-                      onChange={(e) => updateHeader(i, 'key', e.target.value)}
-                      className="rounded-xl bg-muted/30 border-muted-foreground/10"
-                    />
-                    <Input 
-                      placeholder="Value" 
-                      value={header.value}
-                      onChange={(e) => updateHeader(i, 'value', e.target.value)}
-                      className="rounded-xl bg-muted/30 border-muted-foreground/10"
-                    />
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={() => removeHeader(i)}
-                      className="rounded-xl hover:bg-destructive/10 hover:text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+            <TabsContent value="headers" className="m-0">
+              <Card className="border border-border shadow-none rounded-md bg-background">
+                <CardContent className="p-3 space-y-2">
+                  <div className="grid grid-cols-12 gap-2 px-1 mb-1">
+                    <div className="col-span-5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">{isEnglish ? 'Key' : 'کی'}</div>
+                    <div className="col-span-6 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">{isEnglish ? 'Value' : 'ویلیو'}</div>
                   </div>
-                ))}
-                <Button variant="outline" size="sm" onClick={addHeader} className="rounded-xl gap-2 w-full border-dashed border-muted-foreground/20">
-                  <Plus className="h-4 w-4" />
-                  {t('addHeader')}
-                </Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
+                  {headers.map((header, i) => (
+                    <div key={i} className="grid grid-cols-12 gap-2 items-center group">
+                      <div className="col-span-5">
+                        <Input 
+                          placeholder={isEnglish ? 'Header' : 'ہیڈر'} 
+                          value={header.key}
+                          onChange={(e) => updateHeader(i, 'key', e.target.value)}
+                          className="h-8 text-[11px] font-mono bg-muted/20 border-border shadow-none"
+                        />
+                      </div>
+                      <div className="col-span-6">
+                        <Input 
+                          placeholder={isEnglish ? 'Value' : 'ویلیو'} 
+                          value={header.value}
+                          onChange={(e) => updateHeader(i, 'value', e.target.value)}
+                          className="h-8 text-[11px] font-mono bg-muted/20 border-border shadow-none"
+                        />
+                      </div>
+                      <div className="col-span-1 flex justify-end">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => removeHeader(i)}
+                          className="h-7 w-7 text-muted-foreground hover:text-destructive transition-colors"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                  <Button variant="ghost" size="sm" onClick={addHeader} className="h-7 text-[10px] gap-1.5 w-full border border-dashed border-border hover:bg-muted/50 mt-2">
+                    <Plus className="h-3 w-3" />
+                    {isEnglish ? 'Add New Header' : 'نیا ہیڈر شامل کریں'}
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          <TabsContent value="body">
-            <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md">
-              <CardContent className="p-4">
+            <TabsContent value="body" className="m-0">
+              <Card className="border border-border shadow-none rounded-md bg-background overflow-hidden">
                 <Textarea
                   placeholder='{"key": "value"}'
-                  className="min-h-[300px] font-mono text-sm resize-none border-none focus-visible:ring-0 p-4 bg-muted/30 rounded-2xl"
+                  className="min-h-[250px] font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                   value={body}
                   onChange={(e) => setBody(e.target.value)}
                   disabled={method === 'GET'}
                 />
+              </Card>
+            </TabsContent>
+          </Tabs>
+
+          <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
+            <Info className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
+            <p className="text-[10px] text-muted-foreground leading-normal">
+              {t('article').split('.')[1]}.
+            </p>
+          </div>
+        </div>
+
+        <div className="lg:col-span-5 space-y-4">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('response')}</Label>
+              <div className="flex items-center gap-1">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={copyAsCurl} 
+                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {copied ? <Check className="h-3 w-3 text-green-500" /> : <Code className="h-3 w-3" />}
+                  cURL
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={downloadResponse} 
+                  disabled={!response}
+                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {downloaded ? <Check className="h-3 w-3 text-green-500" /> : <Download className="h-3 w-3" />}
+                  {isEnglish ? 'Export' : 'ایکسپورٹ'}
+                </Button>
+              </div>
+            </div>
+            
+            <Card className="border border-border shadow-none rounded-md bg-background overflow-hidden flex flex-col h-[400px]">
+              <CardHeader className="py-2 px-3 border-b bg-muted/30 flex flex-row items-center justify-between space-y-0 h-9">
+                <div className="flex items-center gap-2">
+                  <Activity className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Output' : 'آؤٹ پٹ'}</span>
+                </div>
+                {response && (
+                  <div className="flex gap-2">
+                    <Badge variant="outline" className={cn(
+                      "h-5 px-1.5 rounded-sm text-[9px] font-bold border-none",
+                      response.status < 400 ? "bg-green-500/10 text-green-600" : "bg-destructive/10 text-destructive"
+                    )}>
+                      {response.status || 'ERR'} {response.statusText}
+                    </Badge>
+                    {response.time > 0 && (
+                      <Badge variant="outline" className="h-5 px-1.5 rounded-sm text-[9px] font-mono border-none bg-foreground/5">
+                        {response.time}ms
+                      </Badge>
+                    )}
+                  </div>
+                )}
+              </CardHeader>
+              <CardContent className="p-0 overflow-hidden flex-1">
+                <div className="h-full font-mono text-xs p-3 overflow-auto bg-muted/10 leading-relaxed">
+                  {response ? (
+                    <pre className="text-foreground whitespace-pre-wrap break-all">
+                      {JSON.stringify(response.data, null, 2)}
+                    </pre>
+                  ) : (
+                    <div className="h-full flex flex-col items-center justify-center text-muted-foreground space-y-3 opacity-50">
+                      <Send className="h-8 w-8" />
+                      <p className="text-[10px] font-medium tracking-tight uppercase">{t('responsePlaceholder')}</p>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
-          </TabsContent>
-        </Tabs>
+          </div>
 
-        <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md overflow-hidden flex flex-col">
-          <CardHeader className="flex flex-row items-center justify-between pb-4">
-            <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">{t('response')}</CardTitle>
-            {response && (
-              <div className="flex gap-2">
-                <Badge variant={response.status < 400 ? 'secondary' : 'destructive'} className="rounded-lg">
-                  {response.status || 'ERR'}
-                </Badge>
-                {response.time && (
-                  <Badge variant="outline" className="rounded-lg font-mono">
-                    {response.time}ms
-                  </Badge>
-                )}
-              </div>
-            )}
-          </CardHeader>
-          <CardContent className="flex-1 p-4 pt-0 overflow-hidden">
-            <pre className="h-[500px] font-mono text-xs p-4 bg-muted/30 rounded-2xl overflow-auto border border-muted-foreground/5 whitespace-pre-wrap break-all">
-              {response ? JSON.stringify(response.data, null, 2) : (
-                <div className="h-full flex flex-col items-center justify-center text-muted-foreground space-y-4 text-center px-8">
-                  <Send className="h-10 w-10 opacity-20" />
-                  <p>{t('responsePlaceholder')}</p>
+          <Card className="border border-border shadow-none rounded-md bg-background">
+            <CardHeader className="py-3 px-4 border-b">
+              <CardTitle className="text-xs font-semibold flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <History className="h-3.5 w-3.5" />
+                  {isEnglish ? 'Quick Presets' : 'فوری پری سیٹس'}
                 </div>
-              )}
-            </pre>
-          </CardContent>
-        </Card>
+                <Share2 className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-pointer" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-3 space-y-2">
+              {[
+                { name: 'JSONPlaceholder Post', method: 'GET', url: 'https://jsonplaceholder.typicode.com/posts/1' },
+                { name: 'GitHub User API', method: 'GET', url: 'https://api.github.com/users/octocat' },
+                { name: 'Dummy Auth Login', method: 'POST', url: 'https://dummyjson.com/auth/login' }
+              ].map((preset, i) => (
+                <Button 
+                  key={i} 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => { setMethod(preset.method); setUrl(preset.url); }}
+                  className="w-full h-8 justify-start text-[10px] font-medium border border-border/50 hover:bg-muted/50"
+                >
+                  <Badge variant="outline" className="mr-2 h-4 px-1 rounded-sm text-[8px] bg-foreground/5">{preset.method}</Badge>
+                  {preset.name}
+                </Button>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
       </div>
+      
+      <ToolNavigation currentToolId="api-tester" />
     </div>
   );
 }

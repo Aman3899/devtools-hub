@@ -1,0 +1,17 @@
+export const TOOLS = [
+  { id: 'json-formatter', category: 'data' },
+  { id: 'jwt-decoder', category: 'data' },
+  { id: 'base64-encoder', category: 'data' },
+  { id: 'env-checker', category: 'data' },
+  { id: 'regex-tester', category: 'dev' },
+  { id: 'timestamp-converter', category: 'dev' },
+  { id: 'api-tester', category: 'dev' },
+  { id: 'curl-generator', category: 'dev' },
+  { id: 'uuid-generator', category: 'dev' },
+  { id: 'code-diff-checker', category: 'dev' },
+  { id: 'color-palette-generator', category: 'design' },
+  { id: 'image-to-base64', category: 'design' },
+  { id: 'css-gradient-generator', category: 'design' },
+  { id: 'sql-formatter', category: 'web' },
+  { id: 'html-previewer', category: 'web' },
+];

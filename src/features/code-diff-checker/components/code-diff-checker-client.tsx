@@ -1,16 +1,34 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { diffLines, Change } from 'diff';
 import { useTranslations } from 'next-intl';
-import { Settings2, Split, Rows, Trash2, FileText } from 'lucide-react';
+import { Settings2, Split, Rows, Trash2, FileText, Download, Share2, Info, RefreshCw, Check, Copy } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+
+const SAMPLE_OLD = `function calculateTotal(price, quantity) {
+  const tax = 0.05;
+  return price * quantity * (1 + tax);
+}
+
+console.log(calculateTotal(10, 2));`;
+
+const SAMPLE_NEW = `function calculateTotal(price, quantity) {
+  const tax = 0.08; // Updated tax rate
+  const discount = 0.1;
+  const subtotal = price * quantity;
+  return subtotal * (1 + tax - discount);
+}
+
+console.log(calculateTotal(20, 5));`;
+
+import { ToolNavigation } from '@/components/tool-navigation';
 
 export function CodeDiffCheckerClient() {
   const t = useTranslations('tools.code-diff-checker');
@@ -19,121 +37,221 @@ export function CodeDiffCheckerClient() {
   const [newCode, setNewCode] = useState('');
   const [ignoreWhitespace, setIgnoreWhitespace] = useState(false);
   const [viewMode, setViewMode] = useState<'split' | 'unified'>('split');
+  const [downloaded, setDownloaded] = useState(false);
 
-  const diff = diffLines(originalCode, newCode, { ignoreWhitespace });
+  const isEnglish = tCommon('hero.searchPlaceholder' as any) === 'Find a tool...';
 
-  const clearAll = () => {
-    setOriginalCode('');
-    setNewCode('');
+  const diff = useMemo(() => diffLines(originalCode, newCode, { ignoreWhitespace }), [originalCode, newCode, ignoreWhitespace]);
+
+  const loadSample = () => {
+    setOriginalCode(SAMPLE_OLD);
+    setNewCode(SAMPLE_NEW);
+  };
+
+  const downloadDiff = () => {
+    const diffText = diff.map(part => {
+      const prefix = part.added ? '+ ' : part.removed ? '- ' : '  ';
+      return part.value.split('\n').filter(l => l).map(l => prefix + l).join('\n');
+    }).join('\n');
+    
+    const blob = new Blob([diffText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `diff-${new Date().getTime()}.patch`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setDownloaded(true);
+    setTimeout(() => setDownloaded(false), 2000);
   };
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-            <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              {t('original')}
-            </CardTitle>
-            <Button variant="ghost" size="icon" onClick={() => setOriginalCode('')} className="rounded-xl">
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </CardHeader>
-          <CardContent className="p-4 pt-0">
-            <Textarea
-              placeholder={t('originalPlaceholder')}
-              className="min-h-[300px] font-mono text-sm resize-none border-none focus-visible:ring-0 p-4 bg-muted/30 rounded-2xl"
-              value={originalCode}
-              onChange={(e) => setOriginalCode(e.target.value)}
-            />
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-            <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              {t('new')}
-            </CardTitle>
-            <div className="flex gap-2">
-              <Button variant="ghost" size="icon" onClick={() => setNewCode('')} className="rounded-xl">
-                <Trash2 className="h-4 w-4" />
-              </Button>
+    <div className="space-y-12">
+      <div className="grid gap-6 lg:grid-cols-12 items-start">
+        <div className="lg:col-span-9 space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between px-1">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('original')}</Label>
+                <Button variant="ghost" size="icon" onClick={() => setOriginalCode('')} title={tCommon('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+              <Card className="border border-border shadow-none rounded-md bg-background focus-within:border-foreground/20 transition-colors">
+                <Textarea
+                  placeholder={t('originalPlaceholder')}
+                  className="min-h-[250px] font-mono text-[11px] resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
+                  value={originalCode}
+                  onChange={(e) => setOriginalCode(e.target.value)}
+                />
+              </Card>
             </div>
-          </CardHeader>
-          <CardContent className="p-4 pt-0">
-            <Textarea
-              placeholder={t('newPlaceholder')}
-              className="min-h-[300px] font-mono text-sm resize-none border-none focus-visible:ring-0 p-4 bg-muted/30 rounded-2xl"
-              value={newCode}
-              onChange={(e) => setNewCode(e.target.value)}
-            />
-          </CardContent>
-        </Card>
-      </div>
 
-      <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md overflow-hidden">
-        <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-muted-foreground/5 pb-4">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">{t('result')}</CardTitle>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <Label className="text-xs font-medium cursor-pointer" htmlFor="ignore-ws">{t('ignoreWhitespace')}</Label>
-              <Switch id="ignore-ws" checked={ignoreWhitespace} onCheckedChange={setIgnoreWhitespace} />
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between px-1">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('new')}</Label>
+                <Button variant="ghost" size="icon" onClick={() => setNewCode('')} title={tCommon('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+              <Card className="border border-border shadow-none rounded-md bg-background focus-within:border-foreground/20 transition-colors">
+                <Textarea
+                  placeholder={t('newPlaceholder')}
+                  className="min-h-[250px] font-mono text-[11px] resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
+                  value={newCode}
+                  onChange={(e) => setNewCode(e.target.value)}
+                />
+              </Card>
             </div>
-            <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as any)} className="h-10 p-1 bg-muted/50 rounded-xl border border-muted-foreground/10">
-              <TabsList className="bg-transparent h-full p-0">
-                <TabsTrigger value="split" className="rounded-lg px-3 data-[state=active]:bg-background">
-                  <Split className="h-3.5 w-3.5 mr-1" />
-                  {t('split')}
-                </TabsTrigger>
-                <TabsTrigger value="unified" className="rounded-lg px-3 data-[state=active]:bg-background">
-                  <Rows className="h-3.5 w-3.5 mr-1" />
-                  {t('unified')}
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
           </div>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="divide-y divide-muted-foreground/5">
-            {viewMode === 'unified' ? (
-              <div className="font-mono text-xs p-4 bg-muted/20 min-h-[200px] overflow-auto whitespace-pre">
-                {diff.map((part, i) => (
-                  <div
-                    key={i}
-                    className={cn(
-                      "px-2 py-0.5",
-                      part.added ? "bg-green-500/10 text-green-600 dark:text-green-400" : 
-                      part.removed ? "bg-destructive/10 text-destructive" : ""
-                    )}
-                  >
-                    {part.added ? '+ ' : part.removed ? '- ' : '  '}
-                    {part.value}
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('result')}</Label>
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors">
+                  <RefreshCw className="h-3 w-3" />
+                  {isEnglish ? 'Sample' : 'مثال'}
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={downloadDiff} 
+                  disabled={!originalCode && !newCode}
+                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {downloaded ? <Check className="h-3 w-3 text-green-500" /> : <Download className="h-3 w-3" />}
+                  {isEnglish ? 'Export' : 'ایکسپورٹ'}
+                </Button>
+              </div>
+            </div>
+            
+            <Card className="border border-border shadow-none rounded-md bg-background overflow-hidden">
+              <div className="p-2 border-b bg-muted/30 flex items-center justify-between h-10">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <Switch id="ignore-ws" checked={ignoreWhitespace} onCheckedChange={setIgnoreWhitespace} className="scale-75" />
+                    <Label className="text-[10px] font-medium text-muted-foreground cursor-pointer" htmlFor="ignore-ws">{t('ignoreWhitespace')}</Label>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 divide-x divide-muted-foreground/5 min-h-[200px]">
-                <div className="font-mono text-xs p-4 bg-muted/20 overflow-auto whitespace-pre">
-                  {diff.filter(p => !p.added).map((part, i) => (
-                    <div key={i} className={cn("px-2 py-0.5", part.removed ? "bg-destructive/10 text-destructive" : "")}>
-                      {part.removed ? '- ' : '  '}{part.value}
-                    </div>
-                  ))}
                 </div>
-                <div className="font-mono text-xs p-4 bg-muted/20 overflow-auto whitespace-pre">
-                  {diff.filter(p => !p.removed).map((part, i) => (
-                    <div key={i} className={cn("px-2 py-0.5", part.added ? "bg-green-500/10 text-green-600 dark:text-green-400" : "")}>
-                      {part.added ? '+ ' : '  '}{part.value}
-                    </div>
-                  ))}
-                </div>
+                <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as any)} className="h-7 p-0.5 bg-muted/50 rounded border border-border">
+                  <TabsList className="bg-transparent h-full p-0">
+                    <TabsTrigger value="split" className="h-full rounded-sm px-2 text-[9px] data-[state=active]:bg-background data-[state=active]:shadow-none">
+                      <Split className="h-3 w-3 mr-1.5" />
+                      {t('split')}
+                    </TabsTrigger>
+                    <TabsTrigger value="unified" className="h-full rounded-sm px-2 text-[9px] data-[state=active]:bg-background data-[state=active]:shadow-none">
+                      <Rows className="h-3 w-3 mr-1.5" />
+                      {t('unified')}
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
               </div>
-            )}
+              
+              <div className="bg-muted/10 font-mono text-[11px] min-h-[300px] overflow-auto leading-relaxed">
+                {viewMode === 'unified' ? (
+                  <div className="p-3">
+                    {diff.map((part, i) => (
+                      <div
+                        key={i}
+                        className={cn(
+                          "whitespace-pre",
+                          part.added ? "bg-green-500/10 text-green-600" : 
+                          part.removed ? "bg-destructive/10 text-destructive" : "text-muted-foreground/80"
+                        )}
+                      >
+                        {part.value.split('\n').filter((l, idx, arr) => idx < arr.length - 1 || l).map((line, lineIdx) => (
+                          <div key={lineIdx} className="flex">
+                            <span className="inline-block w-4 shrink-0 opacity-50">{part.added ? '+' : part.removed ? '-' : ' '}</span>
+                            <span>{line}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 divide-x divide-border">
+                    <div className="p-3 overflow-auto">
+                      {diff.map((part, i) => !part.added && (
+                        <div key={i} className={cn("whitespace-pre", part.removed ? "bg-destructive/10 text-destructive" : "text-muted-foreground/80")}>
+                          {part.value.split('\n').filter((l, idx, arr) => idx < arr.length - 1 || l).map((line, lineIdx) => (
+                            <div key={lineIdx} className="flex">
+                              <span className="inline-block w-4 shrink-0 opacity-50">{part.removed ? '-' : ' '}</span>
+                              <span>{line}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="p-3 overflow-auto">
+                      {diff.map((part, i) => !part.removed && (
+                        <div key={i} className={cn("whitespace-pre", part.added ? "bg-green-500/10 text-green-600" : "text-muted-foreground/80")}>
+                          {part.value.split('\n').filter((l, idx, arr) => idx < arr.length - 1 || l).map((line, lineIdx) => (
+                            <div key={lineIdx} className="flex">
+                              <span className="inline-block w-4 shrink-0 opacity-50">{part.added ? '+' : ' '}</span>
+                              <span>{line}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="lg:col-span-3 space-y-4">
+          <Card className="border border-border shadow-none rounded-md bg-background">
+            <CardHeader className="py-3 px-4 border-b">
+              <CardTitle className="text-xs font-semibold flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Settings2 className="h-3.5 w-3.5" />
+                  {isEnglish ? 'Options' : 'آپشنز'}
+                </div>
+                <Share2 className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-pointer" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-6">
+              <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
+                <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
+                  <Info className="h-3 w-3" />
+                  {isEnglish ? 'How it works' : 'یہ کیسے کام کرتا ہے'}
+                </div>
+                <p className="text-[10px] text-muted-foreground leading-relaxed">
+                  {t('article').split('.')[1]}.
+                </p>
+              </div>
+
+              <div className="space-y-3 pt-2">
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Statistics' : 'اعداد و شمار'}</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="p-2 bg-muted/20 border border-border rounded flex flex-col gap-1">
+                    <span className="text-[9px] text-muted-foreground uppercase font-bold">{isEnglish ? 'Added' : 'شامل'}</span>
+                    <span className="text-lg font-mono font-bold text-green-600">
+                      {diff.filter(p => p.added).length}
+                    </span>
+                  </div>
+                  <div className="p-2 bg-muted/20 border border-border rounded flex flex-col gap-1">
+                    <span className="text-[9px] text-muted-foreground uppercase font-bold">{isEnglish ? 'Removed' : 'حذف'}</span>
+                    <span className="text-lg font-mono font-bold text-destructive">
+                      {diff.filter(p => p.removed).length}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <Button onClick={loadSample} variant="outline" className="w-full h-8 gap-2 text-xs">
+                <RefreshCw className="h-3.5 w-3.5" />
+                {isEnglish ? 'Load Example' : 'مثال لوڈ کریں'}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+      
+      <ToolNavigation currentToolId="code-diff-checker" />
     </div>
   );
 }

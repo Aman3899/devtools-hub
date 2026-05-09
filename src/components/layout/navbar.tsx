@@ -25,47 +25,47 @@ export function Navbar() {
   };
 
   return (
-    <nav className="border-b border-muted-foreground/10 bg-background/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 font-black text-2xl tracking-tighter group cursor-pointer">
-          <div className="bg-gradient-to-br from-primary to-purple-600 p-2.5 rounded-xl group-hover:rotate-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-primary/20">
-            <Terminal className="h-5 w-5 text-primary-foreground" />
+    <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full">
+      <div className="container flex h-14 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight cursor-pointer">
+          <div className="bg-primary p-1.5 rounded-md">
+            <Terminal className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          <span className="text-foreground">
             {t('title')}
           </span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <DropdownMenu>
-            <DropdownMenuTrigger className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "cursor-pointer rounded-xl hover:bg-primary/10 transition-colors")}>
-              <Languages className="h-[1.1rem] w-[1.1rem]" />
+            <DropdownMenuTrigger className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "h-9 w-9 cursor-pointer")}>
+              <Languages className="h-4 w-4" />
               <span className="sr-only">Toggle language</span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-xl p-2 border-muted-foreground/10 shadow-xl backdrop-blur-xl bg-background/95">
-              <DropdownMenuItem onClick={() => toggleLocale('en')} className="rounded-lg cursor-pointer hover:bg-primary/10">
+            <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem onClick={() => toggleLocale('en')} className="cursor-pointer">
                 English
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => toggleLocale('ur')} className="rounded-lg cursor-pointer font-urdu hover:bg-primary/10">
+              <DropdownMenuItem onClick={() => toggleLocale('ur')} className="cursor-pointer font-urdu text-right">
                 اردو
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
           <DropdownMenu>
-            <DropdownMenuTrigger className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "cursor-pointer rounded-xl hover:bg-primary/10 transition-colors")}>
-              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <DropdownMenuTrigger className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "h-9 w-9 cursor-pointer")}>
+              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-xl p-2 border-muted-foreground/10 shadow-xl backdrop-blur-xl bg-background/95">
-              <DropdownMenuItem onClick={() => setTheme('light')} className="rounded-lg cursor-pointer hover:bg-primary/10">
+            <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem onClick={() => setTheme('light')} className="cursor-pointer">
                 {t('theme.light')}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('dark')} className="rounded-lg cursor-pointer hover:bg-primary/10">
+              <DropdownMenuItem onClick={() => setTheme('dark')} className="cursor-pointer">
                 {t('theme.dark')}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('system')} className="rounded-lg cursor-pointer hover:bg-primary/10">
+              <DropdownMenuItem onClick={() => setTheme('system')} className="cursor-pointer">
                 {t('theme.system')}
               </DropdownMenuItem>
             </DropdownMenuContent>
