@@ -11,10 +11,11 @@ import { Copy, Check, Repeat, Settings2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
-  urlSafe: z.boolean().default(false),
-  stripPadding: z.boolean().default(false),
+  urlSafe: z.boolean(),
+  stripPadding: z.boolean(),
 });
 
 type FormValues = z.infer<typeof formSchema>;

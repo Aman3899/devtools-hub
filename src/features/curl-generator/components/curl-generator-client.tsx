@@ -74,7 +74,7 @@ export function CurlGeneratorClient() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-col md:flex-row gap-4">
-              <Select value={method} onValueChange={setMethod}>
+              <Select value={method} onValueChange={(value) => value && setMethod(value)}>
                 <SelectTrigger className="w-full md:w-[140px] h-12 rounded-xl bg-muted/30 border-muted-foreground/10 font-bold">
                   <SelectValue />
                 </SelectTrigger>

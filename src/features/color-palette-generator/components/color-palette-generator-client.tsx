@@ -172,7 +172,7 @@ export function ColorPaletteGeneratorClient() {
 
             <div className="space-y-3">
               <Label className="text-xs uppercase tracking-widest text-muted-foreground px-1">{t('harmonyRule')}</Label>
-              <Select value={harmony} onValueChange={setHarmony}>
+              <Select value={harmony} onValueChange={(value) => value && setHarmony(value)}>
                 <SelectTrigger className="rounded-xl bg-muted/30 border-muted-foreground/10">
                   <SelectValue />
                 </SelectTrigger>

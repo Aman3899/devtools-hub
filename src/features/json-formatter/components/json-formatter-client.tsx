@@ -15,10 +15,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
-  indent: z.string().default('2'),
-  minify: z.boolean().default(false),
-  sortKeys: z.boolean().default(false),
-  escapeUnicode: z.boolean().default(false),
+  indent: z.string(),
+  minify: z.boolean(),
+  sortKeys: z.boolean(),
+  escapeUnicode: z.boolean(),
 });
 
 type FormValues = z.infer<typeof formSchema>;

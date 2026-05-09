@@ -84,7 +84,7 @@ export function ApiTesterClient() {
       <Card className="rounded-[2rem] border-muted-foreground/10 bg-card/50 backdrop-blur-md overflow-hidden">
         <CardContent className="p-4 pt-4 md:p-6">
           <div className="flex flex-col md:flex-row gap-4">
-            <Select value={method} onValueChange={setMethod}>
+            <Select value={method} onValueChange={(value) => value && setMethod(value)}>
               <SelectTrigger className="w-full md:w-[140px] h-14 rounded-2xl bg-muted/30 border-muted-foreground/10 text-lg font-bold">
                 <SelectValue />
               </SelectTrigger>

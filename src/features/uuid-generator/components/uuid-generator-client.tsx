@@ -100,7 +100,10 @@ export function UuidGeneratorClient() {
               </div>
               <Slider 
                 value={[count]} 
-                onValueChange={([v]) => setCount(v)} 
+                onValueChange={(value) => {
+                  const newValue = Array.isArray(value) ? value[0] : value;
+                  setCount(newValue);
+                }} 
                 max={20} 
                 min={1} 
                 step={1}

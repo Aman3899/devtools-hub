@@ -106,7 +106,7 @@ export function CssGradientGeneratorClient() {
           <CardContent className="space-y-8">
             <div className="space-y-3">
               <Label className="text-xs uppercase tracking-widest text-muted-foreground px-1">Gradient Type</Label>
-              <Select value={type} onValueChange={setType}>
+              <Select value={type} onValueChange={(value) => value && setType(value)}>
                 <SelectTrigger className="rounded-xl bg-muted/30 border-muted-foreground/10 h-11">
                   <SelectValue />
                 </SelectTrigger>
@@ -125,7 +125,10 @@ export function CssGradientGeneratorClient() {
                 </div>
                 <Slider 
                   value={[angle]} 
-                  onValueChange={([v]) => setAngle(v)} 
+                  onValueChange={(value) => {
+                    const newValue = Array.isArray(value) ? value[0] : value;
+                    setAngle(newValue);
+                  }} 
                   max={360} 
                   min={0} 
                   step={1}
@@ -152,7 +155,10 @@ export function CssGradientGeneratorClient() {
                     <div className="flex-1 space-y-1">
                       <Slider 
                         value={[stop.position]} 
-                        onValueChange={([v]) => updateStop(i, 'position', v)} 
+                        onValueChange={(value) => {
+                          const newValue = Array.isArray(value) ? value[0] : value;
+                          updateStop(i, 'position', newValue);
+                        }} 
                         max={100} 
                         min={0}
                       />

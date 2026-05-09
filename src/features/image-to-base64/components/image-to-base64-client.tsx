@@ -107,7 +107,7 @@ export function ImageToBase64Client() {
           <CardContent className="space-y-6">
             <div className="space-y-3">
               <Label className="text-xs uppercase tracking-widest text-muted-foreground px-1">{t('outputFormat')}</Label>
-              <Select value={format} onValueChange={setFormat}>
+              <Select value={format} onValueChange={(value) => value && setFormat(value)}>
                 <SelectTrigger className="rounded-xl bg-muted/30 border-muted-foreground/10 h-12">
                   <SelectValue />
                 </SelectTrigger>

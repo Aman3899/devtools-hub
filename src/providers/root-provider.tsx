@@ -19,13 +19,12 @@ export default function RootProvider({
   return (
     <ReduxProvider>
       <QueryProvider>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+        <NextIntlClientProvider 
+          locale={locale} 
+          messages={messages}
+          timeZone="UTC"
+        >
+          <ThemeProvider>
             {children}
           </ThemeProvider>
         </NextIntlClientProvider>
