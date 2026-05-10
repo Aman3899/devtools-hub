@@ -14,4 +14,26 @@ export const TOOLS = [
   { id: 'css-gradient-generator', category: 'design' },
   { id: 'sql-formatter', category: 'web' },
   { id: 'html-previewer', category: 'web' },
+  // Phase 2: HTML Processing
+  { id: 'html-minifier', category: 'web' },
+  { id: 'html-beautifier', category: 'web' },
+  { id: 'html-to-markdown', category: 'web' },
+  { id: 'markdown-to-html', category: 'web' },
+  { id: 'html-to-jsx', category: 'web' },
+  // Phase 3: Generators & SEO
+  { id: 'meta-tag-generator', category: 'web' },
+  { id: 'favicon-generator', category: 'web' },
+  { id: 'robots-txt-generator', category: 'web' },
+  { id: 'sitemap-generator', category: 'web' },
+  { id: 'htaccess-generator', category: 'web' },
+  { id: 'iframe-generator', category: 'web' },
+  { id: 'html-table-generator', category: 'web' },
+  // Phase 4: Parsers & References
+  { id: 'og-previewer', category: 'web' },
+  { id: 'link-extractor', category: 'web' },
+  { id: 'http-status-reference', category: 'web' },
+  { id: 'mime-type-finder', category: 'web' },
+  { id: 'cookie-parser', category: 'web' },
+  { id: 'user-agent-parser', category: 'web' },
+  { id: 'url-parser', category: 'web' },
 ];

@@ -170,4 +170,48 @@ export const TOOLS_REGISTRY: Record<string, any> = {
   'html-to-jsx': {
     component: dynamic(() => import('@/features/html-to-jsx/components/html-to-jsx-client').then(m => m.HtmlToJsxClient)),
   },
+  // Phase 3: Generators & SEO Batch
+  'meta-tag-generator': {
+    component: dynamic(() => import('@/features/meta-tag-generator/components/meta-tag-generator-client').then(m => m.MetaTagGeneratorClient)),
+  },
+  'favicon-generator': {
+    component: dynamic(() => import('@/features/favicon-generator/components/favicon-generator-client').then(m => m.FaviconGeneratorClient)),
+  },
+  'robots-txt-generator': {
+    component: dynamic(() => import('@/features/robots-txt-generator/components/robots-txt-generator-client').then(m => m.RobotsTxtGeneratorClient)),
+  },
+  'sitemap-generator': {
+    component: dynamic(() => import('@/features/sitemap-generator/components/sitemap-generator-client').then(m => m.SitemapGeneratorClient)),
+  },
+  'htaccess-generator': {
+    component: dynamic(() => import('@/features/htaccess-generator/components/htaccess-generator-client').then(m => m.HtaccessGeneratorClient)),
+  },
+  'iframe-generator': {
+    component: dynamic(() => import('@/features/iframe-generator/components/iframe-generator-client').then(m => m.IframeGeneratorClient)),
+  },
+  'html-table-generator': {
+    component: dynamic(() => import('@/features/html-table-generator/components/html-table-generator-client').then(m => m.HtmlTableGeneratorClient)),
+  },
+  // Phase 4: Parsers & References Batch
+  'og-previewer': {
+    component: dynamic(() => import('@/features/og-previewer/components/og-previewer-client').then(m => m.OgPreviewerClient)),
+  },
+  'link-extractor': {
+    component: dynamic(() => import('@/features/link-extractor/components/link-extractor-client').then(m => m.LinkExtractorClient)),
+  },
+  'http-status-reference': {
+    component: dynamic(() => import('@/features/http-status-reference/components/http-status-reference-client').then(m => m.HttpStatusReferenceClient)),
+  },
+  'mime-type-finder': {
+    component: dynamic(() => import('@/features/mime-type-finder/components/mime-type-finder-client').then(m => m.MimeTypeFinderClient)),
+  },
+  'cookie-parser': {
+    component: dynamic(() => import('@/features/cookie-parser/components/cookie-parser-client').then(m => m.CookieParserClient)),
+  },
+  'user-agent-parser': {
+    component: dynamic(() => import('@/features/user-agent-parser/components/user-agent-parser-client').then(m => m.UserAgentParserClient)),
+  },
+  'url-parser': {
+    component: dynamic(() => import('@/features/url-parser/components/url-parser-client').then(m => m.UrlParserClient)),
+  },
 };

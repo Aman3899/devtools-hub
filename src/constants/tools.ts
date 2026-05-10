@@ -1,5 +1,6 @@
-import { 
-  Code, ShieldCheck, Repeat, Terminal, FileCode, Palette, Zap, Shield, Globe, Cpu 
+import {
+  Code, ShieldCheck, Repeat, Terminal, FileCode, Palette, Zap, Shield, Globe, Cpu, Layout, Table, Image,
+  Link, Share2, Search, FileText
 } from 'lucide-react';
 
 export const TOOLS = [
@@ -53,13 +54,30 @@ export const TOOLS = [
   { id: 'aes-encryptor', icon: Shield, category: 'data' },
   { id: 'rsa-key-generator', icon: Shield, category: 'data' },
   { id: 'qrcode-decoder', icon: Palette, category: 'design' },
-  // Phase 2: HTML Processing Batch (Tools 41-46)
+  // Phase 2: HTML Processing Batch
   { id: 'html-previewer', icon: Code, category: 'web' },
   { id: 'html-minifier', icon: Code, category: 'web' },
   { id: 'html-beautifier', icon: Code, category: 'web' },
   { id: 'html-to-markdown', icon: Repeat, category: 'web' },
   { id: 'markdown-to-html', icon: Repeat, category: 'web' },
   { id: 'html-to-jsx', icon: Code, category: 'web' },
+  // Phase 3: Generators & SEO Batch
+  { id: 'meta-tag-generator', icon: Globe, category: 'web' },
+  { id: 'favicon-generator', icon: Image, category: 'web' },
+  { id: 'robots-txt-generator', icon: ShieldCheck, category: 'web' },
+  { id: 'sitemap-generator', icon: Globe, category: 'web' },
+  { id: 'htaccess-generator', icon: Shield, category: 'web' },
+  { id: 'iframe-generator', icon: Layout, category: 'web' },
+  { id: 'html-table-generator', icon: Table, category: 'web' },
+  // Phase 4: Web Utility Tools
+  { id: 'og-previewer', icon: Share2, category: 'web' },
+  { id: 'link-extractor', icon: Link, category: 'web' },
+  { id: 'http-status-reference', icon: FileText, category: 'web' },
+  { id: 'mime-type-finder', icon: Search, category: 'web' },
+  { id: 'cookie-parser', icon: Table, category: 'web' },
+  { id: 'user-agent-parser', icon: Cpu, category: 'web' },
+  { id: 'url-parser', icon: Link, category: 'web' },
 ];
 
 export const CATEGORIES = ['all', 'text', 'data', 'dev', 'design', 'web'];
+
