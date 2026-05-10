@@ -83,6 +83,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 
+import { Toaster } from '@/components/ui/sonner';
+
 export default async function LocaleLayout({
   children,
   params,
@@ -106,6 +108,7 @@ export default async function LocaleLayout({
           <main className="flex-1">
             {children}
           </main>
+          <Toaster position="top-center" richColors />
         </RootProvider>
       </body>
     </html>
