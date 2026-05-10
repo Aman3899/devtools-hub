@@ -3,6 +3,8 @@
     "title": "DevTools Hub",
     "description": "Enterprise-grade developer tools for modern workflows.",
     "tools": "Tools",
+    "input": "Input",
+    "output": "Output",
     "search": "Search tools...",
     "version": "Version 1.0 Live",
     "exploreTools": "Explore Tools",
@@ -20,6 +22,12 @@
       "light": "Light",
       "dark": "Dark",
       "system": "System"
+    },
+    "navigation": {
+      "back": "Back to Home",
+      "home": "Home",
+      "previous": "Previous",
+      "next": "Next"
     },
     "copy": "Copy",
     "copied": "Copied!",
@@ -135,10 +143,6 @@
       "return": "Return to Dashboard",
       "goBack": "Go back to previous page",
       "lost": "Lost? Search for a tool on our {link}."
-    },
-    "navigation": {
-      "previous": "Previous",
-      "next": "Next"
     },
     "landing": {
       "title": "Developer Utilities",
@@ -281,7 +285,6 @@
       "send": "Send",
       "sending": "Sending...",
       "headers": "Headers",
-      "body": "Body",
       "addHeader": "Add Header",
       "responsePlaceholder": "Send a request to see the response here",
       "article": "An API (Application Programming Interface) tester allows developers to send HTTP requests to test RESTful APIs. You can customize headers, query parameters, and the request body to simulate complex API interactions.",
@@ -297,7 +300,6 @@
       "description": "Convert UI requests into executable Curl commands.",
       "details": "Request Details",
       "headers": "Headers",
-      "body": "Body",
       "generated": "Generated Curl",
       "endpoint": "Endpoint",
       "addHeader": "Add Header",
@@ -451,9 +453,13 @@
       "autoRefreshDesc": "Update preview as you type",
       "includeTailwind": "Include Tailwind",
       "tailwindDesc": "Load Tailwind CSS via CDN",
+      "includeBootstrap": "Include Bootstrap 5",
+      "bootstrapDesc": "Load Bootstrap CSS via CDN",
+      "includeFontAwesome": "Include Font Awesome 6",
+      "fontAwesomeDesc": "Add icon library support",
       "layout": "LAYOUT",
       "layoutDesc": "The preview runs in a sandboxed iframe for security. External scripts are disabled except for explicitly enabled libraries.",
-      "placeholder": "<h1>Type your HTML here...</h1>",
+      "placeholder": "Type your HTML here...",
       "article": "The HTML Previewer allows you to write and test HTML and CSS in real-time. It provides a sandboxed environment to visualize your code changes instantly, supporting modern features like Tailwind CSS via CDN.",
       "faqs": {
         "q0": "Is the preview secure?",
@@ -483,6 +489,66 @@
         "q1": "Can I adjust the angle of the gradient?",
         "a1": "Yes, for linear gradients, you can use the angle slider to rotate the gradient from 0 to 360 degrees."
       }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Your privacy is our top priority. Learn how we handle your data.",
+    "intro": "At DevTools Hub, we take your privacy seriously. Our platform is designed with a privacy-first approach.",
+    "section1": {
+      "title": "100% Client-Side Processing",
+      "content": "All tools on this platform run entirely in your browser. We do not use servers to process your data, meaning your code, JSON, tokens, and images never leave your machine."
+    },
+    "section2": {
+      "title": "No Data Storage",
+      "content": "We do not store your inputs, outputs, or any personal information. Once you close the tab or refresh the page, all session data is cleared from your browser's memory."
+    },
+    "section3": {
+      "title": "Analytics and Cookies",
+      "content": "We may use minimal, privacy-respecting analytics to understand how our tools are used. No personal identifiers are collected, and we do not use tracking cookies for advertising."
+    },
+    "lastUpdated": "Last updated: May 2024"
+  },
+  "github": {
+    "title": "GitHub Repository",
+    "description": "DevTools Hub is an open-source project. Contribute on GitHub.",
+    "intro": "We believe in the power of open-source. DevTools Hub is built by developers, for developers.",
+    "cta": "View on GitHub",
+    "contribute": {
+      "title": "Contribute to the Project",
+      "content": "Found a bug? Have a feature request? Feel free to open an issue or submit a pull request. We welcome contributions from the community."
+    },
+    "license": {
+      "title": "MIT License",
+      "content": "The project is licensed under the MIT License, which means you are free to use, modify, and distribute the code."
+    },
+    "openSource": "Open Source",
+    "communityBuilt": "Community Built"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "description": "Stay updated with the latest features and improvements.",
+    "v1": {
+      "version": "v1.0.0",
+      "date": "May 2024",
+      "title": "Initial Release",
+      "items": [
+        "Launched DevTools Hub with 15+ essential tools.",
+        "Full support for English and Urdu localization.",
+        "100% Client-side processing for maximum privacy.",
+        "Optimized SEO and performance architecture."
+      ]
+    },
+    "v1_1": {
+      "version": "v1.1.0",
+      "date": "May 2024",
+      "title": "UX & Performance Update",
+      "items": [
+        "Enhanced HTML Previewer with internal scrolling and beautifier.",
+        "Added Bootstrap 5 and Font Awesome support to Previewer.",
+        "Improved accessibility and keyboard navigation.",
+        "Reduced bundle size and optimized hydration performance."
+      ]
     }
   }
 }

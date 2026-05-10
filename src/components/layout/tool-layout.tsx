@@ -3,9 +3,9 @@
 import { ArrowLeft, BookOpen, HelpCircle } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useTranslations } from 'next-intl';
+import { ROUTES } from '@/constants/routes';
 
 interface FAQ {
   question: string;
@@ -85,9 +85,10 @@ export function ToolLayout({ title, description, children, article, faqs }: Tool
 
       <footer className="pt-16 border-t pb-8 flex justify-between items-center text-[11px] text-muted-foreground font-medium uppercase tracking-wider">
         <span>{t('footerText', { year: new Date().getFullYear() })}</span>
-        <div className="flex items-center gap-4">
-          <Link href="/" className="hover:text-foreground transition-colors">Privacy</Link>
-          <Link href="/" className="hover:text-foreground transition-colors">GitHub</Link>
+        <div className="flex items-center gap-6">
+          <Link href={ROUTES.PRIVACY} className="hover:text-foreground transition-colors">{t('footerNav.privacy')}</Link>
+          <Link href={ROUTES.GITHUB} className="hover:text-foreground transition-colors">{t('footerNav.github')}</Link>
+          <Link href={ROUTES.CHANGELOG} className="hover:text-foreground transition-colors">{t('footerNav.changelog')}</Link>
         </div>
       </footer>
     </div>

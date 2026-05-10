@@ -1,22 +1,53 @@
+import { getTranslations } from 'next-intl/server';
 import { SqlFormatterClient } from '@/features/sql-formatter/components/sql-formatter-client';
 import { ToolLayout } from '@/components/layout/tool-layout';
-import { useTranslations } from 'next-intl';
+import { constructMetadata, generateToolSchema, generateBreadcrumbSchema } from '@/lib/seo-utils';
+import { siteConfig } from '@/config/site';
+import Script from 'next/script';
 
-export default function SqlFormatterPage() {
-  const t = useTranslations('tools.sql-formatter');
-  return (
-    <ToolLayout 
-      title={t('title')} 
-      description={t('description')}
-      article={<p>{t('article')}</p>}
-      faqs={[
-        { question: t('faqs.q0'), answer: t('faqs.a0') },
-        { question: t('faqs.q1'), answer: t('faqs.a1') }
-      ]}
-    >
-      <SqlFormatterClient />
-    </ToolLayout>
-  );
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'tools.sql-formatter' });
+
+  return constructMetadata({
+    title: t('title'),
+    description: t('description'),
+    canonical: `${siteConfig.url}/${locale}/tools/sql-formatter`,
+  });
 }
 
+export default async function SqlFormatterPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'tools.sql-formatter' });
+  const schema = generateToolSchema('sql-formatter', t('title'), t('description'));
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', item: `${siteConfig.url}/${locale}` },
+    { name: t('title'), item: `${siteConfig.url}/${locale}/tools/sql-formatter` },
+  ]);
 
+  return (
+    <>
+      <Script
+        id="sql-formatter-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <Script
+        id="sql-formatter-breadcrumb"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <ToolLayout 
+        title={t('title')} 
+        description={t('description')}
+        article={<p>{t('article')}</p>}
+        faqs={[
+          { question: t('faqs.q0'), answer: t('faqs.a0') },
+          { question: t('faqs.q1'), answer: t('faqs.a1') }
+        ]}
+      >
+        <SqlFormatterClient />
+      </ToolLayout>
+    </>
+  );
+}

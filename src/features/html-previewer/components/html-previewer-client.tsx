@@ -38,19 +38,59 @@ export function HtmlPreviewerClient() {
   const [html, setHtml] = useState(SAMPLE_HTML);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [includeTailwind, setIncludeTailwind] = useState(false);
+  const [includeBootstrap, setIncludeBootstrap] = useState(false);
+  const [includeFontAwesome, setIncludeFontAwesome] = useState(false);
+  const [previewTheme, setPreviewTheme] = useState<'light' | 'dark' | 'checkered'>('light');
   const [previewHtml, setPreviewHtml] = useState('');
   const [downloaded, setDownloaded] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isFormatting, setIsFormatting] = useState(false);
 
   const isEnglish = tCommon('hero.searchPlaceholder' as any) === 'Find a tool...';
 
   const updatePreview = useCallback(() => {
     let finalHtml = html;
+    let head = '';
+    
     if (includeTailwind) {
-      finalHtml = `<script src="https://cdn.tailwindcss.com"></script>\n${html}`;
+      head += '<script src="https://cdn.tailwindcss.com"></script>\n';
     }
+    if (includeBootstrap) {
+      head += '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">\n';
+    }
+    if (includeFontAwesome) {
+      head += '<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">\n';
+    }
+
+    if (finalHtml.includes('<head>')) {
+      finalHtml = finalHtml.replace('<head>', `<head>\n${head}`);
+    } else if (finalHtml.includes('<html>')) {
+      finalHtml = finalHtml.replace('<html>', `<html>\n<head>\n${head}</head>`);
+    } else {
+      finalHtml = `${head}${finalHtml}`;
+    }
+
     setPreviewHtml(finalHtml);
-  }, [html, includeTailwind]);
+  }, [html, includeTailwind, includeBootstrap, includeFontAwesome]);
+
+  const handleFormat = () => {
+    setIsFormatting(true);
+    // Simple HTML beautifier logic
+    let formatted = '';
+    let indent = 0;
+    const tab = '  ';
+    
+    const tokens = html.replace(/>\s*</g, '><').split(/(?=<)|(?<=>)/);
+    
+    tokens.forEach(token => {
+      if (token.match(/^<\/\w/)) indent--;
+      formatted += tab.repeat(Math.max(0, indent)) + token + '\n';
+      if (token.match(/^<\w[^>]*[^\/]>$/) && !token.match(/^<(br|hr|img|input|link|meta)/)) indent++;
+    });
+    
+    setHtml(formatted.trim());
+    setTimeout(() => setIsFormatting(false), 500);
+  };
 
   useEffect(() => {
     if (autoRefresh) {
@@ -78,13 +118,13 @@ export function HtmlPreviewerClient() {
   };
 
   return (
-    <div className="space-y-12">
-      <div className="grid gap-6 lg:grid-cols-12 items-start">
-        <div className="lg:col-span-9 space-y-4">
-          <div className="grid gap-4 md:grid-cols-2 h-[calc(100vh-20rem)] min-h-[500px]">
+    <div className="flex flex-col space-y-12 relative">
+      <div className="grid gap-6 lg:grid-cols-12 items-start overflow-hidden">
+        <div className="lg:col-span-9 space-y-4 h-[600px]">
+          <div className="grid gap-4 md:grid-cols-2 h-[600px] min-h-0">
             {/* Editor Column */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between px-1">
+            <div className="flex flex-col gap-2 h-full min-h-0">
+              <div className="flex items-center justify-between px-1 shrink-0">
                 <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('editorTitle')}</Label>
                 <div className="flex items-center gap-1">
                   <Button variant="ghost" size="sm" onClick={() => setHtml(SAMPLE_HTML)} className="h-5 px-1.5 text-[9px] gap-1 text-muted-foreground hover:text-foreground">
@@ -96,19 +136,36 @@ export function HtmlPreviewerClient() {
                   </Button>
                 </div>
               </div>
-              <Card className="border border-border shadow-none rounded-md bg-background overflow-hidden flex-1 focus-within:border-foreground/20 transition-colors">
-                <Textarea
-                  placeholder={t('placeholder')}
-                  className="h-full font-mono text-[11px] resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
-                  value={html}
-                  onChange={(e) => setHtml(e.target.value)}
-                />
+              <Card className="border border-border shadow-none rounded-md bg-background overflow-hidden flex-1 flex flex-col focus-within:border-primary/30 transition-colors min-h-0">
+                <div className="flex-1 min-h-0 w-full relative">
+                  <textarea
+                    placeholder={t('placeholder')}
+                    className="h-full w-full font-mono text-[11px] resize-none border-none focus-visible:ring-0 p-4 bg-transparent leading-relaxed overflow-y-auto scrollbar-thin outline-none"
+                    value={html}
+                    onChange={(e) => setHtml(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center justify-between px-3 py-2 border-t bg-muted/20 shrink-0">
+                  <div className="text-[10px] text-muted-foreground font-mono">
+                    {html.length} chars | {html.split('\n').length} lines
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={handleFormat} 
+                    disabled={isFormatting || !html}
+                    className="h-6 px-2 text-[10px] gap-1.5"
+                  >
+                    <Layout className={cn("h-3 w-3", isFormatting && "animate-spin")} />
+                    {isEnglish ? 'Beautify' : 'خوبصورت بنائیں'}
+                  </Button>
+                </div>
               </Card>
             </div>
 
             {/* Preview Column */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between px-1">
+            <div className="flex flex-col gap-2 h-full min-h-0">
+              <div className="flex items-center justify-between px-1 shrink-0">
                 <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Live Preview' : 'لائیو پیش نظارہ'}</Label>
                 <div className="flex items-center gap-1">
                   {!autoRefresh && (
@@ -123,13 +180,39 @@ export function HtmlPreviewerClient() {
                   </Button>
                 </div>
               </div>
-              <Card className="border border-border shadow-none rounded-md bg-white overflow-hidden flex-1">
+              <Card className={cn(
+                "border border-border shadow-none rounded-md overflow-hidden flex-1 relative transition-colors min-h-0",
+                previewTheme === 'light' && "bg-white",
+                previewTheme === 'dark' && "bg-[#1e1e1e]",
+                previewTheme === 'checkered' && "bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] bg-repeat"
+              )}>
                 <iframe
                   title="preview"
                   srcDoc={previewHtml}
                   className="w-full h-full border-none"
-                  sandbox="allow-scripts"
+                  sandbox="allow-scripts allow-modals"
                 />
+                <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-background/80 backdrop-blur-sm p-1 rounded-full border border-border shadow-sm">
+                  {(['light', 'dark', 'checkered'] as const).map((theme) => (
+                    <Button
+                      key={theme}
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setPreviewTheme(theme)}
+                      className={cn(
+                        "h-6 w-6 rounded-full transition-all",
+                        previewTheme === theme ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      <div className={cn(
+                        "h-2.5 w-2.5 rounded-full border border-current",
+                        theme === 'light' && "bg-white",
+                        theme === 'dark' && "bg-black",
+                        theme === 'checkered' && "bg-gray-400"
+                      )} />
+                    </Button>
+                  ))}
+                </div>
               </Card>
             </div>
           </div>
@@ -162,6 +245,22 @@ export function HtmlPreviewerClient() {
                   <p className="text-[9px] text-muted-foreground leading-tight">{t('tailwindDesc')}</p>
                 </div>
                 <Switch checked={includeTailwind} onCheckedChange={setIncludeTailwind} className="scale-75 origin-right" />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="text-xs">{t('includeBootstrap')}</Label>
+                  <p className="text-[9px] text-muted-foreground leading-tight">{t('bootstrapDesc')}</p>
+                </div>
+                <Switch checked={includeBootstrap} onCheckedChange={setIncludeBootstrap} className="scale-75 origin-right" />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="text-xs">{t('includeFontAwesome')}</Label>
+                  <p className="text-[9px] text-muted-foreground leading-tight">{t('fontAwesomeDesc')}</p>
+                </div>
+                <Switch checked={includeFontAwesome} onCheckedChange={setIncludeFontAwesome} className="scale-75 origin-right" />
               </div>
               
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">

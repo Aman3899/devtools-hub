@@ -17,30 +17,8 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
-const tools = [
-  // Data & Security
-  { id: 'json-formatter', icon: Code, color: 'text-blue-500', category: 'data' },
-  { id: 'jwt-decoder', icon: ShieldCheck, color: 'text-purple-500', category: 'data' },
-  { id: 'base64-encoder', icon: Repeat, color: 'text-orange-500', category: 'data' },
-  { id: 'env-checker', icon: Terminal, color: 'text-emerald-500', category: 'data' },
-  
-  // Development
-  { id: 'regex-tester', icon: Terminal, color: 'text-green-500', category: 'dev' },
-  { id: 'timestamp-converter', icon: Terminal, color: 'text-yellow-500', category: 'dev' },
-  { id: 'api-tester', icon: Terminal, color: 'text-red-500', category: 'dev' },
-  { id: 'curl-generator', icon: Terminal, color: 'text-gray-500', category: 'dev' },
-  { id: 'uuid-generator', icon: Terminal, color: 'text-cyan-500', category: 'dev' },
-  { id: 'code-diff-checker', icon: Code, color: 'text-rose-500', category: 'dev' },
-  
-  // Design
-  { id: 'color-palette-generator', icon: Palette, color: 'text-pink-500', category: 'design' },
-  { id: 'image-to-base64', icon: Palette, color: 'text-teal-500', category: 'design' },
-  { id: 'css-gradient-generator', icon: Palette, color: 'text-violet-500', category: 'design' },
-  
-  // Web
-  { id: 'sql-formatter', icon: FileCode, color: 'text-indigo-500', category: 'web' },
-  { id: 'html-previewer', icon: Code, color: 'text-sky-500', category: 'web' },
-];
+import { TOOLS, CATEGORIES } from '@/constants/tools';
+import { ROUTES } from '@/constants/routes';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -63,7 +41,7 @@ export function HomeClient() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  const filteredTools = tools.filter(tool => {
+  const filteredTools = TOOLS.filter(tool => {
     const title = tTools(`${tool.id}.title`).toLowerCase();
     const description = tTools(`${tool.id}.description`).toLowerCase();
     const matchesSearch = title.includes(search.toLowerCase()) || description.includes(search.toLowerCase());
@@ -71,11 +49,9 @@ export function HomeClient() {
     return matchesSearch && matchesCategory;
   });
 
-  const categories = ['all', 'data', 'dev', 'design', 'web'];
-  
   const categoryCount = (cat: string) => {
-    if (cat === 'all') return tools.length;
-    return tools.filter(t => t.category === cat).length;
+    if (cat === 'all') return TOOLS.length;
+    return TOOLS.filter(t => t.category === cat).length;
   };
 
   return (
@@ -94,12 +70,13 @@ export function HomeClient() {
             </div>
             
             <div className="relative max-w-2xl w-full mt-4">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
               <Input 
                 placeholder={t('landing.searchPlaceholder')} 
                 className="pl-9 h-10 bg-background border-border focus-visible:ring-1 focus-visible:ring-primary"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                aria-label={t('landing.searchPlaceholder')}
               />
             </div>
           </div>
@@ -114,11 +91,12 @@ export function HomeClient() {
               <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
                 {t('landing.categories')}
               </h2>
-              <nav className="flex flex-col gap-1">
-                {categories.map((cat) => (
+              <nav className="flex flex-col gap-1" aria-label="Tool Categories">
+                {CATEGORIES.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
+                    aria-pressed={selectedCategory === cat}
                     className={cn(
                       "flex items-center justify-between px-2 py-1.5 text-sm rounded-md transition-colors text-left",
                       selectedCategory === cat 
@@ -152,11 +130,11 @@ export function HomeClient() {
             {filteredTools.length > 0 ? (
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredTools.map((tool) => (
-                  <Link key={tool.id} href={`/tools/${tool.id}`} className="group">
+                  <Link key={tool.id} href={`${ROUTES.TOOLS}/${tool.id}`} className="group">
                     <Card className="h-full border border-border hover:border-foreground/20 hover:bg-muted/30 transition-all cursor-pointer rounded-md shadow-none flex flex-col p-4">
                       <div className="flex items-start gap-3 mb-2">
                         <div className="p-2 rounded-md bg-muted border border-border group-hover:bg-background transition-colors">
-                          <tool.icon className="h-4 w-4 text-foreground" />
+                          <tool.icon className="h-4 w-4 text-foreground" aria-hidden="true" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="text-sm font-semibold text-foreground group-hover:underline underline-offset-4 decoration-primary/50">
@@ -208,9 +186,9 @@ export function HomeClient() {
               <span className="text-sm font-medium text-muted-foreground">{t('title')}</span>
             </div>
             <nav className="flex items-center gap-6 text-xs text-muted-foreground font-medium">
-              <Link href="/" className="hover:text-foreground transition-colors">{t('footerNav.privacy')}</Link>
-              <Link href="/" className="hover:text-foreground transition-colors">{t('footerNav.github')}</Link>
-              <Link href="/" className="hover:text-foreground transition-colors">{t('footerNav.changelog')}</Link>
+              <Link href={ROUTES.PRIVACY} className="hover:text-foreground transition-colors">{t('footerNav.privacy')}</Link>
+              <Link href={ROUTES.GITHUB} className="hover:text-foreground transition-colors">{t('footerNav.github')}</Link>
+              <Link href={ROUTES.CHANGELOG} className="hover:text-foreground transition-colors">{t('footerNav.changelog')}</Link>
               <span className="text-muted-foreground/40">
                 © {new Date().getFullYear()}
               </span>

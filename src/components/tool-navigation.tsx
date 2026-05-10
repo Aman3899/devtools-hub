@@ -5,6 +5,7 @@ import { Link } from '@/i18n/routing';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TOOLS } from '@/config/tools';
+import { ROUTES } from '@/constants/routes';
 
 interface ToolNavigationProps {
   currentToolId: string;
@@ -22,7 +23,7 @@ export function ToolNavigation({ currentToolId }: ToolNavigationProps) {
     <div className="flex items-center justify-between border-t border-border mt-12 pt-8">
       <div>
         {prevTool ? (
-          <Link href={`/tools/${prevTool.id}`}>
+          <Link href={`${ROUTES.TOOLS}/${prevTool.id}`}>
             <Button variant="ghost" className="group h-auto py-2 px-4 flex flex-col items-start gap-1">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-1 group-hover:text-foreground transition-colors">
                 <ChevronLeft className="h-3 w-3" />
@@ -36,7 +37,7 @@ export function ToolNavigation({ currentToolId }: ToolNavigationProps) {
 
       <div>
         {nextTool ? (
-          <Link href={`/tools/${nextTool.id}`}>
+          <Link href={`${ROUTES.TOOLS}/${nextTool.id}`}>
             <Button variant="ghost" className="group h-auto py-2 px-4 flex flex-col items-end gap-1 text-right">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-1 group-hover:text-foreground transition-colors">
                 {t('navigation.next' as any) || 'Next'}
