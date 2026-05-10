@@ -737,6 +737,150 @@
         "q1": "Can I adjust the angle of the gradient?",
         "a1": "Yes, for linear gradients, you can use the angle slider to rotate the gradient from 0 to 360 degrees."
       }
+    },
+    "url-encoder": {
+      "title": "URL Encoder/Decoder",
+      "description": "Encode or decode URLs and parameters with full component mode toggles.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "html-entity-encoder": {
+      "title": "HTML Entity Encoder",
+      "description": "Encode and decode HTML entities securely. Supports named and numeric entities.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "jwt-builder": {
+      "title": "JWT Builder",
+      "description": "Build and sign JSON Web Tokens with custom payloads and algorithms.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "md5-generator": {
+      "title": "MD5 Generator",
+      "description": "Generate MD5 hashes for strings and files instantly.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "sha-generator": {
+      "title": "SHA-1/256/512 Generator",
+      "description": "Generate and compare SHA family hashes securely.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "bcrypt-generator": {
+      "title": "Bcrypt Generator",
+      "description": "Hash passwords using Bcrypt with configurable cost factors.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "argon2-generator": {
+      "title": "Argon2 Hash Generator",
+      "description": "Generate modern Argon2 password hashes with tunable memory and iterations.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "hmac-generator": {
+      "title": "HMAC Generator",
+      "description": "Generate Hash-based Message Authentication Codes with various algorithms.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "morse-converter": {
+      "title": "Morse Code Converter",
+      "description": "Translate text to Morse code and vice versa.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "base-converter": {
+      "title": "Base Converter",
+      "description": "Convert between Binary, Octal, Decimal, and Hexadecimal.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "caesar-cipher": {
+      "title": "Caesar Cipher",
+      "description": "Encrypt and decrypt text using the Caesar cipher with adjustable shifts.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "rot13-encoder": {
+      "title": "ROT13 Encoder",
+      "description": "Quickly encode and decode text using ROT13 cipher.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "punycode-converter": {
+      "title": "Punycode Converter",
+      "description": "Convert Internationalized Domain Names (IDN) to Punycode.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "unicode-inspector": {
+      "title": "Unicode Inspector",
+      "description": "Inspect Unicode characters, code points, and categories.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "html-color-to-hex": {
+      "title": "HTML Color to HEX",
+      "description": "Convert named HTML colors to their HEX equivalents.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "aes-encryptor": {
+      "title": "AES Encryptor",
+      "description": "Encrypt and decrypt data using AES with CBC/GCM modes.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "rsa-key-generator": {
+      "title": "RSA Key Generator",
+      "description": "Generate RSA public and private key pairs securely.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
+    },
+    "qrcode-decoder": {
+      "title": "QR Code Decoder",
+      "description": "Decode QR code images and extract text content.",
+      "input": "Input",
+      "output": "Output",
+      "placeholder": "Paste here...",
+      "article": "This is a helpful tool for developers."
     }
   },
   "privacy": {

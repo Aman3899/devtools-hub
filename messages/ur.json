@@ -744,6 +744,150 @@
         "q1": "کیا میں گریڈینٹ کے زاویے کو ایڈجسٹ کر سکتا ہوں؟",
         "a1": "جی ہاں، لکیری گریڈینٹس کے لیے، آپ 0 سے 360 ڈگری تک زاویہ بدل سکتے ہیں۔"
       }
+    },
+    "url-encoder": {
+      "title": "URL Encoder/Decoder (Urdu)",
+      "description": "Encode or decode URLs and parameters with full component mode toggles. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "html-entity-encoder": {
+      "title": "HTML Entity Encoder (Urdu)",
+      "description": "Encode and decode HTML entities securely. Supports named and numeric entities. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "jwt-builder": {
+      "title": "JWT Builder (Urdu)",
+      "description": "Build and sign JSON Web Tokens with custom payloads and algorithms. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "md5-generator": {
+      "title": "MD5 Generator (Urdu)",
+      "description": "Generate MD5 hashes for strings and files instantly. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "sha-generator": {
+      "title": "SHA-1/256/512 Generator (Urdu)",
+      "description": "Generate and compare SHA family hashes securely. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "bcrypt-generator": {
+      "title": "Bcrypt Generator (Urdu)",
+      "description": "Hash passwords using Bcrypt with configurable cost factors. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "argon2-generator": {
+      "title": "Argon2 Hash Generator (Urdu)",
+      "description": "Generate modern Argon2 password hashes with tunable memory and iterations. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "hmac-generator": {
+      "title": "HMAC Generator (Urdu)",
+      "description": "Generate Hash-based Message Authentication Codes with various algorithms. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "morse-converter": {
+      "title": "Morse Code Converter (Urdu)",
+      "description": "Translate text to Morse code and vice versa. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "base-converter": {
+      "title": "Base Converter (Urdu)",
+      "description": "Convert between Binary, Octal, Decimal, and Hexadecimal. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "caesar-cipher": {
+      "title": "Caesar Cipher (Urdu)",
+      "description": "Encrypt and decrypt text using the Caesar cipher with adjustable shifts. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "rot13-encoder": {
+      "title": "ROT13 Encoder (Urdu)",
+      "description": "Quickly encode and decode text using ROT13 cipher. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "punycode-converter": {
+      "title": "Punycode Converter (Urdu)",
+      "description": "Convert Internationalized Domain Names (IDN) to Punycode. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "unicode-inspector": {
+      "title": "Unicode Inspector (Urdu)",
+      "description": "Inspect Unicode characters, code points, and categories. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "html-color-to-hex": {
+      "title": "HTML Color to HEX (Urdu)",
+      "description": "Convert named HTML colors to their HEX equivalents. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "aes-encryptor": {
+      "title": "AES Encryptor (Urdu)",
+      "description": "Encrypt and decrypt data using AES with CBC/GCM modes. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "rsa-key-generator": {
+      "title": "RSA Key Generator (Urdu)",
+      "description": "Generate RSA public and private key pairs securely. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
+    },
+    "qrcode-decoder": {
+      "title": "QR Code Decoder (Urdu)",
+      "description": "Decode QR code images and extract text content. (Urdu)",
+      "input": "ان پٹ",
+      "output": "آؤٹ پٹ",
+      "placeholder": "یہاں پیسٹ کریں...",
+      "article": "یہ ایک مددگار ٹول ہے۔"
     }
   },
   "privacy": {

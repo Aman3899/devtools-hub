@@ -2,14 +2,15 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { Copy, Trash2, Download, ShieldCheck, ShieldAlert, FileJson, RefreshCw } from 'lucide-react';
+import { Copy, Trash2, Download, ShieldCheck, ShieldAlert, FileJson, RefreshCw, Settings2, Info, Timer } from 'lucide-react';
 import { toast } from 'sonner';
 import { ToolNavigation } from '@/components/tool-navigation';
+import { cn } from '@/lib/utils';
 
 export function JwtDecoderClient() {
   const t = useTranslations('tools.jwt-decoder');
@@ -18,19 +19,24 @@ export function JwtDecoderClient() {
   const [header, setHeader] = useState('');
   const [payload, setPayload] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [expiry, setExpiry] = useState<number | null>(null);
+  const [countdown, setCountdown] = useState<string>('');
+
+  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
 
   const decodeToken = useCallback(() => {
     if (!token.trim()) {
       setHeader('');
       setPayload('');
       setError(null);
+      setExpiry(null);
       return;
     }
 
     try {
       const parts = token.split('.');
       if (parts.length !== 3) {
-        throw new Error(t('invalid'));
+        throw new Error(isEnglish ? 'Invalid JWT format (requires 3 parts)' : 'غلط JWT فارمیٹ');
       }
 
       const decodedHeader = JSON.parse(atob(parts[0].replace(/-/g, '+').replace(/_/g, '/')));
@@ -39,16 +45,57 @@ export function JwtDecoderClient() {
       setHeader(JSON.stringify(decodedHeader, null, 2));
       setPayload(JSON.stringify(decodedPayload, null, 2));
       setError(null);
+
+      if (decodedPayload.exp) {
+        setExpiry(decodedPayload.exp * 1000);
+      } else {
+        setExpiry(null);
+      }
     } catch (e: any) {
-      setError(e.message);
+      setError(isEnglish ? 'Invalid token signature or payload' : 'غلط ٹوکن دستخط یا پے لوڈ');
       setHeader('');
       setPayload('');
+      setExpiry(null);
     }
-  }, [token, t]);
+  }, [token, isEnglish]);
 
   useEffect(() => {
     decodeToken();
   }, [decodeToken]);
+
+  useEffect(() => {
+    if (!expiry) {
+      setCountdown('');
+      return;
+    }
+
+    const updateCountdown = () => {
+      const now = Date.now();
+      const diff = expiry - now;
+
+      if (diff <= 0) {
+        setCountdown(isEnglish ? 'Expired' : 'میعاد ختم');
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / 1000 / 60) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      const parts = [];
+      if (days > 0) parts.push(`${days}d`);
+      if (hours > 0) parts.push(`${hours}h`);
+      if (mins > 0) parts.push(`${mins}m`);
+      parts.push(`${secs}s`);
+
+      setCountdown(parts.join(' '));
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, [expiry, isEnglish]);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -68,106 +115,166 @@ export function JwtDecoderClient() {
   };
 
   const loadSample = () => {
-    setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c');
+    // A sample token with expiry 1 year in future
+    const samplePayload = {
+      sub: "1234567890",
+      name: "John Doe",
+      iat: 1516239022,
+      exp: Math.floor(Date.now() / 1000) + 31536000
+    };
+    const sampleToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(JSON.stringify(samplePayload))}.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`;
+    setToken(sampleToken);
     toast.success(commonT('success'));
   };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardContent className="pt-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Label htmlFor="token-input">{t('input')}</Label>
-              {error ? (
-                <Badge variant="destructive" className="gap-1">
-                  <ShieldAlert className="h-3 w-3" />
-                  {t('invalidToken')}
-                </Badge>
-              ) : token && (
-                <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20 gap-1">
-                  <ShieldCheck className="h-3 w-3" />
-                  {t('structureOk')}
-                </Badge>
-              )}
+    <div className="space-y-12">
+      <div className="grid gap-6 lg:grid-cols-12 items-start">
+        <div className="lg:col-span-9 space-y-4">
+          {/* Input Area */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-4">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('input')}</Label>
+                {error ? (
+                  <Badge variant="destructive" className="gap-1 h-5 text-[9px] px-1.5">
+                    <ShieldAlert className="h-3 w-3" />
+                    {isEnglish ? 'Invalid Token' : 'غلط ٹوکن'}
+                  </Badge>
+                ) : token && (
+                  <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20 gap-1 h-5 text-[9px] px-1.5">
+                    <ShieldCheck className="h-3 w-3" />
+                    {isEnglish ? 'Valid Structure' : 'درست ساخت'}
+                  </Badge>
+                )}
+              </div>
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                  <RefreshCw className="h-3 w-3" />
+                  {isEnglish ? 'Sample' : 'مثال'}
+                </Button>
+                <Button variant="ghost" size="icon" onClick={() => setToken('')} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Button variant="secondary" size="sm" onClick={loadSample}>
-                <RefreshCw className="h-4 w-4 mr-2" />
-                {commonT('loadSample')}
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => setToken('')} disabled={!token}>
-                <Trash2 className="h-4 w-4 mr-2" />
-                {commonT('clear')}
-              </Button>
+            <Card className="flex flex-col border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
+              <Textarea
+                placeholder={isEnglish ? "Paste your JWT string here..." : "اپنی JWT سٹرنگ یہاں پیسٹ کریں..."}
+                className="min-h-[150px] font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed break-all"
+                value={token}
+                onChange={(e) => setToken(e.target.value)}
+              />
+            </Card>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            {/* Header Output */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between px-1">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('header')}</Label>
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="sm" onClick={() => handleDownload(header, 'header.json')} disabled={!header} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                    <Download className="h-3 w-3" />
+                    JSON
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => handleCopy(header)} disabled={!header} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                    <Copy className="h-3 w-3" />
+                    {commonT('copy')}
+                  </Button>
+                </div>
+              </div>
+              <Card className="flex flex-col h-[300px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20 relative">
+                {header ? (
+                  <pre className="flex-1 font-mono text-xs p-3 overflow-auto whitespace-pre-wrap break-all leading-relaxed text-foreground text-[#e06c75]">
+                    {header}
+                  </pre>
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-30">
+                    <FileJson className="h-8 w-8 mb-2" />
+                    <p className="text-[10px]">{t('decodedHeader') || 'Decoded Header'}</p>
+                  </div>
+                )}
+              </Card>
+            </div>
+
+            {/* Payload Output */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between px-1">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('payload')}</Label>
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="sm" onClick={() => handleDownload(payload, 'payload.json')} disabled={!payload} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                    <Download className="h-3 w-3" />
+                    JSON
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => handleCopy(payload)} disabled={!payload} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                    <Copy className="h-3 w-3" />
+                    {commonT('copy')}
+                  </Button>
+                </div>
+              </div>
+              <Card className="flex flex-col h-[300px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20 relative">
+                {payload ? (
+                  <pre className="flex-1 font-mono text-xs p-3 overflow-auto whitespace-pre-wrap break-all leading-relaxed text-foreground text-[#98c379]">
+                    {payload}
+                  </pre>
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-30">
+                    <FileJson className="h-8 w-8 mb-2" />
+                    <p className="text-[10px]">{t('decodedPayload') || 'Decoded Payload'}</p>
+                  </div>
+                )}
+              </Card>
             </div>
           </div>
-          <Textarea
-            id="token-input"
-            placeholder={t('placeholder')}
-            className="min-h-[120px] font-mono text-xs resize-none"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-          />
-        </CardContent>
-      </Card>
+        </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardContent className="pt-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <Label>{t('header')}</Label>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => handleDownload(header, 'header.json')} disabled={!header}>
-                  <Download className="h-3 w-3 mr-2" />
-                  JSON
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => handleCopy(header)} disabled={!header}>
-                  <Copy className="h-3 w-3 mr-2" />
-                  {commonT('copy')}
-                </Button>
-              </div>
-            </div>
-            <div className="relative min-h-[300px] rounded-md border bg-muted/50 p-4 font-mono text-xs overflow-auto">
-              {header ? (
-                <pre>{header}</pre>
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-50">
-                  <FileJson className="h-8 w-8 mb-2" />
-                  <p>{t('decodedHeader')}</p>
+        {/* Sidebar Settings */}
+        <div className="lg:col-span-3 space-y-4">
+          <Card className="border border-border shadow-none rounded-md bg-background">
+            <CardHeader className="py-3 px-4 border-b">
+              <CardTitle className="text-xs font-semibold flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Settings2 className="h-3.5 w-3.5" />
+                  {isEnglish ? 'Token Info' : 'ٹوکن معلومات'}
                 </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-6">
+              
+              <div className="space-y-2">
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Expiry Status' : 'میعاد کی حیثیت'}</Label>
+                <div className="p-3 bg-muted/30 border border-border rounded-md flex flex-col items-center justify-center gap-2 min-h-[80px]">
+                  {expiry ? (
+                    <>
+                      <Timer className={cn("h-6 w-6", countdown === 'Expired' || countdown === 'میعاد ختم' ? "text-destructive" : "text-green-500")} />
+                      <span className={cn("font-mono text-sm font-bold", countdown === 'Expired' || countdown === 'میعاد ختم' ? "text-destructive" : "text-foreground")}>
+                        {countdown}
+                      </span>
+                      <span className="text-[9px] text-muted-foreground">
+                        {new Date(expiry).toLocaleString()}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-[10px] text-muted-foreground">{isEnglish ? 'No expiry claim (exp) found' : 'کوئی میعاد ختم ہونے کا دعوی نہیں ملا'}</span>
+                  )}
+                </div>
+              </div>
 
-        <Card>
-          <CardContent className="pt-6 space-y-4">
-            <div className="flex items-center justify-between">
-              <Label>{t('payload')}</Label>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => handleDownload(payload, 'payload.json')} disabled={!payload}>
-                  <Download className="h-3 w-3 mr-2" />
-                  JSON
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => handleCopy(payload)} disabled={!payload}>
-                  <Copy className="h-3 w-3 mr-2" />
-                  {commonT('copy')}
-                </Button>
-              </div>
-            </div>
-            <div className="relative min-h-[300px] rounded-md border bg-muted/50 p-4 font-mono text-xs overflow-auto">
-              {payload ? (
-                <pre>{payload}</pre>
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-50">
-                  <FileJson className="h-8 w-8 mb-2" />
-                  <p>{t('decodedPayload')}</p>
+              <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
+                <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
+                  <Info className="h-3 w-3" />
+                  {isEnglish ? 'Important Note' : 'اہم نوٹ'}
                 </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+                <p className="text-[10px] text-muted-foreground leading-relaxed">
+                  {isEnglish 
+                    ? 'Decoding a JWT only shows its contents. It does not verify the signature. You should still verify tokens on your server.' 
+                    : 'جے ڈبلیو ٹی کو ڈی کوڈ کرنے سے صرف اس کا مواد ظاہر ہوتا ہے۔ یہ دستخط کی تصدیق نہیں کرتا۔'}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
       <ToolNavigation currentToolId="jwt-decoder" />
     </div>

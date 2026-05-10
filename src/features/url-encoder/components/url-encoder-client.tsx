@@ -7,18 +7,18 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { Copy, Trash2, RefreshCw, Lock, Unlock, Download, Settings2, Info, Upload, Check } from 'lucide-react';
+import { Copy, Trash2, RefreshCw, Lock, Unlock, Download, Settings2, Info, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { ToolNavigation } from '@/components/tool-navigation';
 import { cn } from '@/lib/utils';
 
-export function Base64EncoderClient() {
-  const t = useTranslations('tools.base64-encoder');
+export function UrlEncoderClient() {
+  const t = useTranslations('tools.url-encoder');
   const commonT = useTranslations('common');
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [mode, setMode] = useState<'encode' | 'decode'>('encode');
-  const [isUrlSafe, setIsUrlSafe] = useState(false);
+  const [isComponentMode, setIsComponentMode] = useState(true);
   const [downloaded, setDownloaded] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -32,46 +32,21 @@ export function Base64EncoderClient() {
 
     try {
       if (mode === 'encode') {
-        let encoded = btoa(unescape(encodeURIComponent(textToProcess)));
-        if (isUrlSafe) {
-          encoded = encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-        }
-        setOutput(encoded);
+        setOutput(isComponentMode ? encodeURIComponent(textToProcess) : encodeURI(textToProcess));
       } else {
-        let textToDecode = textToProcess;
-        if (isUrlSafe) {
-          textToDecode = textToDecode.replace(/-/g, '+').replace(/_/g, '/');
-          while (textToDecode.length % 4) {
-            textToDecode += '=';
-          }
-        }
-        setOutput(decodeURIComponent(escape(atob(textToDecode))));
+        setOutput(isComponentMode ? decodeURIComponent(textToProcess) : decodeURI(textToProcess));
       }
     } catch (e) {
       setOutput(isEnglish ? 'Invalid input for ' + mode : 'تبدیلی کے لیے غلط ان پٹ');
     }
-  }, [input, mode, isUrlSafe, isEnglish]);
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
-      setInput(text);
-      process(text);
-      toast.success(commonT('success'));
-    };
-    reader.readAsText(file);
-  };
+  }, [input, mode, isComponentMode, isEnglish]);
 
   const handleDownload = () => {
     const blob = new Blob([output], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `base64-${mode}d-${new Date().getTime()}.txt`;
+    a.download = `url-${mode}d-${new Date().getTime()}.txt`;
     a.click();
     URL.revokeObjectURL(url);
     setDownloaded(true);
@@ -87,8 +62,8 @@ export function Base64EncoderClient() {
 
   const loadSample = () => {
     const sample = mode === 'encode' 
-      ? 'Hello, World! DevTools Hub is a privacy-first tool.' 
-      : 'SGVsbG8sIFdvcmxkISBEZXZUb29scyBIdWIgaXMgYSBwcml2YWN5LWZpcnN0IHRvb2wu';
+      ? 'https://devtools-hub.com/search?q=hello world&category=dev tools' 
+      : 'https%3A%2F%2Fdevtools-hub.com%2Fsearch%3Fq%3Dhello%20world%26category%3Ddev%20tools';
     setInput(sample);
     process(sample);
     toast.success(commonT('success'));
@@ -123,7 +98,7 @@ export function Base64EncoderClient() {
             </div>
             <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
               <Textarea
-                placeholder={mode === 'encode' ? 'Enter text to encode...' : 'Enter Base64 to decode...'}
+                placeholder={mode === 'encode' ? 'Enter URL or text to encode...' : 'Enter encoded URL to decode...'}
                 className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                 value={input}
                 onChange={(e) => { setInput(e.target.value); process(e.target.value); }}
@@ -209,21 +184,12 @@ export function Base64EncoderClient() {
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label className="text-xs">URL Safe</Label>
-                  <p className="text-[9px] text-muted-foreground leading-tight">Use - and _ instead of + and /</p>
+                  <Label className="text-xs">{isEnglish ? 'Component Mode' : 'اجزاء کا موڈ'}</Label>
+                  <p className="text-[9px] text-muted-foreground leading-tight">
+                    {isEnglish ? 'Encodes all special characters including / ? : @ & = +' : 'تمام خاص حروف کو انکوڈ کرتا ہے'}
+                  </p>
                 </div>
-                <Switch checked={isUrlSafe} onCheckedChange={(val) => { setIsUrlSafe(val); process(); }} className="scale-75 origin-right" />
-              </div>
-              
-              <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Upload File' : 'فائل اپ لوڈ کریں'}</Label>
-                <Label className="flex items-center justify-center w-full h-24 border-2 border-dashed border-border rounded-md hover:border-foreground/20 hover:bg-muted/30 transition-colors cursor-pointer group">
-                  <div className="flex flex-col items-center gap-1.5 text-muted-foreground group-hover:text-foreground">
-                    <Upload className="h-5 w-5" />
-                    <span className="text-[10px] font-medium">{isEnglish ? 'Select text file' : 'ٹیکسٹ فائل منتخب کریں'}</span>
-                  </div>
-                  <input type="file" className="hidden" accept=".txt,.json,.md,.csv" onChange={handleFileUpload} />
-                </Label>
+                <Switch checked={isComponentMode} onCheckedChange={(val) => { setIsComponentMode(val); process(); }} className="scale-75 origin-right" />
               </div>
 
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
@@ -232,14 +198,14 @@ export function Base64EncoderClient() {
                   {isEnglish ? 'Quick Tip' : 'فوری مشورہ'}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {t('article').split('.')[0] || 'Base64 encoding converts data into a secure ASCII string format.'}.
+                  {isEnglish ? 'Use Component Mode (encodeURIComponent) for query string parameters. Turn it off to encode full URLs (encodeURI).' : 'سوال کی سٹرنگ کے پیرامیٹرز کے لیے استعمال کریں۔ مکمل URLs کے لیے اسے بند کریں۔'}
                 </p>
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
-      <ToolNavigation currentToolId="base64-encoder" />
+      <ToolNavigation currentToolId="url-encoder" />
     </div>
   );
 }

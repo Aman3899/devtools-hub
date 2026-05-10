@@ -103,4 +103,58 @@ export const TOOLS_REGISTRY: Record<string, any> = {
   'uuid-generator': {
     component: dynamic(() => import('@/features/uuid-generator/components/uuid-generator-client').then(m => m.UuidGeneratorClient)),
   },
+  'url-encoder': {
+    component: dynamic(() => import('@/features/url-encoder/components/url-encoder-client').then(m => m.UrlEncoderClient)),
+  },
+  'html-entity-encoder': {
+    component: dynamic(() => import('@/features/html-entity-encoder/components/html-entity-encoder-client').then(m => m.HtmlEntityEncoderClient)),
+  },
+  'jwt-builder': {
+    component: dynamic(() => import('@/features/jwt-builder/components/jwt-builder-client').then(m => m.JwtBuilderClient)),
+  },
+  'md5-generator': {
+    component: dynamic(() => import('@/features/md5-generator/components/md5-generator-client').then(m => m.Md5GeneratorClient)),
+  },
+  'sha-generator': {
+    component: dynamic(() => import('@/features/sha-generator/components/sha-generator-client').then(m => m.ShaGeneratorClient)),
+  },
+  'bcrypt-generator': {
+    component: dynamic(() => import('@/features/bcrypt-generator/components/bcrypt-generator-client').then(m => m.BcryptGeneratorClient)),
+  },
+  'argon2-generator': {
+    component: dynamic(() => import('@/features/argon2-generator/components/argon2-generator-client').then(m => m.Argon2GeneratorClient)),
+  },
+  'hmac-generator': {
+    component: dynamic(() => import('@/features/hmac-generator/components/hmac-generator-client').then(m => m.HmacGeneratorClient)),
+  },
+  'morse-converter': {
+    component: dynamic(() => import('@/features/morse-converter/components/morse-converter-client').then(m => m.MorseConverterClient)),
+  },
+  'base-converter': {
+    component: dynamic(() => import('@/features/base-converter/components/base-converter-client').then(m => m.BaseConverterClient)),
+  },
+  'caesar-cipher': {
+    component: dynamic(() => import('@/features/caesar-cipher/components/caesar-cipher-client').then(m => m.CaesarCipherClient)),
+  },
+  'rot13-encoder': {
+    component: dynamic(() => import('@/features/rot13-encoder/components/rot13-encoder-client').then(m => m.Rot13EncoderClient)),
+  },
+  'punycode-converter': {
+    component: dynamic(() => import('@/features/punycode-converter/components/punycode-converter-client').then(m => m.PunycodeConverterClient)),
+  },
+  'unicode-inspector': {
+    component: dynamic(() => import('@/features/unicode-inspector/components/unicode-inspector-client').then(m => m.UnicodeInspectorClient)),
+  },
+  'html-color-to-hex': {
+    component: dynamic(() => import('@/features/html-color-to-hex/components/html-color-to-hex-client').then(m => m.HtmlColorToHexClient)),
+  },
+  'aes-encryptor': {
+    component: dynamic(() => import('@/features/aes-encryptor/components/aes-encryptor-client').then(m => m.AesEncryptorClient)),
+  },
+  'rsa-key-generator': {
+    component: dynamic(() => import('@/features/rsa-key-generator/components/rsa-key-generator-client').then(m => m.RsaKeyGeneratorClient)),
+  },
+  'qrcode-decoder': {
+    component: dynamic(() => import('@/features/qrcode-decoder/components/qrcode-decoder-client').then(m => m.QrcodeDecoderClient)),
+  },
 };

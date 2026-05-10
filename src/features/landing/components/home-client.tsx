@@ -86,7 +86,7 @@ export function HomeClient() {
       <div className="container max-w-7xl mx-auto px-4 py-8 md:px-8 flex-1">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar / Filters */}
-          <aside className="w-full md:w-48 shrink-0 space-y-6">
+          <aside className="w-full md:w-48 shrink-0 space-y-6 md:sticky md:top-24 self-start max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar pb-6">
             <div className="space-y-2">
               <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
                 {t('landing.categories')}
