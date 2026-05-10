@@ -36,4 +36,6 @@ export const TOOLS = [
   { id: 'cookie-parser', category: 'web' },
   { id: 'user-agent-parser', category: 'web' },
   { id: 'url-parser', category: 'web' },
+  // Phase 5: Visual CSS
+  { id: 'box-shadow-generator', category: 'design' },
 ];

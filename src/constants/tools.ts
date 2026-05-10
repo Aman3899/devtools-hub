@@ -1,6 +1,6 @@
 import {
   Code, ShieldCheck, Repeat, Terminal, FileCode, Palette, Zap, Shield, Globe, Cpu, Layout, Table, Image,
-  Link, Share2, Search, FileText
+  Link, Share2, Search, FileText, BoxSelect, Square, Grid, Box, Play, Calculator, Type
 } from 'lucide-react';
 
 export const TOOLS = [
@@ -77,7 +77,13 @@ export const TOOLS = [
   { id: 'cookie-parser', icon: Table, category: 'web' },
   { id: 'user-agent-parser', icon: Cpu, category: 'web' },
   { id: 'url-parser', icon: Link, category: 'web' },
+  // Phase 5: Visual CSS Tools
+  { id: 'box-shadow-generator', icon: BoxSelect, category: 'design' },
+  { id: 'border-radius-generator', icon: Square, category: 'design' },
+  { id: 'flexbox-playground', icon: Layout, category: 'design' },
+  { id: 'grid-generator', icon: Grid, category: 'design' },
+  { id: 'glassmorphism-generator', icon: Image, category: 'design' },
+  { id: 'neumorphism-generator', icon: Box, category: 'design' },
 ];
 
 export const CATEGORIES = ['all', 'text', 'data', 'dev', 'design', 'web'];
-

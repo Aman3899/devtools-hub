@@ -1,21 +1,19 @@
+import * as React from "react"
 import { Slider as SliderPrimitive } from "@base-ui/react/slider"
 
 import { cn } from "@/lib/utils"
 
-function Slider({
-  className,
-  defaultValue,
-  value,
-  min = 0,
-  max = 100,
-  ...props
-}: SliderPrimitive.Root.Props) {
+const Slider = React.forwardRef<
+  React.ElementRef<typeof SliderPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+>(({ className, defaultValue, value, min = 0, max = 100, ...props }, ref) => {
   // Determine thumbs to render
   const values = value ?? defaultValue ?? [min];
   const thumbsCount = Array.isArray(values) ? values.length : 1;
 
   return (
     <SliderPrimitive.Root
+      ref={ref}
       className={cn("data-horizontal:w-full data-vertical:h-full relative flex items-center select-none touch-none", className)}
       data-slot="slider"
       value={value}
@@ -45,6 +43,7 @@ function Slider({
       </SliderPrimitive.Control>
     </SliderPrimitive.Root>
   )
-}
+})
+Slider.displayName = "Slider"
 
 export { Slider }

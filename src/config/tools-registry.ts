@@ -214,4 +214,22 @@ export const TOOLS_REGISTRY: Record<string, any> = {
   'url-parser': {
     component: dynamic(() => import('@/features/url-parser/components/url-parser-client').then(m => m.UrlParserClient)),
   },
+  'box-shadow-generator': {
+    component: dynamic(() => import('@/features/box-shadow-generator/components/box-shadow-generator-client').then(m => m.BoxShadowGeneratorClient)),
+  },
+  'border-radius-generator': {
+    component: dynamic(() => import('@/features/border-radius-generator/components/border-radius-generator-client').then(m => m.BorderRadiusGeneratorClient)),
+  },
+  'flexbox-playground': {
+    component: dynamic(() => import('@/features/flexbox-playground/components/flexbox-playground-client').then(m => m.FlexboxPlaygroundClient)),
+  },
+  'grid-generator': {
+    component: dynamic(() => import('@/features/grid-generator/components/grid-generator-client').then(m => m.GridGeneratorClient)),
+  },
+  'glassmorphism-generator': {
+    component: dynamic(() => import('@/features/glassmorphism-generator/components/glassmorphism-generator-client').then(m => m.GlassmorphismGeneratorClient)),
+  },
+  'neumorphism-generator': {
+    component: dynamic(() => import('@/features/neumorphism-generator/components/neumorphism-generator-client').then(m => m.NeumorphismGeneratorClient)),
+  },
 };

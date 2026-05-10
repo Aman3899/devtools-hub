@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Copy, Check, RefreshCw, Palette, Settings2, Plus, Trash2, MoveHorizontal, Download, Share2, Info } from 'lucide-react';
+import { Copy, Check, RefreshCw, Palette, Settings2, Plus, Trash2, MoveHorizontal, Download, Share2, Info, Zap, Globe } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
@@ -45,6 +45,12 @@ export function CssGradientGeneratorClient() {
     navigator.clipboard.writeText(`background: ${gradient};`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const applySample = (t: string, a: number, s: ColorStop[]) => {
+    setType(t);
+    setAngle(a);
+    setStops(s);
   };
 
   const downloadCss = () => {
@@ -137,7 +143,27 @@ export function CssGradientGeneratorClient() {
                   <Settings2 className="h-3.5 w-3.5" />
                   {tCommon('ui.settings')}
                 </div>
-                <Share2 className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-pointer" />
+                <div className="flex items-center gap-1">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => applySample('linear', 45, [{ color: '#ff9a9e', position: 0 }, { color: '#fad0c4', position: 99 }, { color: '#fad0c4', position: 100 }])} 
+                    className="h-6 px-1.5 text-[10px] w-auto gap-1"
+                    title="Sunset"
+                  >
+                    <Zap className="h-3 w-3 text-amber-500" />
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => applySample('linear', 135, [{ color: '#a1c4fd', position: 0 }, { color: '#c2e9fb', position: 100 }])} 
+                    className="h-6 px-1.5 text-[10px] w-auto gap-1"
+                    title="Ocean"
+                  >
+                    <Globe className="h-3 w-3 text-blue-500" />
+                  </Button>
+                  <Share2 className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-pointer" />
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4 space-y-6">
