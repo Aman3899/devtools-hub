@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { Copy, Trash2, RefreshCw, Search, ArrowRightLeft, Type } from 'lucide-react';
+import { Copy, Trash2, RefreshCw, Search, ArrowRightLeft, Type, Settings2, Info } from 'lucide-react';
 import { toast } from 'sonner';
 import { ToolNavigation } from '@/components/tool-navigation';
 
@@ -47,121 +47,170 @@ export function FindReplaceClient() {
   };
 
   const loadSample = () => {
-    setInput(t('sample'));
+    setInput('The quick brown fox jumps over the lazy dog.');
     setFindText('quick');
     setReplaceText('slow');
     toast.success(commonT('success'));
   };
 
+  const stats = {
+    chars: input.length,
+    lines: input.split('\n').length
+  };
+
+  const outputStats = {
+    chars: output.length,
+    lines: output.split('\n').length
+  };
+
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardContent className="pt-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-muted/30 rounded-lg border border-dashed">
-            <div className="space-y-4">
+    <div className="space-y-12">
+      <div className="grid gap-6 lg:grid-cols-12 items-start">
+        <div className="lg:col-span-9 grid gap-4 md:grid-cols-2">
+          {/* Input Area */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('input')}</Label>
+                <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
+                <span className="text-[10px] text-muted-foreground/60">{stats.chars} chars • {stats.lines} lines</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                  <RefreshCw className="h-3 w-3" />
+                  {commonT('hero.searchPlaceholder' as any) === 'Find a tool...' ? 'Sample' : 'مثال'}
+                </Button>
+                <Button variant="ghost" size="icon" onClick={() => setInput('')} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+            <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
+              <Textarea
+                placeholder={t('placeholder')}
+                className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <div className="p-2 border-t bg-muted/5">
+                <Button className="w-full h-8 text-xs" onClick={handleReplace} disabled={!input || !findText}>
+                  <Type className="h-3.5 w-3.5 mr-2" />
+                  {t('replaceAll')}
+                </Button>
+              </div>
+            </Card>
+          </div>
+
+          {/* Output Area */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('output')}</Label>
+                {output && (
+                  <>
+                    <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
+                    <span className="text-[10px] text-muted-foreground/60">{outputStats.chars} chars after</span>
+                  </>
+                )}
+              </div>
+              <div className="flex items-center gap-1">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => {
+                    navigator.clipboard.writeText(output);
+                    toast.success(commonT('copied'));
+                  }} 
+                  disabled={!output}
+                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Copy className="h-3 w-3" />
+                  {commonT('copy')}
+                </Button>
+              </div>
+            </div>
+            <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20">
+              <div className="flex-1 relative">
+                <Textarea
+                  readOnly
+                  className="w-full h-full font-mono text-xs p-3 bg-transparent resize-none border-none focus-visible:ring-0 leading-relaxed"
+                  value={output}
+                />
+                {!output && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-30 pointer-events-none">
+                    <ArrowRightLeft className="h-10 w-10 mb-2" />
+                    <p className="text-[10px]">{t('output')}</p>
+                  </div>
+                )}
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        {/* Sidebar Settings */}
+        <div className="lg:col-span-3 space-y-4">
+          <Card className="border border-border shadow-none rounded-md bg-background">
+            <CardHeader className="py-3 px-4 border-b">
+              <CardTitle className="text-xs font-semibold flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Settings2 className="h-3.5 w-3.5" />
+                  {commonT('ui.customization')}
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="find-input">{t('find')}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('find')}</Label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
                   <Input
-                    id="find-input"
                     placeholder="Text to find..."
-                    className="pl-10"
+                    className="pl-8 h-8 text-xs bg-muted/20 border-border"
                     value={findText}
                     onChange={(e) => setFindText(e.target.value)}
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="replace-input">{t('replace')}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('replace')}</Label>
                 <div className="relative">
-                  <ArrowRightLeft className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <ArrowRightLeft className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
                   <Input
-                    id="replace-input"
                     placeholder="Replace with..."
-                    className="pl-10"
+                    className="pl-8 h-8 text-xs bg-muted/20 border-border"
                     value={replaceText}
                     onChange={(e) => setReplaceText(e.target.value)}
                   />
                 </div>
               </div>
-            </div>
 
-            <div className="space-y-4 flex flex-col justify-center">
-              <div className="flex items-center justify-between p-2 hover:bg-background rounded-md transition-colors">
-                <div className="space-y-0.5">
-                  <Label className="text-sm">Case Sensitive</Label>
-                  <p className="text-xs text-muted-foreground">Match exact character casing</p>
-                </div>
-                <Switch checked={caseSensitive} onCheckedChange={setCaseSensitive} />
-              </div>
-              <div className="flex items-center justify-between p-2 hover:bg-background rounded-md transition-colors">
-                <div className="space-y-0.5">
-                  <Label className="text-sm">Use Regex</Label>
-                  <p className="text-xs text-muted-foreground">Treat find text as a regular expression</p>
-                </div>
-                <Switch checked={useRegex} onCheckedChange={setUseRegex} />
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="input">{t('input')}</Label>
-                <div className="flex gap-2">
-                  <Button variant="secondary" size="sm" onClick={loadSample}>
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    {commonT('loadSample')}
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={() => setInput('')} className="text-destructive hover:text-destructive">
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    {commonT('clear')}
-                  </Button>
-                </div>
-              </div>
-              <Textarea
-                id="input"
-                placeholder={t('placeholder')}
-                className="min-h-[300px] font-mono text-sm resize-none"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-              <Button className="w-full" size="lg" onClick={handleReplace} disabled={!input || !findText}>
-                <Type className="h-4 w-4 mr-2" />
-                {t('replaceAll')}
-              </Button>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="output">{t('output')}</Label>
-                <Button variant="outline" size="sm" onClick={() => {
-                  navigator.clipboard.writeText(output);
-                  toast.success(commonT('copied'));
-                }} disabled={!output}>
-                  <Copy className="h-4 w-4 mr-2" />
-                  {commonT('copy')}
-                </Button>
-              </div>
-              <div className="relative">
-                <Textarea
-                  id="output"
-                  readOnly
-                  className="min-h-[300px] font-mono text-sm bg-muted/50 resize-none"
-                  value={output}
-                />
-                {!output && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-50 pointer-events-none">
-                    <ArrowRightLeft className="h-12 w-12 mb-2" />
-                    <p>{t('output')}</p>
+              <div className="pt-2 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label className="text-xs">Case Sensitive</Label>
+                    <p className="text-[10px] text-muted-foreground leading-tight">Match exact casing</p>
                   </div>
-                )}
+                  <Switch checked={caseSensitive} onCheckedChange={setCaseSensitive} className="scale-75 origin-right" />
+                </div>
+                <div className="flex items-center justify-between border-t pt-3">
+                  <div className="space-y-0.5">
+                    <Label className="text-xs">Use Regex</Label>
+                    <p className="text-[10px] text-muted-foreground leading-tight">Match by pattern</p>
+                  </div>
+                  <Switch checked={useRegex} onCheckedChange={setUseRegex} className="scale-75 origin-right" />
+                </div>
               </div>
-            </div>
+            </CardContent>
+          </Card>
+
+          <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
+            <Info className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
+            <p className="text-[10px] text-muted-foreground leading-normal">
+              {t('article').split('.')[0]}.
+            </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
       <ToolNavigation currentToolId="find-replace" />
     </div>
   );

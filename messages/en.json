@@ -185,8 +185,7 @@
       "camel": "camelCase",
       "snake": "snake_case",
       "pascal": "PascalCase",
-      "kebab": "kebab-case",
-      "sample": "Hello World! This is a sample text for case conversion."
+      "kebab": "kebab-case"
     },
     "json-to-csv": {
       "title": "JSON to CSV Converter",
@@ -200,7 +199,6 @@
         "a0": "Yes, nested objects are flattened using dot notation."
       },
       "convert": "Convert to CSV",
-      "sample": "[\n  {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"role\": \"Admin\",\n    \"active\": true\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Jane Smith\",\n    \"email\": \"jane@example.com\",\n    \"role\": \"User\",\n    \"active\": false\n  }\n]",
       "flatten": "Flatten nested objects"
     },
     "json-formatter": {
@@ -242,8 +240,10 @@
       "decodedHeader": "Decoded header...",
       "decodedPayload": "Decoded payload...",
       "article": "JSON Web Tokens (JWT) are an open, industry standard RFC 7519 method for representing claims securely between two parties. This decoder allows you to view the decoded header and payload of a JWT without needing to send it to a remote server.",
-      "a1": "No, this tool only decodes the Base64Url encoded payload and header. Signature verification requires the secret key.",
-      "sample": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      "faqs": {
+        "q0": "Is my token validated?",
+        "a0": "No, this tool only decodes the Base64Url encoded payload and header. Signature verification requires the secret key."
+      }
     },
     "regex-tester": {
       "title": "Regex Tester",
@@ -260,9 +260,12 @@
       "results": "Results",
       "totalMatches": "TOTAL MATCHES",
       "article": "Regular expressions (Regex) are sequences of characters that define a search pattern. They are used for string matching and manipulation. This tester provides real-time feedback, supporting common flags like global (g), case-insensitive (i), and multiline (m).",
-      "a1": "Yes, use the 'Replace' tab to test regex replacements with capture group support (e.g., $1).",
-      "sample": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",
-      "sampleText": "john.doe@example.com\ninvalid-email@\nsupport@devtools-hub.com"
+      "faqs": {
+        "q0": "What regex engine is used?",
+        "a0": "This tool uses the standard JavaScript (ECMAScript) regular expression engine.",
+        "q1": "Can I perform replacements?",
+        "a1": "Yes, use the 'Replace' tab to test regex replacements with capture group support (e.g., $1)."
+      }
     },
     "csv-to-json": {
       "title": "CSV to JSON Converter",
@@ -276,9 +279,8 @@
         "a0": "Yes, you can specify the delimiter in the settings."
       },
       "convert": "Convert to JSON",
-      "sample": "id,name,email,role,active\n1,John Doe,john@example.com,Admin,true\n2,Jane Smith,jane@example.com,User,false",
-      "delimiter": "Delimiter",
-      "header": "First row as header"
+      "header": "First row as header",
+      "delimiter": "Delimiter"
     },
     "xml-formatter": {
       "title": "XML Formatter",
@@ -291,8 +293,7 @@
         "q0": "Does it validate XML?",
         "a0": "Yes, it will highlight syntax errors if the XML is malformed."
       },
-      "format": "Beautify XML",
-      "sample": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>"
+      "format": "Beautify XML"
     },
     "yaml-validator": {
       "title": "YAML Validator",
@@ -300,9 +301,7 @@
       "input": "Input YAML",
       "output": "Validation Result",
       "placeholder": "Paste YAML here...",
-      "article": "Check your YAML files for syntax errors and structural validity. Supports YAML 1.2 standards.",
-      "a0": "Yes, it follows the YAML spec strictly to ensure compatibility with your parsers.",
-      "sample": "project: DevTools Hub\nversion: 1.0.0\nauthor:\n  name: Antigravity\n  role: Assistant\nfeatures:\n  - JSON Tools\n  - CSV Tools\n  - Formatting"
+      "article": "Check your YAML files for syntax errors and structural validity. Supports YAML 1.2 standards."
     },
     "toml-validator": {
       "title": "TOML Validator",
@@ -310,9 +309,7 @@
       "input": "Input TOML",
       "output": "JSON Preview",
       "placeholder": "Paste TOML here...",
-      "article": "Validate TOML configuration files and see how they map to JSON objects.",
-      "a0": "TOML is commonly used for configuration files in Rust and Go projects (e.g., Cargo.toml).",
-      "sample": "[project]\nname = \"DevTools Hub\"\nversion = \"1.0.0\"\n\n[author]\nname = \"Antigravity\"\nrole = \"Assistant\"\n\nfeatures = [\n  \"JSON Tools\",\n  \"CSV Tools\",\n  \"Formatting\"\n]"
+      "article": "Validate TOML configuration files and see how they map to JSON objects."
     },
     "markdown-previewer": {
       "title": "Markdown Previewer",
@@ -340,8 +337,7 @@
         "a0": "It's based on an average reading speed of 200-250 words per minute."
       },
       "lines": "Lines",
-      "readingTime": "Reading Time (min)",
-      "sample": "The quick brown fox jumps over the lazy dog. DevTools Hub provides a wide range of developer tools that run entirely in your browser, ensuring maximum privacy and security for your data."
+      "readingTime": "Reading Time (min)"
     },
     "lorem-ipsum": {
       "title": "Lorem Ipsum Generator",
@@ -354,8 +350,7 @@
         "q0": "Can I generate bytes?",
         "a0": "Yes, you can specify the exact byte count for the output."
       },
-      "generate": "Generate",
-      "sample": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      "generate": "Generate"
     },
     "slug-generator": {
       "title": "Slug Generator",
@@ -368,8 +363,7 @@
         "q0": "Are special characters removed?",
         "a0": "Yes, all non-alphanumeric characters except hyphens are stripped."
       },
-      "placeholder_slug": "your-slug-will-appear-here",
-      "sample": "10 Amazing Developer Tools You Should Use in 2024"
+      "placeholder_slug": "your-slug-will-appear-here"
     },
     "duplicate-remover": {
       "title": "Duplicate Line Remover",
@@ -382,8 +376,7 @@
         "q0": "Is it case-sensitive?",
         "a0": "You can toggle case-sensitivity in the settings."
       },
-      "remove": "Remove Duplicate Lines",
-      "sample": "Apple\nBanana\nApple\nOrange\nBanana\nGrape"
+      "remove": "Remove Duplicate Lines"
     },
     "whitespace-remover": {
       "title": "Whitespace Remover",
@@ -399,8 +392,7 @@
       "trim": "Trim Edges",
       "extra": "Remove Extra Spaces",
       "all": "Remove All Spaces",
-      "lines": "Remove Empty Lines",
-      "sample": "   Too many    spaces    here.   \n\n   And some empty lines below.   \n\n   "
+      "lines": "Remove Empty Lines"
     },
     "ascii-art": {
       "title": "Text to ASCII Art",
@@ -439,8 +431,7 @@
       },
       "asc": "A-Z",
       "desc": "Z-A",
-      "shuffle": "Shuffle",
-      "sample": "Zebra\nApple\nMonkey\nBanana"
+      "shuffle": "Shuffle"
     },
     "line-number-adder": {
       "title": "Line Number Adder",
@@ -453,8 +444,7 @@
         "q0": "Can I start from a specific number?",
         "a0": "Yes, the starting number and increment are both configurable."
       },
-      "add": "Add Line Numbers",
-      "sample": "First line\nSecond line\nThird line"
+      "add": "Add Line Numbers"
     },
     "find-replace": {
       "title": "Find & Replace Tool",
@@ -469,8 +459,7 @@
       },
       "find": "Find",
       "replace": "Replace With",
-      "replaceAll": "Replace All",
-      "sample": "The quick brown fox jumps over the lazy dog."
+      "replaceAll": "Replace All"
     },
     "string-reverse": {
       "title": "String Reverse",
@@ -484,8 +473,7 @@
         "a0": "Yes, there is a toggle to reverse words instead of individual characters."
       },
       "reverseChars": "Reverse Chars",
-      "reverseWords": "Reverse Words",
-      "sample": "The quick brown fox jumps over the lazy dog"
+      "reverseWords": "Reverse Words"
     },
     "base64-encoder": {
       "title": "Base64 Encoder",

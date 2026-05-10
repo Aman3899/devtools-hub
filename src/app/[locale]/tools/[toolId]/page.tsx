@@ -52,8 +52,17 @@ export default async function ToolPage({ params }: { params: Promise<{ locale: s
 
   const ToolComponent = toolEntry.component;
 
-  const article = t.raw('article');
-  const hasArticle = typeof article === 'string' && article !== `tools.${toolId}.article`;
+  let article = undefined;
+  try {
+    const rawArticle = t.raw('article');
+    if (typeof rawArticle === 'string' && rawArticle !== `tools.${toolId}.article`) {
+      article = rawArticle;
+    }
+  } catch (e) {
+    // missing article is fine
+  }
+
+  const hasArticle = !!article;
 
   return (
     <>
@@ -73,26 +82,25 @@ export default async function ToolPage({ params }: { params: Promise<{ locale: s
         article={hasArticle ? <p>{t('article')}</p> : undefined}
         faqs={(() => {
           try {
+            // Check if faqs exists and is an object
             const faqsRaw = t.raw('faqs');
-            if (typeof faqsRaw !== 'object' || faqsRaw === null) return undefined;
+            if (!faqsRaw || typeof faqsRaw !== 'object' || Array.isArray(faqsRaw)) {
+              return undefined;
+            }
             
             const faqs = [];
-            // We expect keys like q0, a0, q1, a1, etc.
-            // We'll iterate based on the presence of q{i}
             for (let i = 0; ; i++) {
-              const qKey = `q${i}`;
-              const aKey = `a${i}`;
-              if (faqsRaw[qKey] && faqsRaw[aKey]) {
-                faqs.push({ 
-                  question: faqsRaw[qKey], 
-                  answer: faqsRaw[aKey] 
-                });
+              const q = (faqsRaw as any)[`q${i}`];
+              const a = (faqsRaw as any)[`a${i}`];
+              if (q && a) {
+                faqs.push({ question: q, answer: a });
               } else {
                 break;
               }
             }
             return faqs.length > 0 ? faqs : undefined;
           } catch (e) {
+            // next-intl throws if key is missing in dev
             return undefined;
           }
         })()}

@@ -32,12 +32,6 @@ export function Base64EncoderClient() {
     }
   };
 
-  const loadSample = () => {
-    const sample = mode === 'encode' ? 'DevTools Hub is awesome!' : 'RGV2VG9vbHMgSHViIGlzIGF3ZXNvbWUh';
-    setInput(sample);
-    toast.success(commonT('success'));
-  };
-
   const handleDownload = () => {
     const blob = new Blob([output], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -48,6 +42,15 @@ export function Base64EncoderClient() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const loadSample = () => {
+    if (mode === 'encode') {
+      setInput('Hello, World! DevTools Hub is a privacy-first tool.');
+    } else {
+      setInput('SGVsbG8sIFdvcmxkISBEZXZUb29scyBIdWIgaXMgYSBwcml2YWN5LWZpcnN0IHRvb2wu');
+    }
+    toast.success(commonT('success'));
   };
 
   return (
