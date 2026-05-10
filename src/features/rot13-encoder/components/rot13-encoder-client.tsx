@@ -18,8 +18,7 @@ export function Rot13EncoderClient() {
   const [output, setOutput] = useState('');
   const [copied, setCopied] = useState(false);
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const rot13 = (str: string) => {
     return str.replace(/[a-zA-Z]/g, function (c) {
       const charCode = c.charCodeAt(0);
@@ -68,7 +67,7 @@ export function Rot13EncoderClient() {
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <RefreshCw className="h-3 w-3" />
-                  {isEnglish ? 'Sample' : 'مثال'}
+                  {t('sample')}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={clear} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
                   <Trash2 className="h-3 w-3" />
@@ -78,7 +77,7 @@ export function Rot13EncoderClient() {
             
             <Card className="flex flex-col h-[400px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
               <Textarea
-                placeholder={isEnglish ? 'Enter text to encode/decode with ROT13...' : 'متن درج کریں...'}
+                placeholder={t('enter_text_to_e')}
                 className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -106,7 +105,7 @@ export function Rot13EncoderClient() {
                 readOnly
                 className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed text-[#98c379]"
                 value={output}
-                placeholder={isEnglish ? 'Result will appear here...' : 'نتیجہ یہاں ظاہر ہوگا...'}
+                placeholder={t('result_will_app')}
               />
             </Card>
           </div>
@@ -125,10 +124,10 @@ export function Rot13EncoderClient() {
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Info className="h-3 w-3" />
-                  {isEnglish ? 'Info' : 'معلومات'}
+                  {t('ui_text_1')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'ROT13 is a simple letter substitution cipher that replaces a letter with the 13th letter after it in the alphabet. Because there are 26 letters in the alphabet, encoding and decoding use the same operation.' : 'یہ ایک سادہ انکرپشن کی تکنیک ہے۔'}
+                  {t('rot13_is_a_simp')}
                 </p>
               </div>
             </CardContent>

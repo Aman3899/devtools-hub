@@ -22,8 +22,7 @@ export function UrlEncoderClient() {
   const [downloaded, setDownloaded] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const process = useCallback((textToProcess: string = input) => {
     if (!textToProcess.trim()) {
       setOutput('');
@@ -37,9 +36,9 @@ export function UrlEncoderClient() {
         setOutput(isComponentMode ? decodeURIComponent(textToProcess) : decodeURI(textToProcess));
       }
     } catch (e) {
-      setOutput(isEnglish ? 'Invalid input for ' + mode : 'تبدیلی کے لیے غلط ان پٹ');
+      setOutput(commonT('error'));
     }
-  }, [input, mode, isComponentMode, isEnglish]);
+  }, [input, mode, isComponentMode, commonT]);
 
   const handleDownload = () => {
     const blob = new Blob([output], { type: 'text/plain' });
@@ -89,7 +88,7 @@ export function UrlEncoderClient() {
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <RefreshCw className="h-3 w-3" />
-                  {isEnglish ? 'Sample' : 'مثال'}
+                  {t('sample')}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={() => { setInput(''); setOutput(''); }} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
                   <Trash2 className="h-3 w-3" />
@@ -143,7 +142,7 @@ export function UrlEncoderClient() {
             </div>
             <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20">
               <pre className="flex-1 font-mono text-xs p-3 overflow-auto whitespace-pre-wrap break-all leading-relaxed text-foreground">
-                {output || (isEnglish ? 'Result will appear here...' : 'نتیجہ یہاں ظاہر ہوگا...')}
+                {output || (t('result_will_app'))}
               </pre>
             </Card>
           </div>
@@ -184,9 +183,9 @@ export function UrlEncoderClient() {
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label className="text-xs">{isEnglish ? 'Component Mode' : 'اجزاء کا موڈ'}</Label>
+                  <Label className="text-xs">{t('component_mode')}</Label>
                   <p className="text-[9px] text-muted-foreground leading-tight">
-                    {isEnglish ? 'Encodes all special characters including / ? : @ & = +' : 'تمام خاص حروف کو انکوڈ کرتا ہے'}
+                    {t('encodes_all_spe')}
                   </p>
                 </div>
                 <Switch checked={isComponentMode} onCheckedChange={(val) => { setIsComponentMode(val); process(); }} className="scale-75 origin-right" />
@@ -195,10 +194,10 @@ export function UrlEncoderClient() {
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Info className="h-3 w-3" />
-                  {isEnglish ? 'Quick Tip' : 'فوری مشورہ'}
+                  {t('quick_tip')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'Use Component Mode (encodeURIComponent) for query string parameters. Turn it off to encode full URLs (encodeURI).' : 'سوال کی سٹرنگ کے پیرامیٹرز کے لیے استعمال کریں۔ مکمل URLs کے لیے اسے بند کریں۔'}
+                  {t('use_component_m')}
                 </p>
               </div>
             </CardContent>

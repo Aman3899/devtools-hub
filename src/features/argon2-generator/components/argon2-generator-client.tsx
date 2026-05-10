@@ -32,8 +32,7 @@ export function Argon2GeneratorClient() {
 
   const [copied, setCopied] = useState(false);
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const generateHash = useCallback(() => {
     if (!inputHash) {
       setOutputHash('');
@@ -50,12 +49,12 @@ export function Argon2GeneratorClient() {
         const formattedHash = `$argon2id$v=19$m=${memory},t=${iterations},p=${parallelism}$${salt}$${mockHash}`;
         setOutputHash(formattedHash);
       } catch (err) {
-        setOutputHash(isEnglish ? 'Error generating hash' : 'ہیش بنانے میں خرابی');
+        setOutputHash(t('error_generatin'));
       } finally {
         setIsHashing(false);
       }
     }, iterations * 100);
-  }, [inputHash, memory, iterations, parallelism, isEnglish]);
+  }, [inputHash, memory, iterations, parallelism]);
 
   const verifyHash = useCallback(() => {
     if (!inputVerify || !hashToVerify) {
@@ -96,8 +95,8 @@ export function Argon2GeneratorClient() {
         <div className="lg:col-span-9 space-y-4">
           <Tabs value={mode} onValueChange={(v: any) => setMode(v)} className="w-full">
             <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
-              <TabsTrigger value="hash">{isEnglish ? 'Generate Hash' : 'ہیش بنائیں'}</TabsTrigger>
-              <TabsTrigger value="verify">{isEnglish ? 'Verify Hash' : 'ہیش کی تصدیق کریں'}</TabsTrigger>
+              <TabsTrigger value="hash">{t('generate_hash')}</TabsTrigger>
+              <TabsTrigger value="verify">{t('verify_hash')}</TabsTrigger>
             </TabsList>
             
             <TabsContent value="hash" className="mt-4">
@@ -106,7 +105,7 @@ export function Argon2GeneratorClient() {
                   <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{commonT('input')}</Label>
                   <Card className="flex flex-col h-[200px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
                     <Textarea
-                      placeholder={isEnglish ? 'Enter password to hash...' : 'ہیش کرنے کے لیے پاس ورڈ درج کریں...'}
+                      placeholder={t('enter_password')}
                       className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                       value={inputHash}
                       onChange={(e) => setInputHash(e.target.value)}
@@ -114,7 +113,7 @@ export function Argon2GeneratorClient() {
                     <div className="p-2 border-t bg-muted/5">
                       <Button className="w-full h-8 text-xs" onClick={generateHash} disabled={!inputHash || isHashing}>
                         {isHashing ? <RefreshCw className="h-3.5 w-3.5 mr-2 animate-spin" /> : <ShieldCheck className="h-3.5 w-3.5 mr-2" />}
-                        {isEnglish ? 'Hash Password' : 'پاس ورڈ ہیش کریں'}
+                        {t('hash_password')}
                       </Button>
                     </div>
                   </Card>
@@ -150,7 +149,7 @@ export function Argon2GeneratorClient() {
                           </div>
                         </div>
                       ) : (
-                        <p className="text-sm text-muted-foreground opacity-50">{isEnglish ? 'Generated hash will appear here...' : 'ہیش یہاں ظاہر ہوگا...'}</p>
+                        <p className="text-sm text-muted-foreground opacity-50">{t('generated_hash')}</p>
                       )}
                     </div>
                   </Card>
@@ -162,16 +161,16 @@ export function Argon2GeneratorClient() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-4">
                   <div className="flex flex-col gap-2">
-                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Plain Text Password' : 'سادہ پاس ورڈ'}</Label>
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('plain_text_pass')}</Label>
                     <Textarea
                       className="font-mono text-xs h-20 resize-none"
-                      placeholder={isEnglish ? 'Enter password to verify...' : 'تصدیق کے لیے پاس ورڈ درج کریں...'}
+                      placeholder={t('ui_text_1')}
                       value={inputVerify}
                       onChange={(e) => { setInputVerify(e.target.value); setVerifyResult('idle'); }}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Argon2 Hash' : 'Argon2 ہیش'}</Label>
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('argon2_hash')}</Label>
                     <Textarea
                       className="font-mono text-xs h-20 resize-none"
                       placeholder="$argon2id$v=19$m=..."
@@ -181,22 +180,22 @@ export function Argon2GeneratorClient() {
                   </div>
                   <Button className="w-full" onClick={verifyHash} disabled={!inputVerify || !hashToVerify}>
                     <ShieldCheck className="h-4 w-4 mr-2" />
-                    {isEnglish ? 'Verify Match' : 'تصدیق کریں'}
+                    {t('verify_match')}
                   </Button>
                 </div>
                 
                 <div className="flex flex-col gap-2">
-                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Verification Result' : 'تصدیق کا نتیجہ'}</Label>
+                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('verification_re')}</Label>
                   <Card className="flex flex-col flex-1 min-h-[160px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20 items-center justify-center">
                     {verifyResult === 'idle' && (
-                      <p className="text-sm text-muted-foreground opacity-50">{isEnglish ? 'Enter values and click verify' : 'اقدار درج کریں اور تصدیق پر کلک کریں'}</p>
+                      <p className="text-sm text-muted-foreground opacity-50">{t('enter_values_an')}</p>
                     )}
                     {verifyResult === 'match' && (
                       <div className="flex flex-col items-center gap-2 text-green-500">
                         <div className="h-12 w-12 rounded-full bg-green-500/10 flex items-center justify-center">
                           <Check className="h-6 w-6" />
                         </div>
-                        <span className="font-semibold">{isEnglish ? 'Match Found!' : 'میچ مل گیا!'}</span>
+                        <span className="font-semibold">{t('match_found')}</span>
                       </div>
                     )}
                     {verifyResult === 'no-match' && (
@@ -204,7 +203,7 @@ export function Argon2GeneratorClient() {
                         <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
                           <ShieldAlert className="h-6 w-6" />
                         </div>
-                        <span className="font-semibold">{isEnglish ? 'No Match' : 'کوئی میچ نہیں ملا'}</span>
+                        <span className="font-semibold">{t('no_match')}</span>
                       </div>
                     )}
                     {verifyResult === 'error' && (
@@ -212,7 +211,7 @@ export function Argon2GeneratorClient() {
                         <div className="h-12 w-12 rounded-full bg-orange-500/10 flex items-center justify-center">
                           <Info className="h-6 w-6" />
                         </div>
-                        <span className="font-semibold">{isEnglish ? 'Invalid Hash Format' : 'غلط ہیش فارمیٹ'}</span>
+                        <span className="font-semibold">{t('invalid_hash_fo')}</span>
                       </div>
                     )}
                   </Card>
@@ -235,7 +234,7 @@ export function Argon2GeneratorClient() {
               
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight flex items-center gap-1.5"><MemoryStick className="h-3 w-3" /> {isEnglish ? 'Memory Cost (KB)' : 'میموری کی قیمت'}</Label>
+                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight flex items-center gap-1.5"><MemoryStick className="h-3 w-3" /> {t('memory_cost__kb')}</Label>
                   <span className="text-xs font-bold text-foreground bg-muted px-2 py-0.5 rounded">{memory}</span>
                 </div>
                 <Slider value={[memory]} onValueChange={(vals: any) => setMemory(Array.isArray(vals) ? vals[0] : vals)} max={10240} min={1024} step={1024} disabled={mode === 'verify'} className="w-full" />
@@ -243,7 +242,7 @@ export function Argon2GeneratorClient() {
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight flex items-center gap-1.5"><RefreshCw className="h-3 w-3" /> {isEnglish ? 'Time Cost (Iterations)' : 'وقت کی قیمت'}</Label>
+                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight flex items-center gap-1.5"><RefreshCw className="h-3 w-3" /> {t('time_cost__iter')}</Label>
                   <span className="text-xs font-bold text-foreground bg-muted px-2 py-0.5 rounded">{iterations}</span>
                 </div>
                 <Slider value={[iterations]} onValueChange={(vals: any) => setIterations(Array.isArray(vals) ? vals[0] : vals)} max={10} min={1} step={1} disabled={mode === 'verify'} className="w-full" />
@@ -251,7 +250,7 @@ export function Argon2GeneratorClient() {
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight flex items-center gap-1.5"><Cpu className="h-3 w-3" /> {isEnglish ? 'Parallelism' : 'ساتھ'}</Label>
+                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight flex items-center gap-1.5"><Cpu className="h-3 w-3" /> {t('parallelism')}</Label>
                   <span className="text-xs font-bold text-foreground bg-muted px-2 py-0.5 rounded">{parallelism}</span>
                 </div>
                 <Slider value={[parallelism]} onValueChange={(vals: any) => setParallelism(Array.isArray(vals) ? vals[0] : vals)} max={8} min={1} step={1} disabled={mode === 'verify'} className="w-full" />
@@ -260,10 +259,10 @@ export function Argon2GeneratorClient() {
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5 mt-4">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Key className="h-3 w-3" />
-                  {isEnglish ? 'Argon2 Info' : 'معلومات'}
+                  {t('argon2_info')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'Argon2 is the winner of the Password Hashing Competition. It is designed to be highly resistant to GPU cracking attacks by utilizing heavy memory constraints.' : 'یہ ایک جدید پاس ورڈ ہیشنگ فنکشن ہے۔'}
+                  {t('argon2_is_the_w')}
                 </p>
               </div>
             </CardContent>

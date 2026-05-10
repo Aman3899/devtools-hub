@@ -22,8 +22,7 @@ export function JwtDecoderClient() {
   const [expiry, setExpiry] = useState<number | null>(null);
   const [countdown, setCountdown] = useState<string>('');
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const decodeToken = useCallback(() => {
     if (!token.trim()) {
       setHeader('');
@@ -36,7 +35,7 @@ export function JwtDecoderClient() {
     try {
       const parts = token.split('.');
       if (parts.length !== 3) {
-        throw new Error(isEnglish ? 'Invalid JWT format (requires 3 parts)' : 'غلط JWT فارمیٹ');
+        throw new Error(t('invalid_jwt_for'));
       }
 
       const decodedHeader = JSON.parse(atob(parts[0].replace(/-/g, '+').replace(/_/g, '/')));
@@ -52,12 +51,12 @@ export function JwtDecoderClient() {
         setExpiry(null);
       }
     } catch (e: any) {
-      setError(isEnglish ? 'Invalid token signature or payload' : 'غلط ٹوکن دستخط یا پے لوڈ');
+      setError(t('invalid_token_s'));
       setHeader('');
       setPayload('');
       setExpiry(null);
     }
-  }, [token, isEnglish]);
+  }, [token]);
 
   useEffect(() => {
     decodeToken();
@@ -74,7 +73,7 @@ export function JwtDecoderClient() {
       const diff = expiry - now;
 
       if (diff <= 0) {
-        setCountdown(isEnglish ? 'Expired' : 'میعاد ختم');
+        setCountdown(t('expired'));
         return;
       }
 
@@ -95,7 +94,7 @@ export function JwtDecoderClient() {
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
-  }, [expiry, isEnglish]);
+  }, [expiry]);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -139,19 +138,19 @@ export function JwtDecoderClient() {
                 {error ? (
                   <Badge variant="destructive" className="gap-1 h-5 text-[9px] px-1.5">
                     <ShieldAlert className="h-3 w-3" />
-                    {isEnglish ? 'Invalid Token' : 'غلط ٹوکن'}
+                    {t('invalid_token')}
                   </Badge>
                 ) : token && (
                   <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20 gap-1 h-5 text-[9px] px-1.5">
                     <ShieldCheck className="h-3 w-3" />
-                    {isEnglish ? 'Valid Structure' : 'درست ساخت'}
+                    {t('valid_structure')}
                   </Badge>
                 )}
               </div>
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <RefreshCw className="h-3 w-3" />
-                  {isEnglish ? 'Sample' : 'مثال'}
+                  {t('sample')}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={() => setToken('')} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
                   <Trash2 className="h-3 w-3" />
@@ -160,7 +159,7 @@ export function JwtDecoderClient() {
             </div>
             <Card className="flex flex-col border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
               <Textarea
-                placeholder={isEnglish ? "Paste your JWT string here..." : "اپنی JWT سٹرنگ یہاں پیسٹ کریں..."}
+                placeholder={t('paste_your_jwt')}
                 className="min-h-[150px] font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed break-all"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
@@ -236,14 +235,14 @@ export function JwtDecoderClient() {
               <CardTitle className="text-xs font-semibold flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Settings2 className="h-3.5 w-3.5" />
-                  {isEnglish ? 'Token Info' : 'ٹوکن معلومات'}
+                  {t('token_info')}
                 </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4 space-y-6">
               
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Expiry Status' : 'میعاد کی حیثیت'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('expiry_status')}</Label>
                 <div className="p-3 bg-muted/30 border border-border rounded-md flex flex-col items-center justify-center gap-2 min-h-[80px]">
                   {expiry ? (
                     <>
@@ -256,7 +255,7 @@ export function JwtDecoderClient() {
                       </span>
                     </>
                   ) : (
-                    <span className="text-[10px] text-muted-foreground">{isEnglish ? 'No expiry claim (exp) found' : 'کوئی میعاد ختم ہونے کا دعوی نہیں ملا'}</span>
+                    <span className="text-[10px] text-muted-foreground">{t('no_expiry_claim')}</span>
                   )}
                 </div>
               </div>
@@ -264,12 +263,10 @@ export function JwtDecoderClient() {
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Info className="h-3 w-3" />
-                  {isEnglish ? 'Important Note' : 'اہم نوٹ'}
+                  {t('important_note')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish 
-                    ? 'Decoding a JWT only shows its contents. It does not verify the signature. You should still verify tokens on your server.' 
-                    : 'جے ڈبلیو ٹی کو ڈی کوڈ کرنے سے صرف اس کا مواد ظاہر ہوتا ہے۔ یہ دستخط کی تصدیق نہیں کرتا۔'}
+                  {t('decoding_a_jwt')}
                 </p>
               </div>
             </CardContent>

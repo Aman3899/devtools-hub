@@ -24,8 +24,7 @@ export function AesEncryptorClient() {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const processData = useCallback(() => {
     if (!input || !secret) {
       setOutput('');
@@ -49,9 +48,9 @@ export function AesEncryptorClient() {
       }
     } catch (err) {
       setOutput('');
-      setError(isEnglish ? 'Decryption failed. Incorrect passphrase or invalid ciphertext.' : 'ڈکرپشن ناکام ہو گئی۔ غلط پاس ورڈ یا غلط سائفر ٹیکسٹ۔');
+      setError(t('decryption_fail'));
     }
-  }, [input, secret, mode, isEnglish]);
+  }, [input, secret, mode, t]);
 
   useEffect(() => {
     processData();
@@ -82,11 +81,11 @@ export function AesEncryptorClient() {
             <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
               <TabsTrigger value="encrypt">
                 <Lock className="h-3.5 w-3.5 mr-2" />
-                {isEnglish ? 'Encrypt' : 'انکرپٹ'}
+                {t('encrypt')}
               </TabsTrigger>
               <TabsTrigger value="decrypt">
                 <Unlock className="h-3.5 w-3.5 mr-2" />
-                {isEnglish ? 'Decrypt' : 'ڈکرپٹ'}
+                {t('decrypt')}
               </TabsTrigger>
             </TabsList>
 
@@ -95,17 +94,17 @@ export function AesEncryptorClient() {
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between px-1">
                   <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    {mode === 'encrypt' ? (isEnglish ? 'Plain Text' : 'سادہ متن') : (isEnglish ? 'Cipher Text (Base64)' : 'سائفر ٹیکسٹ')}
+                    {mode === 'encrypt' ? (t('plain_text')) : (t('cipher_text__ba'))}
                   </Label>
                   <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                     <RefreshCw className="h-3 w-3" />
-                    {isEnglish ? 'Sample' : 'مثال'}
+                    {t('sample')}
                   </Button>
                 </div>
                 
                 <Card className="flex flex-col h-[300px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
                   <Textarea
-                    placeholder={mode === 'encrypt' ? (isEnglish ? 'Enter text to encrypt...' : 'انکرپٹ کرنے کے لیے متن درج کریں...') : (isEnglish ? 'Enter AES ciphertext (starting with U2Fsd...) to decrypt...' : 'ڈکرپٹ کرنے کے لیے سائفر ٹیکسٹ درج کریں...')}
+                    placeholder={mode === 'encrypt' ? (t('enter_text_to_e')) : (t('enter_aes_ciphe'))}
                     className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
@@ -117,7 +116,7 @@ export function AesEncryptorClient() {
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between px-1">
                   <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    {mode === 'encrypt' ? (isEnglish ? 'Cipher Text (Base64)' : 'سائفر ٹیکسٹ') : (isEnglish ? 'Plain Text' : 'سادہ متن')}
+                    {mode === 'encrypt' ? (t('cipher_text__ba')) : (t('plain_text'))}
                   </Label>
                   <Button 
                     variant="ghost" 
@@ -144,7 +143,7 @@ export function AesEncryptorClient() {
                         value={output}
                       />
                     ) : (
-                      <p className="text-sm text-muted-foreground opacity-50">{isEnglish ? 'Result will appear here...' : 'نتیجہ یہاں ظاہر ہوگا...'}</p>
+                      <p className="text-sm text-muted-foreground opacity-50">{t('result_will_app')}</p>
                     )}
                   </div>
                 </Card>
@@ -165,7 +164,7 @@ export function AesEncryptorClient() {
             <CardContent className="p-4 space-y-6">
               
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Passphrase / Secret Key' : 'پاس ورڈ / خفیہ چابی'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('passphrase___se')}</Label>
                 <div className="relative">
                   <Key className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
                   <Input 
@@ -177,17 +176,17 @@ export function AesEncryptorClient() {
                   />
                 </div>
                 <p className="text-[9px] text-muted-foreground leading-tight mt-1">
-                  {isEnglish ? 'This acts as the master password to encrypt/decrypt.' : 'یہ ماسٹر پاس ورڈ کے طور پر کام کرتا ہے۔'}
+                  {t('this_acts_as_th')}
                 </p>
               </div>
 
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5 mt-4">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Info className="h-3 w-3" />
-                  {isEnglish ? 'AES-256 (CBC)' : 'AES-256'}
+                  {t('aes_256__cbc')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'Advanced Encryption Standard (AES) is a symmetric encryption algorithm. The ciphertext is encoded in Base64 and prefixed with the OpenSSL salt marker (U2Fsd...).' : 'ایڈوانسڈ انکرپشن سٹینڈرڈ (AES) ایک سمیٹرک انکرپشن الگورتھم ہے۔'}
+                  {t('advanced_encryp')}
                 </p>
               </div>
             </CardContent>

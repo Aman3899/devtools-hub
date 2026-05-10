@@ -53,8 +53,7 @@ export function JwtBuilderClient() {
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const generateToken = useCallback(async () => {
     try {
       const headerObj = JSON.parse(headerStr);
@@ -64,10 +63,10 @@ export function JwtBuilderClient() {
       const token = await signJWT(headerObj, payloadObj, secret);
       setOutput(token);
     } catch (e: any) {
-      setError(isEnglish ? 'Invalid JSON in Header or Payload' : 'ہیڈر یا پے لوڈ میں غلط JSON');
+      setError(t('invalid_json_in'));
       setOutput('');
     }
-  }, [headerStr, payloadStr, secret, isEnglish]);
+  }, [headerStr, payloadStr, secret]);
 
   useEffect(() => {
     generateToken();
@@ -92,7 +91,7 @@ export function JwtBuilderClient() {
             {/* Header Input */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between px-1">
-                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Header (JSON)' : 'ہیڈر'}</Label>
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('header__json')}</Label>
               </div>
               <Card className="flex flex-col h-[250px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
                 <Textarea
@@ -106,11 +105,11 @@ export function JwtBuilderClient() {
             {/* Payload Input */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between px-1">
-                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Payload (JSON)' : 'پے لوڈ'}</Label>
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('payload__json')}</Label>
                 <div className="flex items-center gap-1">
                   <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                     <RefreshCw className="h-3 w-3" />
-                    {isEnglish ? 'Sample' : 'مثال'}
+                    {t('sample')}
                   </Button>
                 </div>
               </div>
@@ -127,7 +126,7 @@ export function JwtBuilderClient() {
           {/* Result Area */}
           <div className="flex flex-col gap-2 pt-4">
             <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Generated JWT' : 'تیار کردہ JWT'}</Label>
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('generated_jwt')}</Label>
               <div className="flex items-center gap-1">
                 <Button 
                   variant="ghost" 
@@ -160,14 +159,14 @@ export function JwtBuilderClient() {
               <CardTitle className="text-xs font-semibold flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Settings2 className="h-3.5 w-3.5" />
-                  {isEnglish ? 'Signature Options' : 'دستخط کے اختیارات'}
+                  {t('signature_optio')}
                 </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4 space-y-6">
               
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Algorithm' : 'الگورتھم'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('algorithm')}</Label>
                 <Select value="HS256" disabled>
                   <SelectTrigger className="h-8 text-xs bg-muted/30 border-border opacity-70">
                     <SelectValue />
@@ -180,7 +179,7 @@ export function JwtBuilderClient() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Secret Key' : 'خفیہ چابی'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('secret_key')}</Label>
                 <div className="relative">
                   <Key className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
                   <Input 
@@ -195,10 +194,10 @@ export function JwtBuilderClient() {
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5 mt-4">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <ShieldPlus className="h-3 w-3" />
-                  {isEnglish ? 'Secure Generation' : 'محفوظ جنریشن'}
+                  {t('secure_generati')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'Tokens are generated locally using the Web Crypto API. Your secret key never leaves your browser.' : 'ٹوکن براؤزر میں مقامی طور پر تیار کیے جاتے ہیں۔'}
+                  {t('tokens_are_gene')}
                 </p>
               </div>
             </CardContent>

@@ -20,8 +20,7 @@ export function Md5GeneratorClient() {
   const [fileName, setFileName] = useState('');
   const [copied, setCopied] = useState(false);
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const processText = useCallback((text: string) => {
     if (!text) {
       setOutput('');
@@ -45,7 +44,7 @@ export function Md5GeneratorClient() {
       const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer as any);
       const hash = CryptoJS.MD5(wordArray).toString();
       setOutput(hash);
-      toast.success(isEnglish ? 'File hashed successfully' : 'فائل کامیابی کے ساتھ ہیش ہو گئی');
+      toast.success(t('file_hashed_suc'));
     };
     reader.readAsArrayBuffer(file);
   };
@@ -90,7 +89,7 @@ export function Md5GeneratorClient() {
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <RefreshCw className="h-3 w-3" />
-                  {isEnglish ? 'Sample' : 'مثال'}
+                  {t('sample')}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={clear} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
                   <Trash2 className="h-3 w-3" />
@@ -112,7 +111,7 @@ export function Md5GeneratorClient() {
                 </div>
               ) : (
                 <Textarea
-                  placeholder={isEnglish ? 'Enter text to generate MD5 hash...' : 'MD5 ہیش بنانے کے لیے ٹیکسٹ درج کریں...'}
+                  placeholder={t('enter_text_to_g')}
                   className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -124,7 +123,7 @@ export function Md5GeneratorClient() {
           {/* Output Area */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'MD5 Hash' : 'MD5 ہیش'}</Label>
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('md5_hash')}</Label>
               <Button 
                 variant="ghost" 
                 size="sm" 
@@ -148,7 +147,7 @@ export function Md5GeneratorClient() {
                     <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">128-bit • 32 characters</p>
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground opacity-50">{isEnglish ? 'Hash will appear here...' : 'ہیش یہاں ظاہر ہوگا...'}</p>
+                  <p className="text-sm text-muted-foreground opacity-50">{t('hash_will_appea')}</p>
                 )}
               </div>
             </Card>
@@ -167,11 +166,11 @@ export function Md5GeneratorClient() {
             <CardContent className="p-4 space-y-6">
               
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'File Hash (Local)' : 'فائل ہیش (مقامی)'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('file_hash__loca')}</Label>
                 <Label className="flex items-center justify-center w-full h-24 border-2 border-dashed border-border rounded-md hover:border-foreground/20 hover:bg-muted/30 transition-colors cursor-pointer group">
                   <div className="flex flex-col items-center gap-1.5 text-muted-foreground group-hover:text-foreground">
                     <Upload className="h-5 w-5" />
-                    <span className="text-[10px] font-medium">{isEnglish ? 'Select any file' : 'کوئی بھی فائل منتخب کریں'}</span>
+                    <span className="text-[10px] font-medium">{t('select_any_file')}</span>
                   </div>
                   <input type="file" className="hidden" onChange={handleFileUpload} />
                 </Label>
@@ -180,10 +179,10 @@ export function Md5GeneratorClient() {
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Info className="h-3 w-3" />
-                  {isEnglish ? 'Security Note' : 'سیکیورٹی نوٹ'}
+                  {t('security_note')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'MD5 is considered cryptographically broken and is prone to collision attacks. It should only be used for checksums and verifying data integrity, not for storing passwords.' : 'MD5 کو پاس ورڈز کے لیے استعمال نہیں کیا جانا چاہیے۔'}
+                  {t('md5_is_consider')}
                 </p>
               </div>
             </CardContent>

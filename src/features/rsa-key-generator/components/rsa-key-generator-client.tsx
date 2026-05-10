@@ -22,8 +22,7 @@ export function RsaKeyGeneratorClient() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [copiedStates, setCopiedStates] = useState({ pub: false, priv: false });
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const generateKeys = useCallback(() => {
     setIsGenerating(true);
     setPublicKey('');
@@ -42,14 +41,14 @@ export function RsaKeyGeneratorClient() {
         
         setPublicKey(pubPem);
         setPrivateKey(privPem);
-        toast.success(isEnglish ? 'RSA Key Pair Generated' : 'RSA کلیدی جوڑا تیار ہو گیا');
+        toast.success(t('rsa_key_pair_ge'));
       } catch (err) {
-        toast.error(isEnglish ? 'Error generating keys' : 'کلیدیں بنانے میں خرابی');
+        toast.error(commonT('error'));
       } finally {
         setIsGenerating(false);
       }
     }, 100);
-  }, [keySize, isEnglish]);
+  }, [keySize, commonT]);
 
   const copyToClipboard = (type: 'pub' | 'priv') => {
     const text = type === 'pub' ? publicKey : privateKey;
@@ -84,7 +83,7 @@ export function RsaKeyGeneratorClient() {
           {/* Public Key Area */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Public Key' : 'عوامی کلید'}</Label>
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('public_key')}</Label>
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={() => handleDownload('pub')} disabled={!publicKey} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <Download className="h-3 w-3" />
@@ -100,7 +99,7 @@ export function RsaKeyGeneratorClient() {
             <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-background">
               <Textarea
                 readOnly
-                placeholder={isEnglish ? 'Public key will appear here...' : 'عوامی کلید یہاں ظاہر ہوگی...'}
+                placeholder={t('public_key_will')}
                 className="flex-1 font-mono text-[10px] sm:text-xs resize-none border-none focus-visible:ring-0 p-3 bg-muted/20 leading-relaxed text-[#98c379]"
                 value={publicKey}
               />
@@ -110,7 +109,7 @@ export function RsaKeyGeneratorClient() {
           {/* Private Key Area */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Private Key' : 'نجی کلید'}</Label>
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('private_key')}</Label>
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={() => handleDownload('priv')} disabled={!privateKey} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <Download className="h-3 w-3" />
@@ -126,7 +125,7 @@ export function RsaKeyGeneratorClient() {
             <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-background">
               <Textarea
                 readOnly
-                placeholder={isEnglish ? 'Private key will appear here...' : 'نجی کلید یہاں ظاہر ہوگی...'}
+                placeholder={t('private_key_wil')}
                 className="flex-1 font-mono text-[10px] sm:text-xs resize-none border-none focus-visible:ring-0 p-3 bg-muted/20 leading-relaxed text-[#e06c75]"
                 value={privateKey}
               />
@@ -146,7 +145,7 @@ export function RsaKeyGeneratorClient() {
             <CardContent className="p-4 space-y-6">
               
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Key Size (Bits)' : 'کلید کا سائز'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('key_size__bits')}</Label>
                 <Select value={keySize} onValueChange={(val) => val && setKeySize(val)} disabled={isGenerating}>
                   <SelectTrigger className="h-8 text-xs bg-muted/30 border-border">
                     <SelectValue />
@@ -168,16 +167,16 @@ export function RsaKeyGeneratorClient() {
                 disabled={isGenerating}
               >
                 {isGenerating ? <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> : <Key className="h-4 w-4 mr-2" />}
-                {isGenerating ? (isEnglish ? 'Generating...' : 'بنا رہا ہے...') : (isEnglish ? 'Generate Key Pair' : 'کلیدیں بنائیں')}
+                {isGenerating ? (t('generating')) : (t('generate_key_pair'))}
               </Button>
 
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5 mt-4">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <ShieldCheck className="h-3 w-3" />
-                  {isEnglish ? 'Client-Side Only' : 'صرف کلائنٹ سائیڈ'}
+                  {t('client_side_onl')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'Keys are generated entirely within your browser memory. They are never transmitted over the internet.' : 'کلیدیں آپ کے براؤزر میں بنتی ہیں اور انٹرنیٹ پر نہیں بھیجی جاتیں۔'}
+                  {t('keys_are_genera')}
                 </p>
               </div>
             </CardContent>

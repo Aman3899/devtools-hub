@@ -85,7 +85,8 @@
       "layout": "Layout",
       "livePreview": "Live Preview",
       "details": "Details",
-      "info": "Info"
+      "info": "Info",
+      "sample": "Sample"
     },
     "about": "About this Tool",
     "faqsHeading": "Frequently Asked Questions",
@@ -166,7 +167,8 @@
     "loadSample": "Load Sample",
     "download": "Download",
     "importFile": "Import File",
-    "dropFile": "Drop file here or click to upload"
+    "dropFile": "Drop file here or click to upload",
+    "sample": "Sample"
   },
   "tools": {
     "case-converter": {
@@ -243,7 +245,19 @@
       "faqs": {
         "q0": "Is my token validated?",
         "a0": "No, this tool only decodes the Base64Url encoded payload and header. Signature verification requires the secret key."
-      }
+      },
+      "invalid_jwt_for": "Invalid JWT format (requires 3 parts)",
+      "invalid_token_s": "Invalid token signature or payload",
+      "expired": "Expired",
+      "invalid_token": "Invalid Token",
+      "valid_structure": "Valid Structure",
+      "sample": "Sample",
+      "paste_your_jwt": "Paste your JWT string here...",
+      "token_info": "Token Info",
+      "expiry_status": "Expiry Status",
+      "no_expiry_claim": "No expiry claim (exp) found",
+      "important_note": "Important Note",
+      "decoding_a_jwt": "Decoding a JWT only shows its contents. It does not verify the signature. You should still verify tokens on your server."
     },
     "regex-tester": {
       "title": "Regex Tester",
@@ -301,7 +315,8 @@
       "input": "Input YAML",
       "output": "Validation Result",
       "placeholder": "Paste YAML here...",
-      "article": "Check your YAML files for syntax errors and structural validity. Supports YAML 1.2 standards."
+      "article": "Check your YAML files for syntax errors and structural validity. Supports YAML 1.2 standards.",
+      "faqs": {}
     },
     "toml-validator": {
       "title": "TOML Validator",
@@ -309,7 +324,8 @@
       "input": "Input TOML",
       "output": "JSON Preview",
       "placeholder": "Paste TOML here...",
-      "article": "Validate TOML configuration files and see how they map to JSON objects."
+      "article": "Validate TOML configuration files and see how they map to JSON objects.",
+      "faqs": {}
     },
     "markdown-previewer": {
       "title": "Markdown Previewer",
@@ -493,7 +509,12 @@
         "urlSafeDesc": "Replace + and / with - and _",
         "stripPadding": "Strip Padding",
         "stripPaddingDesc": "Remove trailing = signs"
-      }
+      },
+      "sample": "Sample",
+      "result_will_app": "Result will appear here...",
+      "upload_file": "Upload File",
+      "select_text_fil": "Select text file",
+      "quick_tip": "Quick Tip"
     },
     "timestamp-converter": {
       "title": "Timestamp Converter",
@@ -744,7 +765,14 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "sample": "Sample",
+      "result_will_app": "Result will appear here...",
+      "component_mode": "Component Mode",
+      "encodes_all_spe": "Encodes all special characters including / ? : @ & = +",
+      "quick_tip": "Quick Tip",
+      "use_component_m": "Use Component Mode (encodeURIComponent) for query string parameters. Turn it off to encode full URLs (encodeURI)."
     },
     "html-entity-encoder": {
       "title": "HTML Entity Encoder",
@@ -752,7 +780,18 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "error_processin": "Error processing input",
+      "sample": "Sample",
+      "result_will_app": "Result will appear here...",
+      "entity_type": "Entity Type",
+      "named_entities": "Named Entities (&amp;)",
+      "numeric_entitie": "Numeric Entities (&#38;)",
+      "decoder_automat": "Decoder automatically detects entity format.",
+      "quick_tip": "Quick Tip",
+      "html_entity_enc": "HTML entity encoding replaces characters like < and > with safe sequences to prevent XSS attacks.",
+      "choose_how_characters_are_encoded": "Choose how characters are encoded."
     },
     "jwt-builder": {
       "title": "JWT Builder",
@@ -760,7 +799,18 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "invalid_json_in": "Invalid JSON in Header or Payload",
+      "header__json": "Header (JSON)",
+      "payload__json": "Payload (JSON)",
+      "sample": "Sample",
+      "generated_jwt": "Generated JWT",
+      "signature_optio": "Signature Options",
+      "algorithm": "Algorithm",
+      "secret_key": "Secret Key",
+      "secure_generati": "Secure Generation",
+      "tokens_are_gene": "Tokens are generated locally using the Web Crypto API. Your secret key never leaves your browser."
     },
     "md5-generator": {
       "title": "MD5 Generator",
@@ -768,7 +818,17 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "file_hashed_suc": "File hashed successfully",
+      "sample": "Sample",
+      "enter_text_to_g": "Enter text to generate MD5 hash...",
+      "md5_hash": "MD5 Hash",
+      "hash_will_appea": "Hash will appear here...",
+      "file_hash__loca": "File Hash (Local)",
+      "select_any_file": "Select any file",
+      "security_note": "Security Note",
+      "md5_is_consider": "MD5 is considered cryptographically broken and is prone to collision attacks. It should only be used for checksums and verifying data integrity, not for storing passwords."
     },
     "sha-generator": {
       "title": "SHA-1/256/512 Generator",
@@ -776,7 +836,15 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "file_hashed_suc": "File hashed successfully",
+      "sample": "Sample",
+      "enter_text_to_g": "Enter text to generate SHA hashes...",
+      "file_hash__loca": "File Hash (Local)",
+      "select_any_file": "Select any file",
+      "security_note": "Security Note",
+      "sha_256_and_sha": "SHA-256 and SHA-512 are cryptographically secure and widely used for data integrity. SHA-1 is deprecated for security purposes but still used for legacy checksums."
     },
     "bcrypt-generator": {
       "title": "Bcrypt Generator",
@@ -784,7 +852,27 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "error_generatin": "Error generating hash",
+      "generate_hash": "Generate Hash",
+      "verify_hash": "Verify Hash",
+      "enter_password": "Enter password to hash...",
+      "hash_password": "Hash Password",
+      "generated_hash": "Generated hash will appear here...",
+      "plain_text_pass": "Plain Text Password",
+      "ui_text_1": "Enter password to verify...",
+      "bcrypt_hash": "Bcrypt Hash",
+      "verify_match": "Verify Match",
+      "verification_re": "Verification Result",
+      "enter_values_an": "Enter values and click verify",
+      "match_found": "Match Found!",
+      "no_match": "No Match",
+      "invalid_hash_fo": "Invalid Hash Format",
+      "cost_factor": "Cost Factor",
+      "higher_cost_fac": "Higher cost factors take exponentially longer to compute. Values > 12 may freeze your browser.",
+      "bcrypt_info": "Bcrypt Info",
+      "bcrypt_is_a_pas": "Bcrypt is a password-hashing function designed to be slow and compute-intensive. This protects against brute-force attacks."
     },
     "argon2-generator": {
       "title": "Argon2 Hash Generator",
@@ -792,7 +880,28 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "error_generatin": "Error generating hash",
+      "generate_hash": "Generate Hash",
+      "verify_hash": "Verify Hash",
+      "enter_password": "Enter password to hash...",
+      "hash_password": "Hash Password",
+      "generated_hash": "Generated hash will appear here...",
+      "plain_text_pass": "Plain Text Password",
+      "ui_text_1": "Enter password to verify...",
+      "argon2_hash": "Argon2 Hash",
+      "verify_match": "Verify Match",
+      "verification_re": "Verification Result",
+      "enter_values_an": "Enter values and click verify",
+      "match_found": "Match Found!",
+      "no_match": "No Match",
+      "invalid_hash_fo": "Invalid Hash Format",
+      "memory_cost__kb": "Memory Cost (KB)",
+      "time_cost__iter": "Time Cost (Iterations)",
+      "parallelism": "Parallelism",
+      "argon2_info": "Argon2 Info",
+      "argon2_is_the_w": "Argon2 is the winner of the Password Hashing Competition. It is designed to be highly resistant to GPU cracking attacks by utilizing heavy memory constraints."
     },
     "hmac-generator": {
       "title": "HMAC Generator",
@@ -800,7 +909,16 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "sample": "Sample",
+      "enter_message_t": "Enter message to sign...",
+      "hash_will_appea": "Hash will appear here...",
+      "secret_key": "Secret Key",
+      "algorithm": "Algorithm",
+      "output_format": "Output Format",
+      "information": "Information",
+      "hmac_uses_a_cry": "HMAC uses a cryptographic hash function in combination with a secret key to verify both data integrity and authenticity."
     },
     "morse-converter": {
       "title": "Morse Code Converter",
@@ -808,7 +926,12 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "encode": "Text to Morse",
+      "decode": "Morse to Text",
+      "play_audio": "Play Audio",
+      "info": "Convert plain text into Morse code dots and dashes, or translate Morse back into text. You can also play the Morse code as audio."
     },
     "base-converter": {
       "title": "Base Converter",
@@ -816,7 +939,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "invalid_charact": "Invalid character for the selected base",
+      "instant_convert": "Instant Converter Table",
+      "sample": "Sample",
+      "bigint_support": "BigInt Support",
+      "this_converter": "This converter uses BigInt, allowing you to convert extremely large numbers safely without losing precision."
     },
     "caesar-cipher": {
       "title": "Caesar Cipher",
@@ -824,7 +953,17 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "sample": "Sample",
+      "enter_text_to_s": "Enter text to shift...",
+      "result_will_app": "Result will appear here...",
+      "encode": "Encode",
+      "decode": "Decode",
+      "shift_value": "Shift Value",
+      "ui_text_1": "Info",
+      "caesar_cipher_i": "Caesar Cipher is a substitution cipher where each letter is shifted a certain number of places down the alphabet.",
+      "brute_force": "Brute Force (All 25)"
     },
     "rot13-encoder": {
       "title": "ROT13 Encoder",
@@ -832,7 +971,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "sample": "Sample",
+      "enter_text_to_e": "Enter text to encode/decode with ROT13...",
+      "result_will_app": "Result will appear here...",
+      "ui_text_1": "Info",
+      "rot13_is_a_simp": "ROT13 is a simple letter substitution cipher that replaces a letter with the 13th letter after it in the alphabet. Because there are 26 letters in the alphabet, encoding and decoding use the same operation."
     },
     "punycode-converter": {
       "title": "Punycode Converter",
@@ -840,7 +985,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "domain_input": "Domain Name (Unicode or Punycode)",
+      "converted_output": "Converted Result",
+      "encode": "Encode to Punycode",
+      "decode": "Decode to Unicode",
+      "info": "Punycode converts Unicode characters into an ASCII-compatible format required for internationalized domain names (IDNs)."
     },
     "unicode-inspector": {
       "title": "Unicode Inspector",
@@ -848,7 +999,14 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "text_input": "Input String",
+      "character_details": "Character Breakdown",
+      "char": "Character",
+      "code_point": "Hex Code Point",
+      "decimal": "Decimal",
+      "info": "Inspect string characters to reveal their exact Unicode hex code points and decimal representations."
     },
     "html-color-to-hex": {
       "title": "HTML Color to HEX",
@@ -856,7 +1014,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "color_input": "Color Value (Name, RGB, HSL)",
+      "hex_output": "Hexadecimal Result",
+      "color_preview": "Color Preview",
+      "invalid_color": "Invalid color format",
+      "info": "Convert standard HTML named colors, RGB, or HSL strings directly into standardized hexadecimal color codes."
     },
     "aes-encryptor": {
       "title": "AES Encryptor",
@@ -864,7 +1028,21 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "decryption_fail": "Decryption failed. Incorrect passphrase or invalid ciphertext.",
+      "encrypt": "Encrypt",
+      "decrypt": "Decrypt",
+      "plain_text": "Plain Text",
+      "sample": "Sample",
+      "enter_text_to_e": "Enter text to encrypt...",
+      "cipher_text__ba": "Cipher Text (Base64)",
+      "result_will_app": "Result will appear here...",
+      "passphrase___se": "Passphrase / Secret Key",
+      "this_acts_as_th": "This acts as the master password to encrypt/decrypt.",
+      "aes_256__cbc": "AES-256 (CBC)",
+      "advanced_encryp": "Advanced Encryption Standard (AES) is a symmetric encryption algorithm. The ciphertext is encoded in Base64 and prefixed with the OpenSSL salt marker (U2Fsd...).",
+      "enter_aes_ciphe": "Enter AES ciphertext (starting with U2Fsd...) to decrypt..."
     },
     "rsa-key-generator": {
       "title": "RSA Key Generator",
@@ -872,7 +1050,18 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "rsa_key_pair_ge": "RSA Key Pair Generated",
+      "public_key": "Public Key",
+      "public_key_will": "Public key will appear here...",
+      "private_key": "Private Key",
+      "private_key_wil": "Private key will appear here...",
+      "key_size__bits": "Key Size (Bits)",
+      "generating": "Generating...",
+      "client_side_onl": "Client-Side Only",
+      "keys_are_genera": "Keys are generated entirely within your browser memory. They are never transmitted over the internet.",
+      "generate_key_pair": "Generate Key Pair"
     },
     "qrcode-decoder": {
       "title": "QR Code Decoder",
@@ -880,7 +1069,15 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers."
+      "article": "This is a helpful tool for developers.",
+      "faqs": {},
+      "upload_qr": "Upload QR Code Image",
+      "upload_desc": "Select an image containing a QR Code to decode locally.",
+      "decoded_result": "Decoded Data",
+      "no_qr_found": "No QR code found in the image.",
+      "file_loaded": "File loaded. Ready to decode.",
+      "decoding": "Decoding...",
+      "info": "QR Code Decoder reads and extracts text from QR images entirely within your browser for maximum privacy."
     }
   },
   "privacy": {

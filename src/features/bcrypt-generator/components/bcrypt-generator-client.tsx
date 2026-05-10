@@ -32,8 +32,7 @@ export function BcryptGeneratorClient() {
 
   const [copied, setCopied] = useState(false);
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const generateHash = useCallback(() => {
     if (!inputHash) {
       setOutputHash('');
@@ -48,12 +47,12 @@ export function BcryptGeneratorClient() {
         const hash = bcrypt.hashSync(inputHash, salt);
         setOutputHash(hash);
       } catch (err) {
-        setOutputHash(isEnglish ? 'Error generating hash' : 'ہیش بنانے میں خرابی');
+        setOutputHash(t('error_generatin'));
       } finally {
         setIsHashing(false);
       }
     }, 50);
-  }, [inputHash, cost, isEnglish]);
+  }, [inputHash, cost, t, commonT]);
 
   const verifyHash = useCallback(() => {
     if (!inputVerify || !hashToVerify) {
@@ -82,8 +81,8 @@ export function BcryptGeneratorClient() {
         <div className="lg:col-span-9 space-y-4">
           <Tabs value={mode} onValueChange={(v: any) => setMode(v)} className="w-full">
             <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
-              <TabsTrigger value="hash">{isEnglish ? 'Generate Hash' : 'ہیش بنائیں'}</TabsTrigger>
-              <TabsTrigger value="verify">{isEnglish ? 'Verify Hash' : 'ہیش کی تصدیق کریں'}</TabsTrigger>
+              <TabsTrigger value="hash">{t('generate_hash')}</TabsTrigger>
+              <TabsTrigger value="verify">{t('verify_hash')}</TabsTrigger>
             </TabsList>
             
             <TabsContent value="hash" className="mt-4">
@@ -92,7 +91,7 @@ export function BcryptGeneratorClient() {
                   <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{commonT('input')}</Label>
                   <Card className="flex flex-col h-[200px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
                     <Textarea
-                      placeholder={isEnglish ? 'Enter password to hash...' : 'ہیش کرنے کے لیے پاس ورڈ درج کریں...'}
+                      placeholder={t('enter_password')}
                       className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                       value={inputHash}
                       onChange={(e) => setInputHash(e.target.value)}
@@ -100,7 +99,7 @@ export function BcryptGeneratorClient() {
                     <div className="p-2 border-t bg-muted/5">
                       <Button className="w-full h-8 text-xs" onClick={generateHash} disabled={!inputHash || isHashing}>
                         {isHashing ? <RefreshCw className="h-3.5 w-3.5 mr-2 animate-spin" /> : <ShieldCheck className="h-3.5 w-3.5 mr-2" />}
-                        {isEnglish ? 'Hash Password' : 'پاس ورڈ ہیش کریں'}
+                        {t('hash_password')}
                       </Button>
                     </div>
                   </Card>
@@ -132,7 +131,7 @@ export function BcryptGeneratorClient() {
                           <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Cost: {cost}</p>
                         </div>
                       ) : (
-                        <p className="text-sm text-muted-foreground opacity-50">{isEnglish ? 'Generated hash will appear here...' : 'ہیش یہاں ظاہر ہوگا...'}</p>
+                        <p className="text-sm text-muted-foreground opacity-50">{t('generated_hash')}</p>
                       )}
                     </div>
                   </Card>
@@ -144,17 +143,17 @@ export function BcryptGeneratorClient() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-4">
                   <div className="flex flex-col gap-2">
-                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Plain Text Password' : 'سادہ پاس ورڈ'}</Label>
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('plain_text_pass')}</Label>
                     <Input
                       type="text"
                       className="font-mono text-xs h-10"
-                      placeholder={isEnglish ? 'Enter password to verify...' : 'تصدیق کے لیے پاس ورڈ درج کریں...'}
+                      placeholder={t('ui_text_1')}
                       value={inputVerify}
                       onChange={(e) => { setInputVerify(e.target.value); setVerifyResult('idle'); }}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Bcrypt Hash' : 'Bcrypt ہیش'}</Label>
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('bcrypt_hash')}</Label>
                     <Input
                       type="text"
                       className="font-mono text-xs h-10"
@@ -165,22 +164,22 @@ export function BcryptGeneratorClient() {
                   </div>
                   <Button className="w-full" onClick={verifyHash} disabled={!inputVerify || !hashToVerify}>
                     <ShieldCheck className="h-4 w-4 mr-2" />
-                    {isEnglish ? 'Verify Match' : 'تصدیق کریں'}
+                    {t('verify_match')}
                   </Button>
                 </div>
                 
                 <div className="flex flex-col gap-2">
-                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Verification Result' : 'تصدیق کا نتیجہ'}</Label>
+                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('verification_re')}</Label>
                   <Card className="flex flex-col flex-1 min-h-[160px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20 items-center justify-center">
                     {verifyResult === 'idle' && (
-                      <p className="text-sm text-muted-foreground opacity-50">{isEnglish ? 'Enter values and click verify' : 'اقدار درج کریں اور تصدیق پر کلک کریں'}</p>
+                      <p className="text-sm text-muted-foreground opacity-50">{t('enter_values_an')}</p>
                     )}
                     {verifyResult === 'match' && (
                       <div className="flex flex-col items-center gap-2 text-green-500">
                         <div className="h-12 w-12 rounded-full bg-green-500/10 flex items-center justify-center">
                           <Check className="h-6 w-6" />
                         </div>
-                        <span className="font-semibold">{isEnglish ? 'Match Found!' : 'میچ مل گیا!'}</span>
+                        <span className="font-semibold">{t('match_found')}</span>
                       </div>
                     )}
                     {verifyResult === 'no-match' && (
@@ -188,7 +187,7 @@ export function BcryptGeneratorClient() {
                         <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
                           <ShieldAlert className="h-6 w-6" />
                         </div>
-                        <span className="font-semibold">{isEnglish ? 'No Match' : 'کوئی میچ نہیں ملا'}</span>
+                        <span className="font-semibold">{t('no_match')}</span>
                       </div>
                     )}
                     {verifyResult === 'error' && (
@@ -196,7 +195,7 @@ export function BcryptGeneratorClient() {
                         <div className="h-12 w-12 rounded-full bg-orange-500/10 flex items-center justify-center">
                           <Info className="h-6 w-6" />
                         </div>
-                        <span className="font-semibold">{isEnglish ? 'Invalid Hash Format' : 'غلط ہیش فارمیٹ'}</span>
+                        <span className="font-semibold">{t('invalid_hash_fo')}</span>
                       </div>
                     )}
                   </Card>
@@ -219,7 +218,7 @@ export function BcryptGeneratorClient() {
               
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Cost Factor' : 'کاسٹ فیکٹر'}</Label>
+                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('cost_factor')}</Label>
                   <span className="text-xs font-bold text-foreground bg-muted px-2 py-0.5 rounded">{cost}</span>
                 </div>
                 <Slider
@@ -232,17 +231,17 @@ export function BcryptGeneratorClient() {
                   className="w-full"
                 />
                 <p className="text-[9px] text-muted-foreground leading-tight">
-                  {isEnglish ? 'Higher cost factors take exponentially longer to compute. Values > 12 may freeze your browser.' : 'اعلی قیمت عوامل کا حساب لگانے میں زیادہ وقت لگتا ہے۔'}
+                  {t('higher_cost_fac')}
                 </p>
               </div>
 
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5 mt-4">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Key className="h-3 w-3" />
-                  {isEnglish ? 'Bcrypt Info' : 'Bcrypt کی معلومات'}
+                  {t('bcrypt_info')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'Bcrypt is a password-hashing function designed to be slow and compute-intensive. This protects against brute-force attacks.' : 'بکرپٹ ایک پاس ورڈ ہیشنگ فنکشن ہے۔'}
+                  {t('bcrypt_is_a_pas')}
                 </p>
               </div>
             </CardContent>

@@ -23,8 +23,7 @@ export function HmacGeneratorClient() {
   const [output, setOutput] = useState('');
   const [copied, setCopied] = useState(false);
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const processText = useCallback(() => {
     if (!input || !secret) {
       setOutput('');
@@ -82,7 +81,7 @@ export function HmacGeneratorClient() {
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <RefreshCw className="h-3 w-3" />
-                  {isEnglish ? 'Sample' : 'مثال'}
+                  {t('sample')}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={clear} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
                   <Trash2 className="h-3 w-3" />
@@ -92,7 +91,7 @@ export function HmacGeneratorClient() {
             
             <Card className="flex flex-col h-[300px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
               <Textarea
-                placeholder={isEnglish ? 'Enter message to sign...' : 'سائن کرنے کے لیے پیغام درج کریں...'}
+                placeholder={t('enter_message_t')}
                 className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -127,7 +126,7 @@ export function HmacGeneratorClient() {
                     <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">{outputFormat === 'hex' ? 'Hexadecimal Format' : 'Base64 Format'}</p>
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground opacity-50">{isEnglish ? 'Hash will appear here...' : 'ہیش یہاں ظاہر ہوگا...'}</p>
+                  <p className="text-sm text-muted-foreground opacity-50">{t('hash_will_appea')}</p>
                 )}
               </div>
             </Card>
@@ -146,7 +145,7 @@ export function HmacGeneratorClient() {
             <CardContent className="p-4 space-y-6">
               
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Secret Key' : 'خفیہ چابی'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('secret_key')}</Label>
                 <div className="relative">
                   <Key className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
                   <Input 
@@ -160,7 +159,7 @@ export function HmacGeneratorClient() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Algorithm' : 'الگورتھم'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('algorithm')}</Label>
                 <Select value={algo} onValueChange={(val) => val && setAlgo(val)}>
                   <SelectTrigger className="h-8 text-xs bg-muted/30 border-border">
                     <SelectValue />
@@ -175,7 +174,7 @@ export function HmacGeneratorClient() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Output Format' : 'آؤٹ پٹ فارمیٹ'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('output_format')}</Label>
                 <Select value={outputFormat} onValueChange={(val) => val && setOutputFormat(val)}>
                   <SelectTrigger className="h-8 text-xs bg-muted/30 border-border">
                     <SelectValue />
@@ -190,10 +189,10 @@ export function HmacGeneratorClient() {
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Info className="h-3 w-3" />
-                  {isEnglish ? 'Information' : 'معلومات'}
+                  {t('information')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'HMAC uses a cryptographic hash function in combination with a secret key to verify both data integrity and authenticity.' : 'HMAC ڈیٹا کی سالمیت اور صداقت دونوں کی تصدیق کے لیے استعمال ہوتا ہے۔'}
+                  {t('hmac_uses_a_cry')}
                 </p>
               </div>
             </CardContent>

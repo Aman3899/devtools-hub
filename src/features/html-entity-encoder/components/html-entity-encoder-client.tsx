@@ -22,8 +22,7 @@ export function HtmlEntityEncoderClient() {
   const [downloaded, setDownloaded] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const encodeHtml = (str: string, type: 'named' | 'numeric') => {
     return str.replace(/[\u00A0-\u9999<>\&]/g, function(i) {
       if (type === 'numeric') {
@@ -72,9 +71,9 @@ export function HtmlEntityEncoderClient() {
         setOutput(decodeHtml(textToProcess));
       }
     } catch (e) {
-      setOutput(isEnglish ? 'Error processing input' : 'تبدیلی کے لیے غلط ان پٹ');
+      setOutput(t('error_processin'));
     }
-  }, [input, mode, encodingType, isEnglish]);
+  }, [input, mode, encodingType, t]);
 
   const handleDownload = () => {
     const blob = new Blob([output], { type: 'text/plain' });
@@ -124,7 +123,7 @@ export function HtmlEntityEncoderClient() {
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <RefreshCw className="h-3 w-3" />
-                  {isEnglish ? 'Sample' : 'مثال'}
+                  {t('sample')}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={() => { setInput(''); setOutput(''); }} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
                   <Trash2 className="h-3 w-3" />
@@ -178,7 +177,7 @@ export function HtmlEntityEncoderClient() {
             </div>
             <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20">
               <pre className="flex-1 font-mono text-xs p-3 overflow-auto whitespace-pre-wrap break-all leading-relaxed text-foreground">
-                {output || (isEnglish ? 'Result will appear here...' : 'نتیجہ یہاں ظاہر ہوگا...')}
+                {output || (t('result_will_app'))}
               </pre>
             </Card>
           </div>
@@ -218,30 +217,30 @@ export function HtmlEntityEncoderClient() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Entity Type' : 'ہستی کی قسم'}</Label>
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('entity_type')}</Label>
                 <Select value={encodingType} onValueChange={(val: any) => { setEncodingType(val); process(); }}>
                   <SelectTrigger className="h-8 text-xs bg-muted/30 border-border" disabled={mode === 'decode'}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="named" className="text-xs">{isEnglish ? 'Named Entities (&amp;)' : 'نامزد ہستیاں'}</SelectItem>
-                    <SelectItem value="numeric" className="text-xs">{isEnglish ? 'Numeric Entities (&#38;)' : 'عددی ہستیاں'}</SelectItem>
+                    <SelectItem value="named" className="text-xs">{t('named_entities')}</SelectItem>
+                    <SelectItem value="numeric" className="text-xs">{t('numeric_entitie')}</SelectItem>
                   </SelectContent>
                 </Select>
                 <p className="text-[9px] text-muted-foreground leading-tight mt-1">
                   {mode === 'decode' 
-                    ? (isEnglish ? 'Decoder automatically handles both types.' : 'ڈیکوڈر خود کار طریقے سے دونوں کو سنبھالتا ہے۔') 
-                    : (isEnglish ? 'Choose how characters are encoded.' : 'حروف کو انکوڈ کرنے کا طریقہ منتخب کریں۔')}
+                    ? (t('decoder_automat')) 
+                    : (t('choose_how_characters_are_encoded'))}
                 </p>
               </div>
 
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Info className="h-3 w-3" />
-                  {isEnglish ? 'Quick Tip' : 'فوری مشورہ'}
+                  {t('quick_tip')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'HTML entity encoding replaces characters like < and > with safe sequences to prevent XSS attacks.' : 'براؤزر حملوں کو روکنے کے لیے انکوڈنگ کا استعمال کریں۔'}
+                  {t('html_entity_enc')}
                 </p>
               </div>
             </CardContent>

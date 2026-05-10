@@ -85,7 +85,8 @@
       "layout": "لے آؤٹ",
       "livePreview": "لائیو پیش نظارہ",
       "details": "تفصیلات",
-      "info": "معلومات"
+      "info": "معلومات",
+      "sample": "مثال"
     },
     "about": "اس ٹول کے بارے میں",
     "faqsHeading": "اکثر پوچھے گئے سوالات",
@@ -166,7 +167,8 @@
     "loadSample": "مثال لوڈ کریں",
     "download": "ڈاؤن لوڈ",
     "importFile": "فائل درآمد کریں",
-    "dropFile": "فائل یہاں چھوڑیں یا اپ لوڈ کرنے کے لیے کلک کریں"
+    "dropFile": "فائل یہاں چھوڑیں یا اپ لوڈ کرنے کے لیے کلک کریں",
+    "sample": "مثال"
   },
   "tools": {
     "case-converter": {
@@ -245,7 +247,19 @@
         "a0": "نہیں، سب کچھ کلائنٹ سائیڈ پر ہوتا ہے جس سے آپ کے ٹوکنز بالکل نجی رہتے ہیں۔",
         "q1": "کیا یہ ٹوکن کے دستخط کی تصدیق کر سکتا ہے؟",
         "a1": "نہیں، یہ ٹول صرف Base64Url این کوڈ شدہ پے لوڈ اور ہیڈر کو ڈی کوڈ کرتا ہے۔ دستخط کی تصدیق کے لیے خفیہ چابی کی ضرورت ہوتی ہے۔"
-      }
+      },
+      "invalid_jwt_for": "غلط JWT فارمیٹ",
+      "invalid_token_s": "غلط ٹوکن دستخط یا پے لوڈ",
+      "expired": "میعاد ختم",
+      "invalid_token": "غلط ٹوکن",
+      "valid_structure": "درست ساخت",
+      "sample": "مثال",
+      "paste_your_jwt": "اپنی JWT سٹرنگ یہاں پیسٹ کریں...",
+      "token_info": "ٹوکن معلومات",
+      "expiry_status": "میعاد کی حیثیت",
+      "no_expiry_claim": "کوئی میعاد ختم ہونے کا دعوی نہیں ملا",
+      "important_note": "اہم نوٹ",
+      "decoding_a_jwt": "جے ڈبلیو ٹی کو ڈی کوڈ کرنے سے صرف اس کا مواد ظاہر ہوتا ہے۔ یہ دستخط کی تصدیق نہیں کرتا۔"
     },
     "regex-tester": {
       "title": "ریجیکس ٹیسٹر",
@@ -506,7 +520,12 @@
         "urlSafeDesc": "+ اور / کو - اور _ سے بدلیں",
         "stripPadding": "پیڈنگ ختم کریں",
         "stripPaddingDesc": "آخر میں = کی علامتیں ہٹائیں"
-      }
+      },
+      "sample": "مثال",
+      "result_will_app": "نتیجہ یہاں ظاہر ہوگا...",
+      "upload_file": "فائل اپ لوڈ کریں",
+      "select_text_fil": "ٹیکسٹ فائل منتخب کریں",
+      "quick_tip": "فوری مشورہ"
     },
     "timestamp-converter": {
       "title": "ٹائم اسٹیمپ کنورٹر",
@@ -751,7 +770,14 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "sample": "مثال",
+      "result_will_app": "نتیجہ یہاں ظاہر ہوگا...",
+      "component_mode": "اجزاء کا موڈ",
+      "encodes_all_spe": "تمام خاص حروف کو انکوڈ کرتا ہے",
+      "quick_tip": "فوری مشورہ",
+      "use_component_m": "سوال کی سٹرنگ کے پیرامیٹرز کے لیے استعمال کریں۔ مکمل URLs کے لیے اسے بند کریں۔"
     },
     "html-entity-encoder": {
       "title": "HTML Entity Encoder (Urdu)",
@@ -759,7 +785,18 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "error_processin": "تبدیلی کے لیے غلط ان پٹ",
+      "sample": "مثال",
+      "result_will_app": "نتیجہ یہاں ظاہر ہوگا...",
+      "entity_type": "ہستی کی قسم",
+      "named_entities": "نامزد ہستیاں",
+      "numeric_entitie": "عددی ہستیاں",
+      "decoder_automat": "ڈیکوڈر خود بخود شکل کا پتہ لگاتا ہے۔",
+      "quick_tip": "فوری مشورہ",
+      "html_entity_enc": "براؤزر حملوں کو روکنے کے لیے انکوڈنگ کا استعمال کریں۔",
+      "choose_how_characters_are_encoded": "منتخب کریں کہ حروف کیسے انکوڈ ہوتے ہیں۔"
     },
     "jwt-builder": {
       "title": "JWT Builder (Urdu)",
@@ -767,7 +804,18 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "invalid_json_in": "ہیڈر یا پے لوڈ میں غلط JSON",
+      "header__json": "ہیڈر",
+      "payload__json": "پے لوڈ",
+      "sample": "مثال",
+      "generated_jwt": "تیار کردہ JWT",
+      "signature_optio": "دستخط کے اختیارات",
+      "algorithm": "الگورتھم",
+      "secret_key": "خفیہ چابی",
+      "secure_generati": "محفوظ جنریشن",
+      "tokens_are_gene": "ٹوکن براؤزر میں مقامی طور پر تیار کیے جاتے ہیں۔"
     },
     "md5-generator": {
       "title": "MD5 Generator (Urdu)",
@@ -775,7 +823,17 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "file_hashed_suc": "فائل کامیابی کے ساتھ ہیش ہو گئی",
+      "sample": "مثال",
+      "enter_text_to_g": "MD5 ہیش بنانے کے لیے ٹیکسٹ درج کریں...",
+      "md5_hash": "MD5 ہیش",
+      "hash_will_appea": "ہیش یہاں ظاہر ہوگا...",
+      "file_hash__loca": "فائل ہیش (مقامی)",
+      "select_any_file": "کوئی بھی فائل منتخب کریں",
+      "security_note": "سیکیورٹی نوٹ",
+      "md5_is_consider": "MD5 کو پاس ورڈز کے لیے استعمال نہیں کیا جانا چاہیے۔"
     },
     "sha-generator": {
       "title": "SHA-1/256/512 Generator (Urdu)",
@@ -783,7 +841,15 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "file_hashed_suc": "فائل کامیابی کے ساتھ ہیش ہو گئی",
+      "sample": "مثال",
+      "enter_text_to_g": "SHA ہیش بنانے کے لیے ٹیکسٹ درج کریں...",
+      "file_hash__loca": "فائل ہیش (مقامی)",
+      "select_any_file": "کوئی بھی فائل منتخب کریں",
+      "security_note": "سیکیورٹی نوٹ",
+      "sha_256_and_sha": "SHA-256 اور SHA-512 کرپٹوگرافک طور پر محفوظ ہیں۔"
     },
     "bcrypt-generator": {
       "title": "Bcrypt Generator (Urdu)",
@@ -791,7 +857,27 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "error_generatin": "ہیش بنانے میں خرابی",
+      "generate_hash": "ہیش بنائیں",
+      "verify_hash": "ہیش کی تصدیق کریں",
+      "enter_password": "ہیش کرنے کے لیے پاس ورڈ درج کریں...",
+      "hash_password": "پاس ورڈ ہیش کریں",
+      "generated_hash": "ہیش یہاں ظاہر ہوگا...",
+      "plain_text_pass": "سادہ پاس ورڈ",
+      "ui_text_1": "تصدیق کے لیے پاس ورڈ درج کریں...",
+      "bcrypt_hash": "Bcrypt ہیش",
+      "verify_match": "تصدیق کریں",
+      "verification_re": "تصدیق کا نتیجہ",
+      "enter_values_an": "اقدار درج کریں اور تصدیق پر کلک کریں",
+      "match_found": "میچ مل گیا!",
+      "no_match": "کوئی میچ نہیں ملا",
+      "invalid_hash_fo": "غلط ہیش فارمیٹ",
+      "cost_factor": "کاسٹ فیکٹر",
+      "higher_cost_fac": "اعلی قیمت عوامل کا حساب لگانے میں زیادہ وقت لگتا ہے۔",
+      "bcrypt_info": "Bcrypt کی معلومات",
+      "bcrypt_is_a_pas": "بکرپٹ ایک پاس ورڈ ہیشنگ فنکشن ہے۔"
     },
     "argon2-generator": {
       "title": "Argon2 Hash Generator (Urdu)",
@@ -799,7 +885,28 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "error_generatin": "ہیش بنانے میں خرابی",
+      "generate_hash": "ہیش بنائیں",
+      "verify_hash": "ہیش کی تصدیق کریں",
+      "enter_password": "ہیش کرنے کے لیے پاس ورڈ درج کریں...",
+      "hash_password": "پاس ورڈ ہیش کریں",
+      "generated_hash": "ہیش یہاں ظاہر ہوگا...",
+      "plain_text_pass": "سادہ پاس ورڈ",
+      "ui_text_1": "تصدیق کے لیے پاس ورڈ درج کریں...",
+      "argon2_hash": "Argon2 ہیش",
+      "verify_match": "تصدیق کریں",
+      "verification_re": "تصدیق کا نتیجہ",
+      "enter_values_an": "اقدار درج کریں اور تصدیق پر کلک کریں",
+      "match_found": "میچ مل گیا!",
+      "no_match": "کوئی میچ نہیں ملا",
+      "invalid_hash_fo": "غلط ہیش فارمیٹ",
+      "memory_cost__kb": "میموری کی قیمت",
+      "time_cost__iter": "وقت کی قیمت",
+      "parallelism": "ساتھ",
+      "argon2_info": "معلومات",
+      "argon2_is_the_w": "یہ ایک جدید پاس ورڈ ہیشنگ فنکشن ہے۔"
     },
     "hmac-generator": {
       "title": "HMAC Generator (Urdu)",
@@ -807,7 +914,16 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "sample": "مثال",
+      "enter_message_t": "سائن کرنے کے لیے پیغام درج کریں...",
+      "hash_will_appea": "ہیش یہاں ظاہر ہوگا...",
+      "secret_key": "خفیہ چابی",
+      "algorithm": "الگورتھم",
+      "output_format": "آؤٹ پٹ فارمیٹ",
+      "information": "معلومات",
+      "hmac_uses_a_cry": "HMAC ڈیٹا کی سالمیت اور صداقت دونوں کی تصدیق کے لیے استعمال ہوتا ہے۔"
     },
     "morse-converter": {
       "title": "Morse Code Converter (Urdu)",
@@ -815,7 +931,12 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "encode": "Text to Morse (Urdu)",
+      "decode": "Morse to Text (Urdu)",
+      "play_audio": "Play Audio (Urdu)",
+      "info": "Convert plain text into Morse code dots and dashes, or translate Morse back into text. You can also play the Morse code as audio. (Urdu)"
     },
     "base-converter": {
       "title": "Base Converter (Urdu)",
@@ -823,7 +944,13 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "invalid_charact": "غلط حرف درج کیا گیا ہے",
+      "instant_convert": "فوری کنورٹر",
+      "sample": "مثال",
+      "bigint_support": "BigInt سپورٹ",
+      "this_converter": "یہ کنورٹر بڑی تعداد کے لیے BigInt استعمال کرتا ہے۔"
     },
     "caesar-cipher": {
       "title": "Caesar Cipher (Urdu)",
@@ -831,7 +958,17 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "sample": "مثال",
+      "enter_text_to_s": "متن درج کریں...",
+      "result_will_app": "نتیجہ یہاں ظاہر ہوگا...",
+      "encode": "انکوڈ",
+      "decode": "ڈیکوڈ",
+      "shift_value": "شفٹ کی قیمت",
+      "ui_text_1": "معلومات",
+      "caesar_cipher_i": "یہ ایک سادہ انکرپشن کی تکنیک ہے۔",
+      "brute_force": "بروٹ فورس"
     },
     "rot13-encoder": {
       "title": "ROT13 Encoder (Urdu)",
@@ -839,7 +976,13 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "sample": "مثال",
+      "enter_text_to_e": "متن درج کریں...",
+      "result_will_app": "نتیجہ یہاں ظاہر ہوگا...",
+      "ui_text_1": "معلومات",
+      "rot13_is_a_simp": "یہ ایک سادہ انکرپشن کی تکنیک ہے۔"
     },
     "punycode-converter": {
       "title": "Punycode Converter (Urdu)",
@@ -847,7 +990,13 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "domain_input": "Domain Name (Unicode or Punycode) (Urdu)",
+      "converted_output": "Converted Result (Urdu)",
+      "encode": "Encode to Punycode (Urdu)",
+      "decode": "Decode to Unicode (Urdu)",
+      "info": "Punycode converts Unicode characters into an ASCII-compatible format required for internationalized domain names (IDNs). (Urdu)"
     },
     "unicode-inspector": {
       "title": "Unicode Inspector (Urdu)",
@@ -855,7 +1004,14 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "text_input": "Input String (Urdu)",
+      "character_details": "Character Breakdown (Urdu)",
+      "char": "Character (Urdu)",
+      "code_point": "Hex Code Point (Urdu)",
+      "decimal": "Decimal (Urdu)",
+      "info": "Inspect string characters to reveal their exact Unicode hex code points and decimal representations. (Urdu)"
     },
     "html-color-to-hex": {
       "title": "HTML Color to HEX (Urdu)",
@@ -863,7 +1019,13 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "color_input": "Color Value (Name, RGB, HSL) (Urdu)",
+      "hex_output": "Hexadecimal Result (Urdu)",
+      "color_preview": "Color Preview (Urdu)",
+      "invalid_color": "Invalid color format (Urdu)",
+      "info": "Convert standard HTML named colors, RGB, or HSL strings directly into standardized hexadecimal color codes. (Urdu)"
     },
     "aes-encryptor": {
       "title": "AES Encryptor (Urdu)",
@@ -871,7 +1033,21 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "decryption_fail": "ڈکرپشن ناکام ہو گئی۔ غلط پاس ورڈ یا غلط سائفر ٹیکسٹ۔",
+      "encrypt": "انکرپٹ",
+      "decrypt": "ڈکرپٹ",
+      "plain_text": "سادہ متن",
+      "sample": "مثال",
+      "enter_text_to_e": "انکرپٹ کرنے کے لیے متن درج کریں...",
+      "cipher_text__ba": "سائفر ٹیکسٹ",
+      "result_will_app": "نتیجہ یہاں ظاہر ہوگا...",
+      "passphrase___se": "پاس ورڈ / خفیہ چابی",
+      "this_acts_as_th": "یہ ماسٹر پاس ورڈ کے طور پر کام کرتا ہے۔",
+      "aes_256__cbc": "AES-256",
+      "advanced_encryp": "ایڈوانسڈ انکرپشن سٹینڈرڈ (AES) ایک سمیٹرک انکرپشن الگورتھم ہے۔",
+      "enter_aes_ciphe": "ڈکرپٹ کرنے کے لیے سائفر ٹیکسٹ درج کریں..."
     },
     "rsa-key-generator": {
       "title": "RSA Key Generator (Urdu)",
@@ -879,7 +1055,18 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "rsa_key_pair_ge": "RSA کلیدی جوڑا تیار ہو گیا",
+      "public_key": "عوامی کلید",
+      "public_key_will": "عوامی کلید یہاں ظاہر ہوگی...",
+      "private_key": "نجی کلید",
+      "private_key_wil": "نجی کلید یہاں ظاہر ہوگی...",
+      "key_size__bits": "کلید کا سائز",
+      "generating": "بنا رہا ہے...",
+      "client_side_onl": "صرف کلائنٹ سائیڈ",
+      "keys_are_genera": "کلیدیں آپ کے براؤزر میں بنتی ہیں اور انٹرنیٹ پر نہیں بھیجی جاتیں۔",
+      "generate_key_pair": "کلیدیں بنائیں"
     },
     "qrcode-decoder": {
       "title": "QR Code Decoder (Urdu)",
@@ -887,7 +1074,15 @@
       "input": "ان پٹ",
       "output": "آؤٹ پٹ",
       "placeholder": "یہاں پیسٹ کریں...",
-      "article": "یہ ایک مددگار ٹول ہے۔"
+      "article": "یہ ایک مددگار ٹول ہے۔",
+      "faqs": {},
+      "upload_qr": "Upload QR Code Image (Urdu)",
+      "upload_desc": "Select an image containing a QR Code to decode locally. (Urdu)",
+      "decoded_result": "Decoded Data (Urdu)",
+      "no_qr_found": "No QR code found in the image. (Urdu)",
+      "file_loaded": "File loaded. Ready to decode. (Urdu)",
+      "decoding": "Decoding... (Urdu)",
+      "info": "QR Code Decoder reads and extracts text from QR images entirely within your browser for maximum privacy. (Urdu)"
     }
   },
   "privacy": {

@@ -22,8 +22,7 @@ export function CaesarCipherClient() {
   const [isBruteForce, setIsBruteForce] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const caesarShift = (text: string, amount: number) => {
     if (amount < 0) return caesarShift(text, amount + 26);
     let result = '';
@@ -95,7 +94,7 @@ export function CaesarCipherClient() {
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                   <RefreshCw className="h-3 w-3" />
-                  {isEnglish ? 'Sample' : 'مثال'}
+                  {t('sample')}
                 </Button>
                 <Button variant="ghost" size="icon" onClick={clear} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
                   <Trash2 className="h-3 w-3" />
@@ -105,7 +104,7 @@ export function CaesarCipherClient() {
             
             <Card className="flex flex-col h-[400px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
               <Textarea
-                placeholder={isEnglish ? 'Enter text to shift...' : 'متن درج کریں...'}
+                placeholder={t('enter_text_to_s')}
                 className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -133,7 +132,7 @@ export function CaesarCipherClient() {
                 readOnly
                 className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed text-[#98c379]"
                 value={output}
-                placeholder={isEnglish ? 'Result will appear here...' : 'نتیجہ یہاں ظاہر ہوگا...'}
+                placeholder={t('result_will_app')}
               />
             </Card>
           </div>
@@ -158,7 +157,7 @@ export function CaesarCipherClient() {
                   onClick={() => { setMode('encode'); setIsBruteForce(false); }}
                 >
                   <ArrowRightLeft className="h-3 w-3 mr-1.5" />
-                  {isEnglish ? 'Encode' : 'انکوڈ'}
+                  {t('encode')}
                 </Button>
                 <Button
                   variant={mode === 'decode' && !isBruteForce ? 'default' : 'ghost'}
@@ -167,13 +166,13 @@ export function CaesarCipherClient() {
                   onClick={() => { setMode('decode'); setIsBruteForce(false); }}
                 >
                   <RefreshCw className="h-3 w-3 mr-1.5" />
-                  {isEnglish ? 'Decode' : 'ڈیکوڈ'}
+                  {t('decode')}
                 </Button>
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{isEnglish ? 'Shift Value' : 'شفٹ کی قیمت'}</Label>
+                  <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('shift_value')}</Label>
                   <span className="text-xs font-bold text-foreground bg-muted px-2 py-0.5 rounded">{shift}</span>
                 </div>
                 <Slider
@@ -194,17 +193,17 @@ export function CaesarCipherClient() {
                   onClick={() => setIsBruteForce(!isBruteForce)}
                 >
                   <List className="h-4 w-4 mr-2" />
-                  {isEnglish ? (isBruteForce ? 'Stop Brute Force' : 'Brute Force (All 25)') : 'بروٹ فورس'}
+                  {t('brute_force')}
                 </Button>
               </div>
 
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5 mt-4">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Info className="h-3 w-3" />
-                  {isEnglish ? 'Info' : 'معلومات'}
+                  {t('ui_text_1')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'Caesar Cipher is a substitution cipher where each letter is shifted a certain number of places down the alphabet.' : 'یہ ایک سادہ انکرپشن کی تکنیک ہے۔'}
+                  {t('caesar_cipher_i')}
                 </p>
               </div>
             </CardContent>

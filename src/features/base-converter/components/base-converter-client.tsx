@@ -24,8 +24,7 @@ export function BaseConverterClient() {
   const [error, setError] = useState('');
   const [copiedStates, setCopiedStates] = useState({ binary: false, octal: false, decimal: false, hex: false });
 
-  const isEnglish = commonT('hero.searchPlaceholder' as any) === 'Find a tool...';
-
+  
   const updateFromBase = useCallback((value: string, base: number) => {
     if (!value.trim()) {
       setValues({ binary: '', octal: '', decimal: '', hex: '' });
@@ -63,9 +62,9 @@ export function BaseConverterClient() {
       });
       setError('');
     } catch (err) {
-      setError(isEnglish ? 'Invalid character for the selected base' : 'غلط حرف درج کیا گیا ہے');
+      setError(t('invalid_charact'));
     }
-  }, [isEnglish]);
+  }, [t, commonT]);
 
   const copyToClipboard = (type: 'binary' | 'octal' | 'decimal' | 'hex') => {
     navigator.clipboard.writeText(values[type]);
@@ -89,11 +88,11 @@ export function BaseConverterClient() {
       <div className="grid gap-6 lg:grid-cols-12 items-start">
         <div className="lg:col-span-9 space-y-4">
           <div className="flex items-center justify-between px-1">
-            <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{isEnglish ? 'Instant Converter Table' : 'فوری کنورٹر'}</Label>
+            <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('instant_convert')}</Label>
             <div className="flex items-center gap-1">
               <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
                 <RefreshCw className="h-3 w-3" />
-                {isEnglish ? 'Sample' : 'مثال'}
+                {t('sample')}
               </Button>
               <Button variant="ghost" size="icon" onClick={clear} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
                 <Trash2 className="h-3 w-3" />
@@ -194,10 +193,10 @@ export function BaseConverterClient() {
               <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
                   <Hash className="h-3 w-3" />
-                  {isEnglish ? 'BigInt Support' : 'BigInt سپورٹ'}
+                  {t('bigint_support')}
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {isEnglish ? 'This converter uses BigInt, allowing you to convert extremely large numbers safely without losing precision.' : 'یہ کنورٹر بڑی تعداد کے لیے BigInt استعمال کرتا ہے۔'}
+                  {t('this_converter')}
                 </p>
               </div>
             </CardContent>
