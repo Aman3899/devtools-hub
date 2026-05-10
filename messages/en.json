@@ -1170,6 +1170,122 @@
       "file_loaded": "File loaded. Ready to decode.",
       "decoding": "Decoding...",
       "info": "QR Code Decoder reads and extracts text from QR images entirely within your browser for maximum privacy."
+    },
+    "html-previewer": {
+      "title": "HTML Previewer",
+      "description": "Live preview HTML with device size toggle and responsive testing.",
+      "input": "Input HTML",
+      "output": "Live Preview",
+      "placeholder": "Paste HTML here...",
+      "article": "HTML Previewer renders your HTML code in real-time, allowing you to see exactly how it will look in a browser. This tool supports responsive design testing with multiple device presets including desktop, tablet, and mobile views. Perfect for quick prototyping, testing HTML snippets, and debugging layout issues without needing a separate browser window.",
+      "faqs": {
+        "q0": "Can I test responsive design?",
+        "a0": "Yes! This tool includes device presets for desktop, tablet, and mobile sizes. You can also manually adjust the preview width to test any screen size.",
+        "q1": "Does it support external CSS and JavaScript?",
+        "a1": "External resources are not loaded for security reasons. Include CSS and JavaScript inline within your HTML for full functionality testing."
+      },
+      "device_size": "Device Size",
+      "desktop": "Desktop",
+      "tablet": "Tablet",
+      "mobile": "Mobile",
+      "custom": "Custom",
+      "width": "Width",
+      "height": "Height",
+      "refresh": "Refresh Preview",
+      "fullscreen": "Fullscreen"
+    },
+    "html-minifier": {
+      "title": "HTML Minifier",
+      "description": "Compress HTML by removing whitespace and comments.",
+      "input": "Input HTML",
+      "output": "Minified HTML",
+      "placeholder": "Paste HTML here...",
+      "article": "HTML minification removes unnecessary characters from HTML code without changing its functionality. This includes whitespace, line breaks, comments, and optional tags. Minified HTML reduces file size, leading to faster page load times and reduced bandwidth usage. This is especially important for production websites where every kilobyte counts for performance and SEO.",
+      "faqs": {
+        "q0": "How much size reduction can I expect?",
+        "a0": "Typical HTML files can be reduced by 20-40% depending on formatting style. Files with extensive comments and indentation see greater reductions.",
+        "q1": "Will minification break my HTML?",
+        "a1": "No, minification only removes unnecessary whitespace and comments. The HTML structure and functionality remain intact. However, always test minified code before deploying to production."
+      },
+      "minify": "Minify",
+      "original_size": "Original Size",
+      "minified_size": "Minified Size",
+      "reduction": "Reduction",
+      "bytes": "bytes",
+      "remove_comments": "Remove Comments",
+      "collapse_whitespace": "Collapse Whitespace",
+      "remove_optional_tags": "Remove Optional Tags"
+    },
+    "html-beautifier": {
+      "title": "HTML Beautifier",
+      "description": "Format and beautify HTML with proper indentation.",
+      "input": "Input HTML",
+      "output": "Beautified HTML",
+      "placeholder": "Paste HTML here...",
+      "article": "HTML beautification (also called formatting or pretty-printing) adds proper indentation, line breaks, and spacing to make HTML code more readable and maintainable. Well-formatted code is easier to debug, understand, and collaborate on. This tool automatically organizes your HTML with consistent indentation and structure.",
+      "faqs": {
+        "q0": "What indent size should I use?",
+        "a0": "2 or 4 spaces are most common. 2 spaces is popular in modern web development for its compactness, while 4 spaces offers better visual hierarchy. Choose based on your team's style guide.",
+        "q1": "Can it fix malformed HTML?",
+        "a1": "This tool focuses on formatting, not validation. It will beautify the HTML you provide, but won't fix structural errors like unclosed tags or invalid nesting."
+      },
+      "beautify": "Beautify",
+      "indent_size": "Indent Size",
+      "spaces": "spaces",
+      "wrap_attributes": "Wrap Attributes",
+      "preserve_newlines": "Preserve Newlines"
+    },
+    "html-to-markdown": {
+      "title": "HTML to Markdown",
+      "description": "Convert HTML to clean Markdown syntax.",
+      "input": "Input HTML",
+      "output": "Markdown Output",
+      "placeholder": "Paste HTML here...",
+      "article": "Converting HTML to Markdown is useful when migrating content from web pages to Markdown-based systems like GitHub, documentation sites, or static site generators. This tool intelligently converts HTML elements to their Markdown equivalents while preserving semantic meaning, links, images, and formatting. The output is clean, readable Markdown that's easy to edit.",
+      "faqs": {
+        "q0": "Are all HTML elements supported?",
+        "a0": "Common elements like headings, paragraphs, links, images, lists, bold, italic, and code blocks are fully supported. Complex elements like tables and forms may have limited support depending on Markdown flavor.",
+        "q1": "What happens to CSS and JavaScript?",
+        "a1": "Markdown doesn't support CSS or JavaScript. These elements are typically stripped out during conversion, keeping only the semantic content and structure."
+      },
+      "convert": "Convert",
+      "preserve_links": "Preserve Links",
+      "github_flavored": "GitHub Flavored Markdown"
+    },
+    "markdown-to-html": {
+      "title": "Markdown to HTML",
+      "description": "Convert Markdown to raw HTML output.",
+      "input": "Input Markdown",
+      "output": "HTML Output",
+      "placeholder": "Type Markdown here...",
+      "article": "Markdown to HTML conversion transforms lightweight Markdown syntax into standard HTML markup. This is essential for rendering Markdown content on websites, blogs, and documentation platforms. The tool supports standard Markdown syntax including headings, lists, links, images, code blocks, and emphasis, producing clean, semantic HTML ready for use.",
+      "faqs": {
+        "q0": "What Markdown syntax is supported?",
+        "a0": "This tool supports CommonMark standard Markdown plus GitHub Flavored Markdown (GFM) extensions including tables, task lists, strikethrough, and syntax highlighting for code blocks.",
+        "q1": "Is the HTML safe to use?",
+        "a1": "The generated HTML is clean and semantic. However, if you're accepting user-generated Markdown, always sanitize the output to prevent XSS attacks before displaying it on your website."
+      },
+      "convert": "Convert",
+      "enable_tables": "Enable Tables",
+      "enable_task_lists": "Enable Task Lists",
+      "syntax_highlighting": "Syntax Highlighting"
+    },
+    "html-to-jsx": {
+      "title": "HTML to JSX",
+      "description": "Convert HTML to React JSX with proper syntax.",
+      "input": "Input HTML",
+      "output": "JSX Output",
+      "placeholder": "Paste HTML here...",
+      "article": "JSX (JavaScript XML) is a syntax extension for JavaScript used in React. Converting HTML to JSX requires several transformations: 'class' becomes 'className', inline styles become objects, self-closing tags must be properly closed, and attribute names follow camelCase convention. This tool automates these conversions, making it easy to integrate HTML templates into React components.",
+      "faqs": {
+        "q0": "What are the main differences between HTML and JSX?",
+        "a0": "Key differences: 'class' → 'className', 'for' → 'htmlFor', inline styles use objects, all tags must be closed, attribute names are camelCase (onClick, onChange), and comments use {/* */} syntax.",
+        "q1": "Can I paste entire HTML pages?",
+        "a1": "Yes, but JSX components typically represent smaller UI pieces. You may need to break large HTML into multiple components. Also, remove <!DOCTYPE> and <html> tags as these aren't used in React components."
+      },
+      "convert": "Convert",
+      "format_output": "Format Output",
+      "convert_inline_styles": "Convert Inline Styles"
     }
   },
   "privacy": {

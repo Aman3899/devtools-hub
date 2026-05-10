@@ -35,7 +35,6 @@ export const TOOLS = [
   { id: 'image-to-base64', icon: Palette, category: 'design' },
   { id: 'css-gradient-generator', icon: Palette, category: 'design' },
   { id: 'sql-formatter', icon: FileCode, category: 'web' },
-  { id: 'html-previewer', icon: Code, category: 'web' },
   { id: 'url-encoder', icon: Repeat, category: 'data' },
   { id: 'html-entity-encoder', icon: Code, category: 'web' },
   { id: 'jwt-builder', icon: ShieldCheck, category: 'data' },
@@ -54,6 +53,13 @@ export const TOOLS = [
   { id: 'aes-encryptor', icon: Shield, category: 'data' },
   { id: 'rsa-key-generator', icon: Shield, category: 'data' },
   { id: 'qrcode-decoder', icon: Palette, category: 'design' },
+  // Phase 2: HTML Processing Batch (Tools 41-46)
+  { id: 'html-previewer', icon: Code, category: 'web' },
+  { id: 'html-minifier', icon: Code, category: 'web' },
+  { id: 'html-beautifier', icon: Code, category: 'web' },
+  { id: 'html-to-markdown', icon: Repeat, category: 'web' },
+  { id: 'markdown-to-html', icon: Repeat, category: 'web' },
+  { id: 'html-to-jsx', icon: Code, category: 'web' },
 ];
 
 export const CATEGORIES = ['all', 'text', 'data', 'dev', 'design', 'web'];

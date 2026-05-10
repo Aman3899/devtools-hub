@@ -1,7 +1,4 @@
 import dynamic from 'next/dynamic';
-import {
-  Code, ShieldCheck, Repeat, Terminal, FileCode, Palette
-} from 'lucide-react';
 
 export const TOOLS_REGISTRY: Record<string, any> = {
   'json-formatter': {
@@ -85,9 +82,6 @@ export const TOOLS_REGISTRY: Record<string, any> = {
   'env-checker': {
     component: dynamic(() => import('@/features/env-checker/components/env-checker-client').then(m => m.EnvCheckerClient)),
   },
-  'html-previewer': {
-    component: dynamic(() => import('@/features/html-previewer/components/html-previewer-client').then(m => m.HtmlPreviewerClient)),
-  },
   'image-to-base64': {
     component: dynamic(() => import('@/features/image-to-base64/components/image-to-base64-client').then(m => m.ImageToBase64Client)),
   },
@@ -156,5 +150,24 @@ export const TOOLS_REGISTRY: Record<string, any> = {
   },
   'qrcode-decoder': {
     component: dynamic(() => import('@/features/qrcode-decoder/components/qrcode-decoder-client').then(m => m.QrcodeDecoderClient)),
+  },
+  // Phase 2: HTML Processing Batch (Tools 41-46)
+  'html-previewer': {
+    component: dynamic(() => import('@/features/html-previewer/components/html-previewer-client').then(m => m.HtmlPreviewerClient)),
+  },
+  'html-minifier': {
+    component: dynamic(() => import('@/features/html-minifier/components/html-minifier-client').then(m => m.HtmlMinifierClient)),
+  },
+  'html-beautifier': {
+    component: dynamic(() => import('@/features/html-beautifier/components/html-beautifier-client').then(m => m.HtmlBeautifierClient)),
+  },
+  'html-to-markdown': {
+    component: dynamic(() => import('@/features/html-to-markdown/components/html-to-markdown-client').then(m => m.HtmlToMarkdownClient)),
+  },
+  'markdown-to-html': {
+    component: dynamic(() => import('@/features/markdown-to-html/components/markdown-to-html-client').then(m => m.MarkdownToHtmlClient)),
+  },
+  'html-to-jsx': {
+    component: dynamic(() => import('@/features/html-to-jsx/components/html-to-jsx-client').then(m => m.HtmlToJsxClient)),
   },
 };
