@@ -244,7 +244,9 @@
       "article": "JSON Web Tokens (JWT) are an open, industry standard RFC 7519 method for representing claims securely between two parties. This decoder allows you to view the decoded header and payload of a JWT without needing to send it to a remote server.",
       "faqs": {
         "q0": "Is my token validated?",
-        "a0": "No, this tool only decodes the Base64Url encoded payload and header. Signature verification requires the secret key."
+        "a0": "No, this tool only decodes the Base64Url encoded payload and header. Signature verification requires the secret key.",
+        "q1": "Can I decode expired tokens?",
+        "a1": "Yes, you can decode any JWT regardless of expiration. This tool shows the expiry status but doesn't prevent decoding expired tokens."
       },
       "invalid_jwt_for": "Invalid JWT format (requires 3 parts)",
       "invalid_token_s": "Invalid token signature or payload",
@@ -501,8 +503,8 @@
       "faqs": {
         "q0": "What is URL-safe Base64?",
         "a0": "URL-safe Base64 replaces the '+' and '/' characters with '-' and '_' respectively, making the encoded string safe for use in URLs and filenames.",
-        "q1": "Is there a size limit?",
-        "a1": "Because it runs in the browser, very large strings might cause performance issues, but typical usage has no strict limits."
+        "q1": "Can I encode files?",
+        "a1": "Yes! This tool supports file upload for encoding. The file is read locally in your browser and converted to Base64 without any server upload."
       },
       "custom": {
         "urlSafe": "URL Safe",
@@ -765,8 +767,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "URL encoding (also known as percent-encoding) converts special characters in URLs into a format that can be transmitted over the Internet. This tool supports both full URL encoding (encodeURI) and component encoding (encodeURIComponent) for query parameters, ensuring your URLs are properly formatted and safe for web transmission.",
+      "faqs": {
+        "q0": "What's the difference between Component Mode and Full URL encoding?",
+        "a0": "Component Mode (encodeURIComponent) encodes all special characters including / ? : @ & = +, making it ideal for query string parameters. Full URL mode (encodeURI) preserves these characters, suitable for encoding complete URLs.",
+        "q1": "When should I use URL encoding?",
+        "a1": "Use URL encoding when passing data in query strings, handling user input in URLs, or when special characters like spaces, &, or = appear in your URL parameters."
+      },
       "sample": "Sample",
       "result_will_app": "Result will appear here...",
       "component_mode": "Component Mode",
@@ -780,8 +787,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "HTML entities are used to display reserved characters in HTML that would otherwise be interpreted as code. For example, < becomes &lt; and > becomes &gt;. This encoding is crucial for preventing XSS (Cross-Site Scripting) attacks when displaying user-generated content. This tool supports both named entities (&amp;) and numeric entities (&#38;).",
+      "faqs": {
+        "q0": "Why should I encode HTML entities?",
+        "a0": "Encoding HTML entities prevents browsers from interpreting special characters as HTML tags or scripts, which is essential for security and preventing XSS attacks when displaying user input.",
+        "q1": "What's the difference between named and numeric entities?",
+        "a1": "Named entities like &lt; are easier to read, while numeric entities like &#60; work for any Unicode character. Named entities are limited to predefined characters, but numeric entities can represent any character."
+      },
       "error_processin": "Error processing input",
       "sample": "Sample",
       "result_will_app": "Result will appear here...",
@@ -799,8 +811,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "JSON Web Tokens (JWT) are a compact, URL-safe means of representing claims to be transferred between two parties. A JWT consists of three parts: Header (algorithm and token type), Payload (claims/data), and Signature (verification). This builder allows you to create custom JWTs with various signing algorithms (HS256, HS384, HS512) for testing and development purposes.",
+      "faqs": {
+        "q0": "What algorithms are supported?",
+        "a0": "This tool supports HMAC-based algorithms: HS256 (SHA-256), HS384 (SHA-384), and HS512 (SHA-512). These are symmetric algorithms that use the same secret key for signing and verification.",
+        "q1": "Should I use this for production tokens?",
+        "a1": "This tool is designed for development and testing. For production, always generate and sign JWTs on your secure backend server, never in the browser where secrets can be exposed."
+      },
       "invalid_json_in": "Invalid JSON in Header or Payload",
       "header__json": "Header (JSON)",
       "payload__json": "Payload (JSON)",
@@ -818,8 +835,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "MD5 (Message Digest Algorithm 5) is a widely used cryptographic hash function that produces a 128-bit (32-character hexadecimal) hash value. While MD5 is fast and commonly used for checksums and file integrity verification, it is considered cryptographically broken and should NOT be used for password hashing or security-critical applications due to collision vulnerabilities.",
+      "faqs": {
+        "q0": "Is MD5 secure for passwords?",
+        "a0": "No! MD5 is cryptographically broken and vulnerable to collision attacks. Never use MD5 for password hashing. Use bcrypt, Argon2, or scrypt instead.",
+        "q1": "What should I use MD5 for?",
+        "a1": "MD5 is still acceptable for non-security purposes like file integrity checks, checksums, and detecting accidental data corruption. For security purposes, use SHA-256 or stronger algorithms."
+      },
       "file_hashed_suc": "File hashed successfully",
       "sample": "Sample",
       "enter_text_to_g": "Enter text to generate MD5 hash...",
@@ -836,8 +858,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "SHA (Secure Hash Algorithm) is a family of cryptographic hash functions designed by the NSA. SHA-1 produces a 160-bit hash but is now deprecated for security use. SHA-256 (256-bit) and SHA-512 (512-bit) are part of the SHA-2 family and remain cryptographically secure. These algorithms are widely used for digital signatures, certificate generation, and data integrity verification.",
+      "faqs": {
+        "q0": "Which SHA algorithm should I use?",
+        "a0": "Use SHA-256 for most applications as it provides excellent security with good performance. SHA-512 offers higher security but is slower. Avoid SHA-1 for security purposes as it's deprecated due to collision vulnerabilities.",
+        "q1": "Can I use SHA for password hashing?",
+        "a1": "While SHA algorithms are secure, they're too fast for password hashing, making them vulnerable to brute-force attacks. Use specialized password hashing algorithms like bcrypt, Argon2, or PBKDF2 instead."
+      },
       "file_hashed_suc": "File hashed successfully",
       "sample": "Sample",
       "enter_text_to_g": "Enter text to generate SHA hashes...",
@@ -852,8 +879,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "Bcrypt is a password-hashing function designed by Niels Provos and David Mazières, based on the Blowfish cipher. It incorporates a salt to protect against rainbow table attacks and an adaptive cost factor that makes it resistant to brute-force attacks. The cost factor (work factor) determines how computationally expensive the hash is - each increment doubles the time required, making bcrypt future-proof as hardware improves.",
+      "faqs": {
+        "q0": "What cost factor should I use?",
+        "a0": "A cost factor of 10-12 is recommended for most applications, providing a good balance between security and performance. Higher values (13-14) offer more security but may impact user experience during login.",
+        "q1": "Why does bcrypt take so long?",
+        "a1": "Bcrypt is intentionally slow to prevent brute-force attacks. The cost factor determines the number of iterations - higher values exponentially increase computation time, making password cracking impractical."
+      },
       "error_generatin": "Error generating hash",
       "generate_hash": "Generate Hash",
       "verify_hash": "Verify Hash",
@@ -880,8 +912,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "Argon2 is the winner of the 2015 Password Hashing Competition and is considered the most secure password hashing algorithm available today. It comes in three variants: Argon2d (data-dependent, resistant to GPU attacks), Argon2i (data-independent, resistant to side-channel attacks), and Argon2id (hybrid, recommended for most use cases). Argon2 is designed to resist both GPU and ASIC attacks by requiring significant memory resources.",
+      "faqs": {
+        "q0": "Why is Argon2 better than bcrypt?",
+        "a0": "Argon2 provides better resistance to GPU and ASIC attacks by utilizing memory-hard functions. It also offers more tunable parameters (memory cost, time cost, parallelism) allowing better customization for your security needs.",
+        "q1": "What parameters should I use?",
+        "a1": "For web applications, recommended settings are: memory cost 65536 KB (64 MB), time cost 3 iterations, and parallelism 4. Adjust based on your server's capabilities and security requirements."
+      },
       "error_generatin": "Error generating hash",
       "generate_hash": "Generate Hash",
       "verify_hash": "Verify Hash",
@@ -909,8 +946,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "HMAC (Hash-based Message Authentication Code) is a mechanism for message authentication using cryptographic hash functions combined with a secret key. Unlike simple hashing, HMAC provides both data integrity and authenticity verification. It's widely used in API authentication (like AWS Signature), JWT signing, and secure communication protocols. HMAC can use various hash functions (MD5, SHA-1, SHA-256, SHA-512) with SHA-256 being the most commonly recommended.",
+      "faqs": {
+        "q0": "What's the difference between HMAC and regular hashing?",
+        "a0": "Regular hashing only verifies data integrity. HMAC adds authentication by incorporating a secret key, ensuring both that the data hasn't been tampered with AND that it came from someone who knows the secret key.",
+        "q1": "When should I use HMAC?",
+        "a1": "Use HMAC for API request signing, webhook verification, secure cookie signing, and any scenario where you need to verify both the integrity and authenticity of a message. It's commonly used in OAuth, JWT, and AWS API authentication."
+      },
       "sample": "Sample",
       "enter_message_t": "Enter message to sign...",
       "hash_will_appea": "Hash will appear here...",
@@ -926,8 +968,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "Morse code is a method of encoding text characters as sequences of dots (·) and dashes (−), developed by Samuel Morse in the 1830s. Each letter, number, and punctuation mark has a unique pattern. Morse code was historically used for long-distance communication via telegraph and radio, and remains relevant today in aviation, amateur radio, and assistive technology for people with disabilities.",
+      "faqs": {
+        "q0": "How do I read Morse code?",
+        "a0": "Dots (·) represent short signals and dashes (−) represent long signals. Letters are separated by spaces, and words by longer spaces. For example, SOS is ··· −−− ··· (three dots, three dashes, three dots).",
+        "q1": "Can I hear the Morse code?",
+        "a1": "Yes! This tool includes an audio playback feature that converts the Morse code into audible beeps, with short beeps for dots and longer beeps for dashes, just like traditional telegraph communication."
+      },
       "encode": "Text to Morse",
       "decode": "Morse to Text",
       "play_audio": "Play Audio",
@@ -939,8 +986,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "Number base conversion is fundamental in computer science and programming. Binary (base-2) uses only 0 and 1, representing how computers store data. Octal (base-8) uses digits 0-7 and was historically used in computing. Decimal (base-10) is our everyday number system. Hexadecimal (base-16) uses 0-9 and A-F, commonly used for memory addresses, color codes, and compact binary representation. This tool uses JavaScript's BigInt for handling extremely large numbers without precision loss.",
+      "faqs": {
+        "q0": "Why do programmers use hexadecimal?",
+        "a0": "Hexadecimal provides a compact way to represent binary data. Each hex digit represents exactly 4 binary bits, making it easier to read and write than long binary strings. It's commonly used for memory addresses, color codes (#FF5733), and debugging.",
+        "q1": "What's the largest number I can convert?",
+        "a1": "This tool uses JavaScript's BigInt, which can handle arbitrarily large integers limited only by available memory. You can safely convert numbers with hundreds or thousands of digits."
+      },
       "invalid_charact": "Invalid character for the selected base",
       "instant_convert": "Instant Converter Table",
       "sample": "Sample",
@@ -953,8 +1005,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "The Caesar cipher is one of the oldest and simplest encryption techniques, named after Julius Caesar who used it for military communications. It works by shifting each letter in the alphabet by a fixed number of positions. For example, with a shift of 3, A becomes D, B becomes E, and so on. While historically significant, Caesar cipher is not secure by modern standards and should only be used for educational purposes or simple obfuscation.",
+      "faqs": {
+        "q0": "Is Caesar cipher secure?",
+        "a0": "No, Caesar cipher is extremely insecure by modern standards. With only 25 possible shifts, it can be easily broken by trying all possibilities (brute force) or using frequency analysis. Never use it for protecting sensitive information.",
+        "q1": "What is the brute force feature?",
+        "a1": "The brute force feature shows all 25 possible decryptions by trying every shift value from 1 to 25. This demonstrates how easy it is to break Caesar cipher encryption without knowing the key."
+      },
       "sample": "Sample",
       "enter_text_to_s": "Enter text to shift...",
       "result_will_app": "Result will appear here...",
@@ -971,8 +1028,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "ROT13 (\"rotate by 13 places\") is a special case of the Caesar cipher with a shift of 13. Because the English alphabet has 26 letters, applying ROT13 twice returns the original text, making encoding and decoding the same operation. ROT13 is commonly used on internet forums to hide spoilers, punchlines, or potentially offensive content. It provides no security and is purely for obfuscation.",
+      "faqs": {
+        "q0": "Why is ROT13 special?",
+        "a0": "ROT13 is its own inverse - applying it twice returns the original text. This is because shifting by 13 in a 26-letter alphabet means encoding and decoding use the exact same operation, making it simple and symmetric.",
+        "q1": "Where is ROT13 used?",
+        "a1": "ROT13 is commonly used in online forums, newsgroups, and comment sections to hide spoilers, puzzle solutions, or potentially offensive jokes. It's not encryption - it's just a way to prevent accidental reading."
+      },
       "sample": "Sample",
       "enter_text_to_e": "Enter text to encode/decode with ROT13...",
       "result_will_app": "Result will appear here...",
@@ -985,8 +1047,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "Punycode is a encoding syntax used to represent Unicode characters in domain names using only ASCII characters. Since DNS (Domain Name System) traditionally only supports ASCII, Punycode allows internationalized domain names (IDN) with characters from languages like Arabic, Chinese, Cyrillic, and emoji. Punycode domains start with 'xn--' prefix. For example, 'münchen.de' becomes 'xn--mnchen-3ya.de'.",
+      "faqs": {
+        "q0": "Why do I see 'xn--' in some domains?",
+        "a0": "The 'xn--' prefix indicates a Punycode-encoded domain name containing non-ASCII characters. It's how browsers and DNS servers handle internationalized domain names while maintaining compatibility with ASCII-only systems.",
+        "q1": "Are Punycode domains safe?",
+        "a1": "Punycode itself is safe, but be cautious of homograph attacks where similar-looking characters from different alphabets (like Cyrillic 'а' vs Latin 'a') are used to create deceptive domain names that look legitimate."
+      },
       "domain_input": "Domain Name (Unicode or Punycode)",
       "converted_output": "Converted Result",
       "encode": "Encode to Punycode",
@@ -999,8 +1066,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "Unicode is a universal character encoding standard that assigns a unique number (code point) to every character across all writing systems, symbols, and emoji. Code points are typically written in hexadecimal with a U+ prefix (e.g., U+0041 for 'A'). This inspector helps developers debug text encoding issues, understand character composition, and identify invisible or special characters that may cause problems in code or data.",
+      "faqs": {
+        "q0": "What is a code point?",
+        "a0": "A code point is Unicode's unique identifier for each character, written as U+ followed by hexadecimal digits. For example, U+0041 is 'A', U+1F600 is 😀. Code points range from U+0000 to U+10FFFF.",
+        "q1": "Why do some characters show multiple code points?",
+        "a1": "Some characters are composed of multiple code points, like emoji with skin tone modifiers or accented letters using combining diacritical marks. For example, 👨‍👩‍👧 (family) is actually multiple code points joined together."
+      },
       "text_input": "Input String",
       "character_details": "Character Breakdown",
       "char": "Character",
@@ -1014,8 +1086,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "HTML supports 140 named colors (like 'red', 'blue', 'coral') that can be used in CSS and HTML. However, hexadecimal color codes (#RRGGBB) are more precise and universally supported. This tool converts between named colors, RGB, HSL, and HEX formats, helping you maintain consistency across your designs. HEX colors are preferred in production code for their compactness and universal browser support.",
+      "faqs": {
+        "q0": "What color formats can I convert?",
+        "a0": "This tool accepts HTML named colors (e.g., 'tomato'), RGB format (rgb(255, 99, 71)), HSL format (hsl(9, 100%, 64%)), and HEX codes. It converts all formats to standardized HEX output.",
+        "q1": "Why use HEX instead of named colors?",
+        "a1": "HEX codes offer precise color control with 16.7 million possible colors, while named colors are limited to 140 options. HEX is also more compact, universally supported, and easier to manipulate programmatically."
+      },
       "color_input": "Color Value (Name, RGB, HSL)",
       "hex_output": "Hexadecimal Result",
       "color_preview": "Color Preview",
@@ -1028,8 +1105,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "AES (Advanced Encryption Standard) is a symmetric encryption algorithm adopted by the U.S. government and used worldwide for securing sensitive data. AES-256 uses a 256-bit key, providing extremely strong encryption. This tool implements AES in CBC (Cipher Block Chaining) mode with PBKDF2 key derivation, converting your passphrase into a secure encryption key. The output is Base64-encoded for easy storage and transmission.",
+      "faqs": {
+        "q0": "How secure is AES-256?",
+        "a0": "AES-256 is considered military-grade encryption and is virtually unbreakable with current technology. It would take billions of years to crack using brute force. However, security depends on using a strong, unique passphrase.",
+        "q1": "Can I decrypt data encrypted elsewhere?",
+        "a1": "This tool uses OpenSSL-compatible format (Salted__ prefix). You can decrypt the output using OpenSSL command-line tools or other compatible libraries, as long as you use the same passphrase."
+      },
       "decryption_fail": "Decryption failed. Incorrect passphrase or invalid ciphertext.",
       "encrypt": "Encrypt",
       "decrypt": "Decrypt",
@@ -1050,8 +1132,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "RSA (Rivest-Shamir-Adleman) is an asymmetric cryptographic algorithm that uses a pair of keys: a public key for encryption and a private key for decryption. RSA is fundamental to modern internet security, used in HTTPS, SSH, digital signatures, and secure email. This tool generates RSA key pairs in PEM format, compatible with OpenSSL and most cryptographic libraries. Key sizes of 2048 or 4096 bits are recommended for security.",
+      "faqs": {
+        "q0": "What key size should I use?",
+        "a0": "2048-bit keys are currently considered secure for most applications and offer good performance. 4096-bit keys provide extra security margin but are slower. Avoid 1024-bit keys as they're no longer considered secure.",
+        "q1": "How do I use these keys?",
+        "a1": "The public key can be shared freely and is used to encrypt data or verify signatures. The private key must be kept secret and is used to decrypt data or create signatures. Never share your private key!"
+      },
       "rsa_key_pair_ge": "RSA Key Pair Generated",
       "public_key": "Public Key",
       "public_key_will": "Public key will appear here...",
@@ -1069,8 +1156,13 @@
       "input": "Input",
       "output": "Output",
       "placeholder": "Paste here...",
-      "article": "This is a helpful tool for developers.",
-      "faqs": {},
+      "article": "QR (Quick Response) codes are two-dimensional barcodes that can store various types of data including URLs, text, contact information, and more. Invented in 1994 by Denso Wave for automotive industry, QR codes are now ubiquitous in marketing, payments, and authentication. This decoder uses computer vision algorithms to detect and extract data from QR code images entirely in your browser, ensuring your data never leaves your device.",
+      "faqs": {
+        "q0": "What image formats are supported?",
+        "a0": "This tool supports common image formats including PNG, JPEG, GIF, and WebP. For best results, ensure the QR code is clearly visible, well-lit, and not distorted or damaged.",
+        "q1": "Why can't it read my QR code?",
+        "a1": "Common issues include low image quality, poor lighting, QR code damage, or extreme angles. Try taking a clearer photo with better lighting, ensuring the entire QR code is visible and in focus."
+      },
       "upload_qr": "Upload QR Code Image",
       "upload_desc": "Select an image containing a QR Code to decode locally.",
       "decoded_result": "Decoded Data",
