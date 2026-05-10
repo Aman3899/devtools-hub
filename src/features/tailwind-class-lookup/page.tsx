@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
-import { TailwindLookupClient } from './components/tailwind-class-lookup-client';
+import { TailwindClassLookupClient } from './components/tailwind-class-lookup-client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
@@ -21,7 +21,7 @@ export default function TailwindLookupPage() {
         <p className="text-muted-foreground">{t('description')}</p>
       </div>
 
-      <TailwindLookupClient />
+      <TailwindClassLookupClient />
 
       <div className="grid gap-8 lg:grid-cols-12 max-w-5xl mx-auto">
         <div className="lg:col-span-12 space-y-8">

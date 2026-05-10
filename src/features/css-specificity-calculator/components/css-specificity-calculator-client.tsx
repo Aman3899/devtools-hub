@@ -6,59 +6,59 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Info, RefreshCw, Calculator, Hash, Tag, Layers } from 'lucide-react';
+import { Copy, Check, Settings2, Info, RefreshCw, Hash, MousePointer2, Tag, Zap } from 'lucide-react';
 import { ToolNavigation } from '@/components/tool-navigation';
+import { toast } from 'sonner';
 
-export function SpecificityCalculatorClient() {
+export function CssSpecificityCalculatorClient() {
   const t = useTranslations('tools.css-specificity-calculator');
   const commonT = useTranslations('common');
 
-  const [selector, setSelector] = useState('div.container #header ul li:hover');
+  const [selector, setSelector] = useState('div.container #main-content:hover');
+  const [copied, setCopied] = useState(false);
 
   const specificity = useMemo(() => {
-    let ids = 0, classes = 0, elements = 0;
-    let s = selector.trim();
-    if (!s) return { ids, classes, elements, score: '0-0-0' };
+    if (!selector.trim()) return { id: 0, class: 0, element: 0 };
 
-    // This is a simplified regex-based calculator
-    // 1. IDs
-    const idMatches = s.match(/#[a-zA-Z0-9_-]+/g);
-    if (idMatches) ids = idMatches.length;
+    let ids = 0;
+    let classes = 0;
+    let elements = 0;
 
-    // 2. Classes, pseudo-classes, and attributes
-    const classMatches = s.match(/\.[a-zA-Z0-9_-]+|:[a-zA-Z0-9_-]+(\([^)]*\))?|\[[^\]]+\]/g);
-    if (classMatches) {
-      // Filter out pseudo-elements from class matches if any
-      classes = classMatches.filter(m => !m.startsWith('::')).length;
-    }
+    // Remove pseudo-elements (they count as elements)
+    const pseudoElements = /::(before|after|first-line|first-letter|selection|backdrop|placeholder|marker|spelling-error|grammar-error)/g;
+    const peMatches = selector.match(pseudoElements) || [];
+    elements += peMatches.length;
+    let s = selector.replace(pseudoElements, ' ');
 
-    // 3. Elements and pseudo-elements
-    // Remove IDs and classes first to simplify
-    let temp = s.replace(/#[a-zA-Z0-9_-]+/g, '')
-                .replace(/\.[a-zA-Z0-9_-]+/g, '')
-                .replace(/:[a-zA-Z0-9_-]+(\([^)]*\))?/g, '')
-                .replace(/\[[^\]]+\]/g, '');
+    // IDs
+    const idMatches = s.match(/#[a-zA-Z0-9_-]+/g) || [];
+    ids = idMatches.length;
+    s = s.replace(/#[a-zA-Z0-9_-]+/g, ' ');
+
+    // Classes, pseudo-classes, attributes
+    const classMatches = s.match(/\.[a-zA-Z0-9_-]+/g) || [];
+    const pseudoClasses = /:[a-zA-Z0-9_-]+(\([^)]*\))?/g;
+    const pcMatches = (s.match(pseudoClasses) || []).filter(m => !m.startsWith('::'));
+    const attrMatches = s.match(/\[[^\]]+\]/g) || [];
     
-    // Pseudo-elements
-    const pseudoElemMatches = s.match(/::[a-zA-Z0-9_-]+/g);
-    if (pseudoElemMatches) elements += pseudoElemMatches.length;
+    classes = classMatches.length + pcMatches.length + attrMatches.length;
+    s = s.replace(/\.[a-zA-Z0-9_-]+/g, ' ');
+    s = s.replace(pseudoClasses, ' ');
+    s = s.replace(/\[[^\]]+\]/g, ' ');
 
     // Elements
-    const elemMatches = temp.match(/\b[a-zA-Z0-9-]+\b/g);
-    if (elemMatches) {
-        // Filter out universal selector '*' and common attributes if they leaked
-        elements += elemMatches.filter(m => m !== '*' && !/^[0-9]/.test(m)).length;
-    }
+    const elementMatches = s.match(/[a-zA-Z0-9-]+/g) || [];
+    elements += elementMatches.length;
 
-    return {
-      ids,
-      classes,
-      elements,
-      score: `${ids}-${classes}-${elements}`
-    };
+    return { id: ids, class: classes, element: elements };
   }, [selector]);
 
-  const reset = () => setSelector('');
+  const copyScore = () => {
+    navigator.clipboard.writeText(`${specificity.id}-${specificity.class}-${specificity.element}`);
+    setCopied(true);
+    toast.success(commonT('copied'));
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className="space-y-12">
@@ -66,95 +66,100 @@ export function SpecificityCalculatorClient() {
         <div className="lg:col-span-9 space-y-6">
           {/* Input Area */}
           <div className="flex flex-col gap-2">
-            <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('input_label')}</Label>
+            <div className="flex items-center justify-between px-1">
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('selector')}</Label>
+              <Button variant="ghost" size="icon" onClick={() => setSelector('')} className="h-6 w-6 text-muted-foreground">
+                <RefreshCw className="h-3.5 w-3.5" />
+              </Button>
+            </div>
             <div className="relative group">
-               <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-indigo-500 transition-colors">
-                  <Calculator className="h-4 w-4" />
-               </div>
+               <MousePointer2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition-colors" />
                <Input 
-                 placeholder="div.container #header ul li:hover"
+                 placeholder=".my-class #my-id"
+                 className="pl-10 h-12 text-sm bg-background border-border shadow-sm font-mono"
                  value={selector}
                  onChange={(e) => setSelector(e.target.value)}
-                 className="h-12 pl-10 font-mono text-base bg-background border-border shadow-sm focus-visible:ring-indigo-500"
                />
             </div>
           </div>
 
-          {/* Results Area */}
-          <div className="grid gap-4 sm:grid-cols-3">
-             {[
-               { label: t('ids'), value: specificity.ids, icon: Hash, color: 'text-orange-500', bg: 'bg-orange-500/10' },
-               { label: t('classes'), value: specificity.classes, icon: Layers, color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
-               { label: t('elements'), value: specificity.elements, icon: Tag, color: 'text-green-500', bg: 'bg-green-500/10' },
-             ].map((item) => (
-               <Card key={item.label} className="border border-border shadow-none bg-background overflow-hidden relative group">
-                  <div className={`absolute top-0 right-0 p-3 opacity-10 transition-opacity group-hover:opacity-20 ${item.color}`}>
-                     <item.icon className="h-8 w-8" />
-                  </div>
-                  <div className="p-6">
-                     <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">{item.label}</p>
-                     <p className={`text-4xl font-bold tracking-tighter ${item.color}`}>{item.value}</p>
-                  </div>
-                  <div className={`h-1 w-full ${item.bg}`} />
-               </Card>
-             ))}
+          {/* Results Grid */}
+          <div className="grid gap-4 md:grid-cols-3">
+             <Card className="p-6 flex flex-col items-center gap-3 bg-background border border-border shadow-none group hover:border-blue-500/50 transition-colors">
+                <div className="p-3 rounded-full bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-all">
+                   <Hash className="h-6 w-6" />
+                </div>
+                <div className="text-center">
+                   <div className="text-3xl font-black">{specificity.id}</div>
+                   <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('ids')}</div>
+                </div>
+             </Card>
+             <Card className="p-6 flex flex-col items-center gap-3 bg-background border border-border shadow-none group hover:border-purple-500/50 transition-colors">
+                <div className="p-3 rounded-full bg-purple-500/10 text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-all">
+                   <Zap className="h-6 w-6" />
+                </div>
+                <div className="text-center">
+                   <div className="text-3xl font-black">{specificity.class}</div>
+                   <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('classes')}</div>
+                </div>
+             </Card>
+             <Card className="p-6 flex flex-col items-center gap-3 bg-background border border-border shadow-none group hover:border-amber-500/50 transition-colors">
+                <div className="p-3 rounded-full bg-amber-500/10 text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-all">
+                   <Tag className="h-6 w-6" />
+                </div>
+                <div className="text-center">
+                   <div className="text-3xl font-black">{specificity.element}</div>
+                   <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t('elements')}</div>
+                </div>
+             </Card>
           </div>
 
-          {/* Total Score Area */}
-          <Card className="border border-border shadow-none bg-muted/20 p-8 text-center space-y-2">
-             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-background border border-border text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
-                {t('total_specificity')}
-             </div>
-             <p className="text-6xl font-black tracking-tighter text-foreground tabular-nums">
-                {specificity.score}
-             </p>
-             <p className="text-xs text-muted-foreground max-w-md mx-auto pt-2">
-                {t('score_explanation')}
-             </p>
-          </Card>
+          {/* Detailed Explanation */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('output')}</Label>
+              <Button variant="ghost" size="sm" onClick={copyScore} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                Copy Score
+              </Button>
+            </div>
+            <Card className="border border-border shadow-none rounded-md bg-muted/20 p-6 flex items-center justify-center gap-12">
+               <div className="flex flex-col items-center">
+                  <span className="text-6xl font-black tracking-tighter text-foreground">
+                    {specificity.id}<span className="text-muted-foreground/30">,</span>{specificity.class}<span className="text-muted-foreground/30">,</span>{specificity.element}
+                  </span>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-2">Specificity Score</p>
+               </div>
+            </Card>
+          </div>
         </div>
 
-        {/* Sidebar Info */}
+        {/* Sidebar Settings */}
         <div className="lg:col-span-3 space-y-4">
           <Card className="border border-border shadow-none rounded-md bg-background">
             <CardHeader className="py-3 px-4 border-b">
               <CardTitle className="text-xs font-semibold flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Calculator className="h-3.5 w-3.5" />
-                  {commonT('ui.settings')}
+                  <Settings2 className="h-3.5 w-3.5" />
+                  {commonT('ui.info')}
                 </div>
-                <Button variant="ghost" size="icon" onClick={reset} className="h-6 w-6 text-muted-foreground hover:text-foreground">
-                  <RefreshCw className="h-3 w-3" />
-                </Button>
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-4 space-y-5">
-              <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
+            <CardContent className="p-4 space-y-4">
+               <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
                 <Info className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
                 <p className="text-[10px] text-muted-foreground leading-normal">
                   {t('sidebar_desc')}
                 </p>
               </div>
-              
-              <div className="space-y-3">
-                 <Label className="text-[10px] font-bold text-muted-foreground uppercase">{t('quick_examples')}</Label>
-                 <div className="grid gap-1.5">
-                    {[
-                      '#id',
-                      '.class',
-                      'element',
-                      'ul li:first-child',
-                      'div.active > span'
-                    ].map(ex => (
-                      <button 
-                        key={ex}
-                        onClick={() => setSelector(ex)}
-                        className="text-left px-2 py-1.5 rounded bg-muted/50 text-[10px] font-mono hover:bg-indigo-500 hover:text-white transition-colors"
-                      >
-                        {ex}
-                      </button>
-                    ))}
-                 </div>
+              <div className="space-y-2">
+                 <Label className="text-[10px] font-bold text-foreground uppercase tracking-widest">How it works</Label>
+                 <ul className="text-[10px] text-muted-foreground space-y-1.5 list-disc pl-4">
+                    <li>IDs (#id) give 1-0-0 score.</li>
+                    <li>Classes (.class), pseudo-classes (:hover), and attributes ([type]) give 0-1-0 score.</li>
+                    <li>Elements (div, p) and pseudo-elements (::before) give 0-0-1 score.</li>
+                    <li>Inline styles always win (1-0-0-0) but aren't part of this calculator.</li>
+                 </ul>
               </div>
             </CardContent>
           </Card>

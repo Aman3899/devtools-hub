@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
-import { CSSUnitConverterClient } from './components/css-unit-converter-client';
+import { CssUnitConverterClient } from './components/css-unit-converter-client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
@@ -21,7 +21,7 @@ export default function CSSUnitConverterPage() {
         <p className="text-muted-foreground">{t('description')}</p>
       </div>
 
-      <CSSUnitConverterClient />
+      <CssUnitConverterClient />
 
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-8 space-y-8">

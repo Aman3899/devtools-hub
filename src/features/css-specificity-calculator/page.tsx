@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
-import { SpecificityCalculatorClient } from './components/css-specificity-calculator-client';
+import { CssSpecificityCalculatorClient } from './components/css-specificity-calculator-client';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
   const t = await getTranslations({ locale, namespace: 'tools.css-specificity-calculator' });
@@ -20,7 +21,7 @@ export default function SpecificityCalculatorPage() {
         <p className="text-muted-foreground">{t('description')}</p>
       </div>
 
-      <SpecificityCalculatorClient />
+      <CssSpecificityCalculatorClient />
 
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-8 space-y-8">

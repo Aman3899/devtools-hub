@@ -232,4 +232,28 @@ export const TOOLS_REGISTRY: Record<string, any> = {
   'neumorphism-generator': {
     component: dynamic(() => import('@/features/neumorphism-generator/components/neumorphism-generator-client').then(m => m.NeumorphismGeneratorClient)),
   },
+  'animation-builder': {
+    component: dynamic(() => import('@/features/animation-builder/components/animation-builder-client').then(m => m.AnimationBuilderClient)),
+  },
+  'color-contrast-checker': {
+    component: dynamic(() => import('@/features/color-contrast-checker/components/color-contrast-checker-client').then(m => m.ColorContrastCheckerClient)),
+  },
+  'color-format-converter': {
+    component: dynamic(() => import('@/features/color-format-converter/components/color-format-converter-client').then(m => m.ColorFormatConverterClient)),
+  },
+  'tailwind-class-lookup': {
+    component: dynamic(() => import('@/features/tailwind-class-lookup/components/tailwind-class-lookup-client').then(m => m.TailwindClassLookupClient)),
+  },
+  'css-specificity-calculator': {
+    component: dynamic(() => import('@/features/css-specificity-calculator/components/css-specificity-calculator-client').then(m => m.CssSpecificityCalculatorClient)),
+  },
+  'css-unit-converter': {
+    component: dynamic(() => import('@/features/css-unit-converter/components/css-unit-converter-client').then(m => m.CssUnitConverterClient)),
+  },
+  'typography-scale-generator': {
+    component: dynamic(() => import('@/features/typography-scale-generator/components/typography-scale-generator-client').then(m => m.TypographyScaleGeneratorClient)),
+  },
+  'css-variables-generator': {
+    component: dynamic(() => import('@/features/css-variables-generator/components/css-variables-generator-client').then(m => m.CssVariablesGeneratorClient)),
+  },
 };

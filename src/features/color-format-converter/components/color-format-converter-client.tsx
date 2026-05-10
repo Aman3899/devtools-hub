@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Copy, Check, Settings2, Info, RefreshCw, Palette } from 'lucide-react';
 import { ToolNavigation } from '@/components/tool-navigation';
+import { toast } from 'sonner';
 
 export function ColorFormatConverterClient() {
   const t = useTranslations('tools.color-format-converter');
@@ -19,90 +20,111 @@ export function ColorFormatConverterClient() {
   const [cmyk, setCmyk] = useState('cmyk(59%, 58%, 0%, 5%)');
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
+  const hexToRgb = (hex: string) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return { r, g, b };
+  };
+
+  const rgbToHex = (r: number, g: number, b: number) => {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  };
+
+  const rgbToHsl = (r: number, g: number, b: number) => {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0, s = 0, l = (max + min) / 2;
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
+    }
+    return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+  };
+
+  const rgbToCmyk = (r: number, g: number, b: number) => {
+    let c = 1 - (r / 255);
+    let m = 1 - (g / 255);
+    let y = 1 - (b / 255);
+    let k = Math.min(c, m, y);
+    if (k === 1) return { c: 0, m: 0, y: 0, k: 100 };
+    c = Math.round(((c - k) / (1 - k)) * 100);
+    m = Math.round(((m - k) / (1 - k)) * 100);
+    y = Math.round(((y - k) / (1 - k)) * 100);
+    k = Math.round(k * 100);
+    return { c, m, y, k };
+  };
+
   const updateFromHex = (value: string) => {
     if (!/^#[0-9A-F]{6}$/i.test(value)) return;
-    setHex(value);
+    const { r, g, b } = hexToRgb(value);
+    const { h, s, l } = rgbToHsl(r, g, b);
+    const { c, m, y, k } = rgbToCmyk(r, g, b);
     
-    const r = parseInt(value.slice(1, 3), 16);
-    const g = parseInt(value.slice(3, 5), 16);
-    const b = parseInt(value.slice(5, 7), 16);
+    setHex(value);
     setRgb(`rgb(${r}, ${g}, ${b})`);
-
-    // HSL
-    let r_norm = r / 255, g_norm = g / 255, b_norm = b / 255;
-    let max = Math.max(r_norm, g_norm, b_norm), min = Math.min(r_norm, g_norm, b_norm);
-    let h = 0, s, l = (max + min) / 2;
-    if (max !== min) {
-      let d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      if (max === r_norm) h = (g_norm - b_norm) / d + (g_norm < b_norm ? 6 : 0);
-      else if (max === g_norm) h = (b_norm - r_norm) / d + 2;
-      else h = (r_norm - g_norm) / d + 4;
-      h /= 6;
-    } else {
-      s = 0;
-    }
-    setHsl(`hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`);
-
-    // CMYK
-    let k = 1 - Math.max(r_norm, g_norm, b_norm);
-    let c = (1 - r_norm - k) / (1 - k) || 0;
-    let m = (1 - g_norm - k) / (1 - k) || 0;
-    let y = (1 - b_norm - k) / (1 - k) || 0;
-    setCmyk(`cmyk(${Math.round(c * 100)}%, ${Math.round(m * 100)}%, ${Math.round(y * 100)}%, ${Math.round(k * 100)}%)`);
+    setHsl(`hsl(${h}, ${s}%, ${l}%)`);
+    setCmyk(`cmyk(${c}%, ${m}%, ${y}%, ${k}%)`);
   };
 
-  const copyToClipboard = (value: string, field: string) => {
-    navigator.clipboard.writeText(value);
+  const copyToClipboard = (text: string, field: string) => {
+    navigator.clipboard.writeText(text);
     setCopiedField(field);
+    toast.success(commonT('copied'));
     setTimeout(() => setCopiedField(null), 2000);
   };
-
-  const reset = () => updateFromHex('#6366f1');
 
   return (
     <div className="space-y-12">
       <div className="grid gap-6 lg:grid-cols-12 items-start">
         <div className="lg:col-span-9 space-y-6">
-          {/* Preview Area */}
+          {/* Main Input Area */}
           <div className="flex flex-col gap-2">
-            <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{commonT('ui.preview')}</Label>
-            <Card className="border border-border shadow-none rounded-md overflow-hidden min-h-[300px] flex items-center justify-center bg-background relative">
-               <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]" />
+            <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('pick_color')}</Label>
+            <Card className="border border-border shadow-none rounded-md overflow-hidden bg-background p-12 flex flex-col items-center justify-center gap-6">
                <div 
-                 className="w-48 h-48 rounded-full shadow-2xl transition-colors duration-300 flex items-center justify-center text-[10px] font-mono text-white/50 border-8 border-background"
+                 className="w-32 h-32 rounded-full shadow-2xl border-4 border-white transition-all duration-300"
                  style={{ backgroundColor: hex }}
-               >
-                 {hex}
+               />
+               <div className="flex gap-4 w-full max-w-sm">
+                  <Input 
+                    type="color" 
+                    value={hex} 
+                    onChange={(e) => updateFromHex(e.target.value)}
+                    className="w-12 h-10 p-0 border-none bg-transparent cursor-pointer"
+                  />
+                  <Input 
+                    type="text" 
+                    value={hex} 
+                    onChange={(e) => updateFromHex(e.target.value)}
+                    className="h-10 text-center font-mono font-bold uppercase tracking-widest text-lg"
+                  />
                </div>
             </Card>
           </div>
 
-          {/* Form Area */}
-          <div className="grid gap-4 sm:grid-cols-2">
+          {/* Formats Grid */}
+          <div className="grid gap-4 md:grid-cols-2">
              {[
-               { label: 'HEX', value: hex, field: 'hex' },
-               { label: 'RGB', value: rgb, field: 'rgb' },
-               { label: 'HSL', value: hsl, field: 'hsl' },
-               { label: 'CMYK', value: cmyk, field: 'cmyk' }
-             ].map((item) => (
-               <div key={item.field} className="space-y-2">
-                 <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{item.label}</Label>
-                 <div className="relative group">
-                    <Input 
-                      value={item.value} 
-                      readOnly 
-                      className="h-10 pr-10 font-mono text-xs bg-muted/20 border-border"
-                    />
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={() => copyToClipboard(item.value, item.field)}
-                      className="absolute right-1 top-1 h-8 w-8 text-muted-foreground hover:text-foreground"
-                    >
-                      {copiedField === item.field ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
-                    </Button>
-                 </div>
+               { label: 'HEX', value: hex.toUpperCase(), id: 'hex' },
+               { label: 'RGB', value: rgb, id: 'rgb' },
+               { label: 'HSL', value: hsl, id: 'hsl' },
+               { label: 'CMYK', value: cmyk, id: 'cmyk' }
+             ].map((field) => (
+               <div key={field.id} className="flex flex-col gap-2">
+                  <Label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{field.label}</Label>
+                  <Card className="flex items-center gap-2 p-1 pl-4 bg-background border border-border shadow-none">
+                     <span className="flex-1 font-mono text-sm font-medium">{field.value}</span>
+                     <Button variant="ghost" size="icon" onClick={() => copyToClipboard(field.value, field.id)} className="h-9 w-9 text-muted-foreground">
+                        {copiedField === field.id ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                     </Button>
+                  </Card>
                </div>
              ))}
           </div>
@@ -117,37 +139,21 @@ export function ColorFormatConverterClient() {
                   <Settings2 className="h-3.5 w-3.5" />
                   {commonT('ui.settings')}
                 </div>
-                <Button variant="ghost" size="icon" onClick={reset} className="h-6 w-6 text-muted-foreground hover:text-foreground">
-                  <RefreshCw className="h-3 w-3" />
-                </Button>
+                <RefreshCw className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-pointer" onClick={() => updateFromHex('#6366f1')} />
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-4 space-y-5">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('pick_color')}</Label>
-                  <div className="flex gap-2">
-                    <Input 
-                      type="color" 
-                      value={hex} 
-                      onChange={(e) => updateFromHex(e.target.value)}
-                      className="w-8 h-8 p-0 border-none bg-transparent cursor-pointer"
-                    />
-                    <Input 
-                      type="text" 
-                      value={hex} 
-                      onChange={(e) => updateFromHex(e.target.value)}
-                      className="h-8 text-xs font-mono uppercase"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start mt-2">
+            <CardContent className="p-4 space-y-4">
+               <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
                 <Info className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
                 <p className="text-[10px] text-muted-foreground leading-normal">
                   {t('sidebar_desc')}
                 </p>
+              </div>
+              <div className="space-y-2">
+                 <Label className="text-[10px] font-bold text-foreground uppercase tracking-widest">{commonT('ui.info')}</Label>
+                 <p className="text-[10px] text-muted-foreground leading-relaxed">
+                   CMYK is used for print, while RGB/HEX/HSL are used for digital screens. Use HSL for intuitive color adjustments.
+                 </p>
               </div>
             </CardContent>
           </Card>

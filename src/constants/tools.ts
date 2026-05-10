@@ -1,6 +1,8 @@
 import {
   Code, ShieldCheck, Repeat, Terminal, FileCode, Palette, Zap, Shield, Globe, Cpu, Layout, Table, Image,
-  Link, Share2, Search, FileText, BoxSelect, Square, Grid, Box, Play, Calculator, Type
+  Link, Share2, Search, FileText, BoxSelect, Square, Grid, Box, Play, Calculator, Type,
+  Hash,
+  Ruler
 } from 'lucide-react';
 
 export const TOOLS = [
@@ -84,6 +86,15 @@ export const TOOLS = [
   { id: 'grid-generator', icon: Grid, category: 'design' },
   { id: 'glassmorphism-generator', icon: Image, category: 'design' },
   { id: 'neumorphism-generator', icon: Box, category: 'design' },
+  { id: 'animation-builder', icon: Play, category: 'design' },
+  { id: 'color-palette-generator', icon: Palette, category: 'design' },
+  { id: 'color-contrast-checker', icon: ShieldCheck, category: 'design' },
+  { id: 'color-format-converter', icon: Palette, category: 'design' },
+  { id: 'tailwind-class-lookup', icon: Palette, category: 'design' },
+  { id: 'css-specificity-calculator', icon: Hash, category: 'design' },
+  { id: 'css-unit-converter', icon: Ruler, category: 'design' },
+  { id: 'typography-scale-generator', icon: Type, category: 'design' },
+  { id: 'css-variables-generator', icon: FileCode, category: 'design' },
 ];
 
 export const CATEGORIES = ['all', 'text', 'data', 'dev', 'design', 'web'];

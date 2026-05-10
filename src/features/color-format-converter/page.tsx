@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { ColorFormatConverterClient } from './components/color-format-converter-client';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
   const t = await getTranslations({ locale, namespace: 'tools.color-format-converter' });

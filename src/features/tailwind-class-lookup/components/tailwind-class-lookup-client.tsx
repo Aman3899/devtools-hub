@@ -6,79 +6,77 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Copy, Check, Search, Info, ExternalLink } from 'lucide-react';
+import { Copy, Check, Search, Filter, Info, Settings2, Zap, Globe } from 'lucide-react';
 import { ToolNavigation } from '@/components/tool-navigation';
+import { toast } from 'sonner';
 
-const TAILWIND_DATA = [
-  {
-    category: 'Layout',
-    classes: [
-      { name: 'container', css: 'width: 100%;' },
-      { name: 'block', css: 'display: block;' },
-      { name: 'inline-block', css: 'display: inline-block;' },
-      { name: 'inline', css: 'display: inline;' },
-      { name: 'flex', css: 'display: flex;' },
-      { name: 'inline-flex', css: 'display: inline-flex;' },
-      { name: 'grid', css: 'display: grid;' },
-      { name: 'hidden', css: 'display: none;' },
-      { name: 'float-right', css: 'float: right;' },
-      { name: 'float-left', css: 'float: left;' },
-    ]
-  },
-  {
-    category: 'Spacing',
-    classes: [
-      { name: 'p-0', css: 'padding: 0px;' },
-      { name: 'p-4', css: 'padding: 1rem;' },
-      { name: 'm-0', css: 'margin: 0px;' },
-      { name: 'm-4', css: 'margin: 1rem;' },
-      { name: 'mx-auto', css: 'margin-left: auto; margin-right: auto;' },
-      { name: 'space-x-4', css: 'margin-left: 1rem;' },
-      { name: 'space-y-4', css: 'margin-top: 1rem;' },
-    ]
-  },
-  {
-    category: 'Flex/Grid',
-    classes: [
-      { name: 'flex-row', css: 'flex-direction: row;' },
-      { name: 'flex-col', css: 'flex-direction: column;' },
-      { name: 'flex-wrap', css: 'flex-wrap: wrap;' },
-      { name: 'justify-start', css: 'justify-content: flex-start;' },
-      { name: 'justify-center', css: 'justify-content: center;' },
-      { name: 'justify-between', css: 'justify-content: space-between;' },
-      { name: 'items-center', css: 'align-items: center;' },
-      { name: 'grid-cols-1', css: 'grid-template-columns: repeat(1, minmax(0, 1fr));' },
-      { name: 'gap-4', css: 'gap: 1rem;' },
-    ]
-  },
-  {
-    category: 'Typography',
-    classes: [
-      { name: 'text-xs', css: 'font-size: 0.75rem; line-height: 1rem;' },
-      { name: 'text-sm', css: 'font-size: 0.875rem; line-height: 1.25rem;' },
-      { name: 'text-base', css: 'font-size: 1rem; line-height: 1.5rem;' },
-      { name: 'text-lg', css: 'font-size: 1.125rem; line-height: 1.75rem;' },
-      { name: 'font-bold', css: 'font-weight: 700;' },
-      { name: 'text-center', css: 'text-align: center;' },
-      { name: 'italic', css: 'font-style: italic;' },
-      { name: 'underline', css: 'text-decoration: underline;' },
-    ]
-  },
-  {
-    category: 'Effects',
-    classes: [
-      { name: 'shadow-sm', css: 'box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);' },
-      { name: 'shadow', css: 'box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);' },
-      { name: 'shadow-lg', css: 'box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);' },
-      { name: 'opacity-50', css: 'opacity: 0.5;' },
-      { name: 'rounded', css: 'border-radius: 0.25rem;' },
-      { name: 'rounded-lg', css: 'border-radius: 0.5rem;' },
-    ]
-  }
+const TAILWIND_CLASSES = [
+  { category: 'Layout', classes: [
+    { name: 'aspect-auto', desc: 'aspect-ratio: auto;' },
+    { name: 'container', desc: 'max-width: 100%;' },
+    { name: 'columns-1', desc: 'columns: 1;' },
+    { name: 'break-after-auto', desc: 'break-after: auto;' },
+    { name: 'box-border', desc: 'box-sizing: border-box;' },
+    { name: 'block', desc: 'display: block;' },
+    { name: 'inline-block', desc: 'display: inline-block;' },
+    { name: 'flex', desc: 'display: flex;' },
+    { name: 'grid', desc: 'display: grid;' },
+    { name: 'hidden', desc: 'display: none;' },
+    { name: 'float-right', desc: 'float: right;' },
+    { name: 'clear-both', desc: 'clear: both;' },
+    { name: 'object-contain', desc: 'object-fit: contain;' },
+    { name: 'overflow-hidden', desc: 'overflow: hidden;' },
+    { name: 'position-relative', desc: 'position: relative;' },
+    { name: 'top-0', desc: 'top: 0px;' },
+    { name: 'z-50', desc: 'z-index: 50;' }
+  ]},
+  { category: 'Flexbox & Grid', classes: [
+    { name: 'flex-row', desc: 'flex-direction: row;' },
+    { name: 'flex-wrap', desc: 'flex-wrap: wrap;' },
+    { name: 'flex-1', desc: 'flex: 1 1 0%;' },
+    { name: 'grow', desc: 'flex-grow: 1;' },
+    { name: 'shrink', desc: 'flex-shrink: 1;' },
+    { name: 'order-first', desc: 'order: -9999;' },
+    { name: 'grid-cols-12', desc: 'grid-template-columns: repeat(12, minmax(0, 1fr));' },
+    { name: 'gap-4', desc: 'gap: 1rem;' },
+    { name: 'justify-center', desc: 'justify-content: center;' },
+    { name: 'items-center', desc: 'align-items: center;' },
+    { name: 'self-auto', desc: 'align-self: auto;' }
+  ]},
+  { category: 'Spacing', classes: [
+    { name: 'p-4', desc: 'padding: 1rem;' },
+    { name: 'px-6', desc: 'padding-left: 1.5rem; padding-right: 1.5rem;' },
+    { name: 'm-0', desc: 'margin: 0px;' },
+    { name: 'mx-auto', desc: 'margin-left: auto; margin-right: auto;' },
+    { name: 'space-x-4', desc: 'margin-left: 1rem (children);' }
+  ]},
+  { category: 'Sizing', classes: [
+    { name: 'w-full', desc: 'width: 100%;' },
+    { name: 'w-screen', desc: 'width: 100vw;' },
+    { name: 'h-10', desc: 'height: 2.5rem;' },
+    { name: 'max-w-7xl', desc: 'max-width: 80rem;' },
+    { name: 'min-h-screen', desc: 'min-height: 100vh;' }
+  ]},
+  { category: 'Typography', classes: [
+    { name: 'font-sans', desc: 'font-family: ui-sans-serif, ...' },
+    { name: 'text-sm', desc: 'font-size: 0.875rem;' },
+    { name: 'font-bold', desc: 'font-weight: 700;' },
+    { name: 'tracking-tight', desc: 'letter-spacing: -0.025em;' },
+    { name: 'leading-relaxed', desc: 'line-height: 1.625;' },
+    { name: 'text-center', desc: 'text-align: center;' },
+    { name: 'text-primary', desc: 'color: var(--primary);' },
+    { name: 'underline', desc: 'text-decoration: underline;' },
+    { name: 'uppercase', desc: 'text-transform: uppercase;' }
+  ]},
+  { category: 'Backgrounds', classes: [
+    { name: 'bg-white', desc: 'background-color: #ffffff;' },
+    { name: 'bg-gradient-to-r', desc: 'background-image: linear-gradient(to right, ...);' },
+    { name: 'bg-cover', desc: 'background-size: cover;' },
+    { name: 'bg-no-repeat', desc: 'background-repeat: no-repeat;' }
+  ]}
 ];
 
-export function TailwindLookupClient() {
+export function TailwindClassLookupClient() {
   const t = useTranslations('tools.tailwind-class-lookup');
   const commonT = useTranslations('common');
 
@@ -86,107 +84,124 @@ export function TailwindLookupClient() {
   const [copiedClass, setCopiedClass] = useState<string | null>(null);
 
   const filteredData = useMemo(() => {
-    if (!search) return TAILWIND_DATA;
-    const s = search.toLowerCase();
-    return TAILWIND_DATA.map(cat => ({
+    if (!search) return TAILWIND_CLASSES;
+    const query = search.toLowerCase();
+    return TAILWIND_CLASSES.map(cat => ({
       ...cat,
       classes: cat.classes.filter(c => 
-        c.name.toLowerCase().includes(s) || 
-        cat.category.toLowerCase().includes(s) ||
-        c.css.toLowerCase().includes(s)
+        c.name.toLowerCase().includes(query) || 
+        c.desc.toLowerCase().includes(query) ||
+        cat.category.toLowerCase().includes(query)
       )
     })).filter(cat => cat.classes.length > 0);
   }, [search]);
 
-  const copyClass = (name: string) => {
-    navigator.clipboard.writeText(name);
-    setCopiedClass(name);
+  const copyClass = (className: string) => {
+    navigator.clipboard.writeText(className);
+    setCopiedClass(className);
+    toast.success(`${className} ${commonT('copied')}`);
     setTimeout(() => setCopiedClass(null), 2000);
   };
 
   return (
     <div className="space-y-12">
-      <div className="space-y-6">
-        {/* Search Header */}
-        <div className="max-w-2xl mx-auto text-center space-y-4">
-           <div className="relative group">
-              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-indigo-500 transition-colors">
-                <Search className="h-4 w-4" />
-              </div>
-              <Input 
-                placeholder={t('search_placeholder')} 
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="h-12 pl-10 bg-background border-border shadow-sm text-base focus-visible:ring-indigo-500"
-              />
-           </div>
-           <div className="flex flex-wrap justify-center gap-2">
-              {['flex', 'grid', 'padding', 'margin', 'font', 'shadow'].map(tag => (
-                <button 
-                  key={tag}
-                  onClick={() => setSearch(tag)}
-                  className="px-3 py-1 rounded-full bg-muted/50 border border-border text-[10px] font-medium text-muted-foreground hover:bg-indigo-500 hover:text-white hover:border-indigo-500 transition-all"
-                >
-                  {tag}
-                </button>
-              ))}
-           </div>
-        </div>
+      <div className="grid gap-6 lg:grid-cols-12 items-start">
+        <div className="lg:col-span-9 space-y-6">
+          {/* Search Header */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('search')}</Label>
+              <span className="text-[10px] text-muted-foreground">{filteredData.reduce((acc, cat) => acc + cat.classes.length, 0)} {t('results')}</span>
+            </div>
+            <div className="relative group">
+               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition-colors" />
+               <Input 
+                 placeholder={t('placeholder')}
+                 className="pl-10 h-12 text-sm bg-background border-border shadow-sm focus-visible:ring-primary/20"
+                 value={search}
+                 onChange={(e) => setSearch(e.target.value)}
+               />
+            </div>
+          </div>
 
-        {/* Classes Grid */}
-        <div className="grid gap-8">
-           {filteredData.length > 0 ? (
-             filteredData.map((cat) => (
-               <div key={cat.category} className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <h3 className="text-sm font-bold tracking-tight shrink-0">{cat.category}</h3>
-                    <div className="h-px w-full bg-border" />
-                  </div>
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {/* Cheatsheet Grid */}
+          <div className="space-y-8">
+             {filteredData.map((cat) => (
+               <div key={cat.category} className="space-y-3">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground px-1 flex items-center gap-2">
+                     <Filter className="h-3 w-3" />
+                     {cat.category}
+                  </h3>
+                  <div className="grid gap-3 sm:grid-cols-2">
                      {cat.classes.map((c) => (
                        <Card 
                          key={c.name} 
-                         className="group border border-border shadow-none hover:border-indigo-500/50 hover:bg-indigo-500/[0.02] transition-all cursor-pointer overflow-hidden"
+                         className="group p-3 hover:border-primary/50 transition-all cursor-pointer bg-background border-border shadow-none overflow-hidden relative"
                          onClick={() => copyClass(c.name)}
                        >
-                          <div className="p-3 space-y-2">
-                             <div className="flex items-center justify-between">
-                                <code className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400">{c.name}</code>
-                                {copiedClass === c.name ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />}
+                          <div className="flex items-center justify-between relative z-10">
+                             <div className="space-y-1">
+                                <code className="text-xs font-bold text-primary font-mono">{c.name}</code>
+                                <p className="text-[10px] text-muted-foreground font-mono leading-tight truncate max-w-[200px] md:max-w-none">
+                                   {c.desc}
+                                </p>
                              </div>
-                             <p className="text-[10px] font-mono text-muted-foreground truncate">{c.css}</p>
+                             <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                {copiedClass === c.name ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
+                             </div>
+                          </div>
+                          <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
+                             <Zap className="h-16 w-16 rotate-12" />
                           </div>
                        </Card>
                      ))}
                   </div>
                </div>
-             ))
-           ) : (
-             <div className="text-center py-20 bg-muted/20 rounded-lg border border-dashed border-border">
-                <Search className="h-10 w-10 text-muted-foreground mx-auto mb-4 opacity-20" />
-                <p className="text-sm text-muted-foreground">{t('no_results')}</p>
-             </div>
-           )}
+             ))}
+
+             {filteredData.length === 0 && (
+               <div className="text-center py-20 bg-muted/10 rounded-xl border border-dashed border-border">
+                  <Search className="h-10 w-10 text-muted-foreground/20 mx-auto mb-3" />
+                  <p className="text-sm text-muted-foreground">{t('no_results')} "{search}"</p>
+               </div>
+             )}
+          </div>
         </div>
 
-        {/* Documentation Link */}
-        <Card className="border-border shadow-none bg-indigo-500/5 border-indigo-500/20 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-indigo-500 flex items-center justify-center shrink-0">
-                 <img src="https://tailwindcss.com/favicons/favicon-32x32.png?v=3" alt="Tailwind" className="w-6 h-6 invert brightness-0" />
+        {/* Sidebar Settings */}
+        <div className="lg:col-span-3 space-y-4">
+          <Card className="border border-border shadow-none rounded-md bg-background">
+            <CardHeader className="py-3 px-4 border-b">
+              <CardTitle className="text-xs font-semibold flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Settings2 className="h-3.5 w-3.5" />
+                  {commonT('ui.info')}
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4">
+               <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
+                <Info className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
+                <p className="text-[10px] text-muted-foreground leading-normal">
+                  {t('sidebar_desc')}
+                </p>
               </div>
-              <div className="space-y-1">
-                 <h4 className="text-sm font-bold">{t('official_docs')}</h4>
-                 <p className="text-xs text-muted-foreground">{t('docs_desc')}</p>
+              <div className="space-y-3">
+                 <Label className="text-[10px] font-bold text-foreground uppercase tracking-widest">{t('quick_tips')}</Label>
+                 <div className="space-y-2">
+                    <div className="flex items-start gap-2 p-2 rounded bg-primary/5 border border-primary/10">
+                       <Zap className="h-3 w-3 text-primary mt-0.5" />
+                       <p className="text-[10px] leading-tight text-muted-foreground">{t('tip_copy')}</p>
+                    </div>
+                    <div className="flex items-start gap-2 p-2 rounded bg-blue-500/5 border border-blue-500/10">
+                       <Globe className="h-3 w-3 text-blue-500 mt-0.5" />
+                       <p className="text-[10px] leading-tight text-muted-foreground">{t('tip_search')}</p>
+                    </div>
+                 </div>
               </div>
-           </div>
-           <Button variant="outline" className="gap-2 h-9 text-xs" asChild>
-              <a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer">
-                 {t('view_docs')}
-                 <ExternalLink className="h-3 w-3" />
-              </a>
-           </Button>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
       <ToolNavigation currentToolId="tailwind-class-lookup" />
     </div>

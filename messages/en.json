@@ -607,27 +607,6 @@
         "tip": "Choose the correct dialect to ensure proper formatting of specialized syntax like backticks or schema prefixes."
       }
     },
-    "color-palette-generator": {
-      "title": "Color Palette Generator",
-      "description": "Generate and preview harmonious color schemes.",
-      "new": "Generate New Palette",
-      "copyHint": "Click to copy",
-      "generatedPalette": "Generated Palette",
-      "baseColor": "Base Color",
-      "harmonyRule": "Harmony Rule",
-      "ruleDesc": "Harmonies are calculated using HSL color space to ensure visual balance and accessibility.",
-      "analogous": "Analogous",
-      "monochromatic": "Monochromatic",
-      "complementary": "Complementary",
-      "triadic": "Triadic",
-      "article": "Color palettes are essential for web design and branding. This tool uses HSL (Hue, Saturation, Lightness) color space mathematics to generate perfectly balanced harmonies such as analogous, triadic, and complementary schemes.",
-      "faqs": {
-        "q0": "How do I copy a color?",
-        "a0": "Simply click on any color swatch in the preview or the list to copy its HEX code to your clipboard.",
-        "q1": "What is an Analogous harmony?",
-        "a1": "Analogous colors are groups of colors that are adjacent to each other on the color wheel, creating a serene and comfortable design."
-      }
-    },
     "uuid-generator": {
       "title": "UUID Generator",
       "description": "Generate cryptographically secure random UUIDs.",
@@ -737,7 +716,15 @@
         "a0": "Yes, it uses an iframe with the 'sandbox' attribute to prevent malicious script execution.",
         "q1": "Can I use external CSS frameworks?",
         "a1": "Yes! You can toggle 'Include Tailwind' to automatically load Tailwind CSS via CDN."
-      }
+      },
+      "device_size": "Device Size",
+      "desktop": "Desktop",
+      "tablet": "Tablet",
+      "mobile": "Mobile",
+      "custom": "Custom",
+      "width": "Width",
+      "height": "Height",
+      "fullscreen": "Fullscreen"
     },
     "css-gradient-generator": {
       "title": "CSS Gradient Generator",
@@ -1170,29 +1157,6 @@
       "file_loaded": "File loaded. Ready to decode.",
       "decoding": "Decoding...",
       "info": "QR Code Decoder reads and extracts text from QR images entirely within your browser for maximum privacy."
-    },
-    "html-previewer": {
-      "title": "HTML Previewer",
-      "description": "Live preview HTML with device size toggle and responsive testing.",
-      "input": "Input HTML",
-      "output": "Live Preview",
-      "placeholder": "Paste HTML here...",
-      "article": "HTML Previewer renders your HTML code in real-time, allowing you to see exactly how it will look in a browser. This tool supports responsive design testing with multiple device presets including desktop, tablet, and mobile views. Perfect for quick prototyping, testing HTML snippets, and debugging layout issues without needing a separate browser window.",
-      "faqs": {
-        "q0": "Can I test responsive design?",
-        "a0": "Yes! This tool includes device presets for desktop, tablet, and mobile sizes. You can also manually adjust the preview width to test any screen size.",
-        "q1": "Does it support external CSS and JavaScript?",
-        "a1": "External resources are not loaded for security reasons. Include CSS and JavaScript inline within your HTML for full functionality testing."
-      },
-      "device_size": "Device Size",
-      "desktop": "Desktop",
-      "tablet": "Tablet",
-      "mobile": "Mobile",
-      "custom": "Custom",
-      "width": "Width",
-      "height": "Height",
-      "refresh": "Refresh Preview",
-      "fullscreen": "Fullscreen"
     },
     "html-minifier": {
       "title": "HTML Minifier",
@@ -1844,11 +1808,14 @@
     "tailwind-class-lookup": {
       "title": "Tailwind Class Lookup",
       "description": "Quickly search and find the right Tailwind CSS utility classes.",
-      "search_placeholder": "Search for classes (e.g. flex, text-sm, shadow)...",
-      "no_results": "No classes found matching your search.",
-      "official_docs": "Official Tailwind CSS Documentation",
-      "docs_desc": "Visit the official site for the complete documentation and configuration guide.",
-      "view_docs": "Visit Site",
+      "search": "Search Classes",
+      "placeholder": "Search classes (e.g., flex, text-sm, shadow)...",
+      "results": "results",
+      "no_results": "No classes found for",
+      "sidebar_desc": "Tailwind CSS uses utility classes to build custom designs directly in your markup.",
+      "quick_tips": "Quick Tips",
+      "tip_copy": "Click any card to instantly copy the class name to your clipboard.",
+      "tip_search": "Use the search bar to find classes by name or CSS property.",
       "about_title": "Utility-First CSS",
       "article": "Tailwind CSS is a utility-first CSS framework packed with classes like flex, pt-4, text-center and rotate-90 that can be composed to build any design, directly in your markup. It allows developers to build custom designs without ever leaving their HTML.",
       "faq_title": "Tailwind FAQ",
