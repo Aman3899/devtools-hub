@@ -2,20 +2,22 @@
 
 import { useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Copy, Trash2, ArrowRightLeft, Upload, Download, FileJson, Info, RefreshCw, Settings2 } from 'lucide-react';
+import { ArrowRightLeft, Upload, FileJson, Settings2 } from 'lucide-react';
 import { toast } from 'sonner';
 import Papa from 'papaparse';
-import { ToolNavigation } from '@/components/tool-navigation';
+import { ToolCard } from '@/components/layout/tool-card';
+import { CopyButton, DownloadButton, ToolActions, InfoBox, StatsDisplay, CodeTextarea } from '@/components/common';
+import { useLanguage } from '@/hooks/tool';
+import { Label } from '@/components/ui/label';
 
 export function CsvToJsonClient() {
   const t = useTranslations('tools.csv-to-json');
   const commonT = useTranslations('common');
+  const { isEnglish } = useLanguage();
+
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [delimiter, setDelimiter] = useState(',');
@@ -24,214 +26,103 @@ export function CsvToJsonClient() {
 
   const handleConvert = () => {
     if (!input.trim()) return;
-
     Papa.parse(input, {
       delimiter: delimiter === 'auto' ? '' : delimiter,
       header: hasHeader,
       skipEmptyLines: true,
-      complete: (results) => {
-        setOutput(JSON.stringify(results.data, null, 2));
-        toast.success(commonT('success'));
-      },
-      error: (error: any) => {
-        toast.error(error.message);
-      }
+      complete: (results) => { setOutput(JSON.stringify(results.data, null, 2)); toast.success(commonT('success')); },
+      error: (error: any) => { toast.error(error.message); }
     });
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+    const file = e.target.files?.[0]; if (!file) return;
     const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
-      setInput(text);
-      toast.success(commonT('success'));
-    };
+    reader.onload = (event) => { setInput(event.target?.result as string); toast.success(commonT('success')); };
     reader.readAsText(file);
-  };
-
-  const handleDownload = () => {
-    const blob = new Blob([output], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'converted.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   };
 
   const loadSample = () => {
     const sample = "id,name,email,role,active\n1,John Doe,john@example.com,Admin,true\n2,Jane Smith,jane@example.com,User,false";
-    setInput(sample);
-    handleConvert();
-    toast.success(commonT('success'));
+    setInput(sample); handleConvert(); toast.success(commonT('success'));
   };
 
-  const stats = {
-    chars: input.length,
-    lines: input.split('\n').length
-  };
-
-  const outputStats = {
-    chars: output.length,
-    lines: output.split('\n').length,
-    size: (new TextEncoder().encode(output).length / 1024).toFixed(2)
-  };
+  const stats = { chars: input.length, lines: input.split('\n').length };
+  const outputStats = { size: (new TextEncoder().encode(output).length / 1024).toFixed(2) };
 
   return (
-    <div className="space-y-12">
-      <div className="grid gap-6 lg:grid-cols-12 items-start">
-        <div className="lg:col-span-9 grid gap-4 md:grid-cols-2">
-          {/* Input Card */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-2">
-                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('input')}</Label>
-                <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
-                <span className="text-[10px] text-muted-foreground/60">{stats.chars} chars • {stats.lines} lines</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
-                  <RefreshCw className="h-3 w-3" />
-                  {commonT('hero.searchPlaceholder' as any) === 'Find a tool...' ? 'Sample' : 'مثال'}
-                </Button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  className="hidden"
-                  accept=".csv,.txt"
-                  onChange={handleFileUpload}
-                />
-                <Button variant="ghost" size="icon" onClick={() => fileInputRef.current?.click()} title={commonT('importFile')} className="h-6 w-6 text-muted-foreground hover:text-foreground">
-                  <Upload className="h-3 w-3" />
-                </Button>
-                <Button variant="ghost" size="icon" onClick={() => setInput('')} title={commonT('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
-                  <Trash2 className="h-3 w-3" />
-                </Button>
-              </div>
+    <div className="grid gap-6 md:grid-cols-3 items-start">
+      <div className="md:col-span-2 grid gap-4 sm:grid-cols-2">
+        <ToolCard 
+          title={<StatsDisplay title={t('input')} stats={{ chars: stats.chars, lines: stats.lines }} />}
+          action={
+            <div className="flex items-center gap-1">
+              <ToolActions onSample={loadSample} onClear={() => setInput('')} />
+              <input type="file" ref={fileInputRef} className="hidden" accept=".csv,.txt" onChange={handleFileUpload} />
+              <Button variant="ghost" size="icon" onClick={() => fileInputRef.current?.click()} title={commonT('importFile')} className="h-6 w-6"><Upload className="h-3 w-3" /></Button>
             </div>
-            <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
-              <Textarea
-                placeholder={t('placeholder')}
-                className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-              <div className="p-2 border-t bg-muted/5">
-                <Button className="w-full h-8 text-xs" onClick={handleConvert} disabled={!input}>
-                  <ArrowRightLeft className="h-3.5 w-3.5 mr-2" />
-                  {t('convert')}
-                </Button>
-              </div>
-            </Card>
+          }
+          contentClassName="p-0 flex flex-col h-[500px]"
+        >
+          <CodeTextarea
+            placeholder={t('placeholder')}
+            value={input}
+            onChange={(val) => setInput(val)}
+          />
+          <div className="p-2 border-t bg-muted/5">
+            <Button className="w-full h-8 text-xs" onClick={handleConvert} disabled={!input}><ArrowRightLeft className="h-3.5 w-3.5 mr-2" />{t('convert')}</Button>
           </div>
+        </ToolCard>
 
-          {/* Output Card */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-2">
-                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('output')}</Label>
-                {output && (
-                  <>
-                    <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
-                    <span className="text-[10px] text-muted-foreground/60">{outputStats.size} KB</span>
-                  </>
-                )}
-              </div>
-              <div className="flex items-center gap-1">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleDownload} 
-                  disabled={!output}
-                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <Download className="h-3 w-3" />
-                  {commonT('download')}
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => {
-                    navigator.clipboard.writeText(output);
-                    toast.success(commonT('copied'));
-                  }} 
-                  disabled={!output}
-                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <Copy className="h-3 w-3" />
-                  {commonT('copy')}
-                </Button>
-              </div>
+        <ToolCard 
+          title={
+            <div className="flex items-center gap-2">
+              {t('output')}
+              {output && <><div className="h-1 w-1 rounded-full bg-muted-foreground/30" /><span className="text-[10px] text-muted-foreground/60 font-normal tracking-normal">{outputStats.size} KB</span></>}
             </div>
-            <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20">
-              <div className="flex-1 relative">
-                <Textarea
-                  readOnly
-                  className="w-full h-full font-mono text-xs p-3 bg-transparent resize-none border-none focus-visible:ring-0 leading-relaxed"
-                  value={output}
-                />
-                {!output && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-30 pointer-events-none">
-                    <FileJson className="h-10 w-10 mb-2" />
-                    <p className="text-[10px]">{t('output')}</p>
-                  </div>
-                )}
-              </div>
-            </Card>
-          </div>
-        </div>
-
-        {/* Sidebar Settings */}
-        <div className="lg:col-span-3 space-y-4">
-          <Card className="border border-border shadow-none rounded-md bg-background">
-            <CardHeader className="py-3 px-4 border-b">
-              <CardTitle className="text-xs font-semibold flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Settings2 className="h-3.5 w-3.5" />
-                  {commonT('ui.customization')}
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 space-y-5">
-              <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('delimiter')}</Label>
-                <Select value={delimiter} onValueChange={(val) => val && setDelimiter(val)}>
-                  <SelectTrigger className="h-8 text-xs bg-muted/30 border-border">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="," className="text-xs">Comma (,)</SelectItem>
-                    <SelectItem value=";" className="text-xs">Semicolon (;)</SelectItem>
-                    <SelectItem value="\t" className="text-xs">Tab</SelectItem>
-                    <SelectItem value="auto" className="text-xs">Auto-detect</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label className="text-xs">{t('header')}</Label>
-                  <p className="text-[10px] text-muted-foreground leading-tight">First row as header</p>
-                </div>
-                <Switch checked={hasHeader} onCheckedChange={setHasHeader} className="scale-75 origin-right" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
-            <Info className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
-            <p className="text-[10px] text-muted-foreground leading-normal">
-              {t('article').split('.')[0]}.
-            </p>
-          </div>
-        </div>
+          }
+          action={
+            <div className="flex items-center gap-1">
+              <DownloadButton content={output} filename="converted.json" mimeType="application/json" disabled={!output} />
+              <CopyButton text={output} type="json" disabled={!output} />
+            </div>
+          }
+          contentClassName="p-0 flex flex-col h-[500px] bg-muted/20 relative"
+        >
+          <CodeTextarea
+            value={output}
+            onChange={() => {}}
+            disabled
+          />
+          {!output && <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-30 pointer-events-none"><FileJson className="h-10 w-10 mb-2" /><p className="text-[10px]">{t('output')}</p></div>}
+        </ToolCard>
       </div>
-      <ToolNavigation currentToolId="csv-to-json" />
+
+      <div className="md:col-span-1 space-y-4">
+        <ToolCard title={commonT('ui.customization')} icon={Settings2} contentClassName="p-4 space-y-5">
+          <div className="space-y-2">
+            <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('delimiter')}</Label>
+            <Select value={delimiter} onValueChange={(val) => val && setDelimiter(val)}>
+              <SelectTrigger className="h-8 text-xs bg-muted/30 border-border"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="," className="text-xs">Comma (,)</SelectItem>
+                <SelectItem value=";" className="text-xs">Semicolon (;)</SelectItem>
+                <SelectItem value="\t" className="text-xs">Tab</SelectItem>
+                <SelectItem value="auto" className="text-xs">Auto-detect</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5"><Label className="text-xs">{t('header')}</Label><p className="text-[10px] text-muted-foreground leading-tight">First row as header</p></div>
+            <Switch checked={hasHeader} onCheckedChange={setHasHeader} className="scale-75 origin-right" />
+          </div>
+
+          <InfoBox>
+            {t('article').split('.')[0]}.
+          </InfoBox>
+        </ToolCard>
+      </div>
     </div>
   );
 }

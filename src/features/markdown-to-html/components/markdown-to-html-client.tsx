@@ -1,24 +1,26 @@
-'use client';
+﻿"use client"
 
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Copy, Check, Trash2, RefreshCw, Download, Settings2, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ToolNavigation } from '@/components/tool-navigation';
+import { ToolCard } from '@/components/layout/tool-card';
+import { CopyButton, DownloadButton, ToolActions, InfoBox, StatsDisplay, CodeTextarea } from '@/components/common';
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 
 export function MarkdownToHtmlClient() {
   const t = useTranslations('tools.markdown-to-html');
   const tCommon = useTranslations('common');
+  const { copiedType, copyToClipboard } = useCopyToClipboard();
+  
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [enableTables, setEnableTables] = useState(true);
   const [enableTaskLists, setEnableTaskLists] = useState(true);
-  const [copied, setCopied] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
 
   const markdownToHtml = useCallback(() => {
@@ -69,23 +71,9 @@ export function MarkdownToHtmlClient() {
   }, [input]);
 
   const loadSample = () => {
-    const sample = `# Hello World
-
-This is a **sample** Markdown file.
-
-- Item 1
-- Item 2
-- Item 3
-
-Visit [our website](https://example.com) for more info.`;
+    const sample = `# Hello World\n\nThis is a **sample** Markdown file.\n\n- Item 1\n- Item 2\n- Item 3\n\nVisit [our website](https://example.com) for more info.`;
     setInput(sample);
     setOutput('');
-  };
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(output);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   const downloadHtml = () => {
@@ -106,130 +94,77 @@ Visit [our website](https://example.com) for more info.`;
   };
 
   return (
-    <div className="space-y-12">
-      <div className="grid gap-6 lg:grid-cols-12 items-start">
-        <div className="lg:col-span-9 grid gap-4 md:grid-cols-2">
-          {/* Input Card */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-2">
-                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('input')}</Label>
-                <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
-                <span className="text-[10px] text-muted-foreground/60">{stats.chars} chars • {stats.lines} lines</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={loadSample}
-                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <RefreshCw className="h-3 w-3" />
-                  Sample
-                </Button>
-                <Button variant="ghost" size="icon" onClick={() => setInput('')} title={tCommon('clear')} className="h-6 w-6 text-muted-foreground hover:text-destructive">
-                  <Trash2 className="h-3 w-3" />
-                </Button>
-              </div>
+    <div className="grid gap-6 md:grid-cols-3 items-start">
+      <div className="md:col-span-2 grid gap-4 sm:grid-cols-2">
+        {/* Input Card */}
+        <ToolCard 
+          title={
+            <div className="flex items-center gap-2">
+              {t('input')}
+              <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
+              <span className="text-[10px] text-muted-foreground/60 normal-case tracking-normal">{stats.chars} chars • {stats.lines} lines</span>
             </div>
-            <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-background focus-within:border-foreground/20 transition-colors">
-              <Textarea
-                placeholder={t('placeholder')}
-                className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-            </Card>
-          </div>
-
-          {/* Output Card */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-2">
-                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('output')}</Label>
-                {output && (
-                  <>
-                    <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
-                    <span className="text-[10px] text-muted-foreground/60">{output.length} chars</span>
-                  </>
-                )}
-              </div>
-              <div className="flex items-center gap-1">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={downloadHtml} 
-                  disabled={!output}
-                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {downloaded ? <Check className="h-3 w-3 text-green-500" /> : <Download className="h-3 w-3" />}
-                  Download
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={copyToClipboard} 
-                  disabled={!output}
-                  className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
-                  {tCommon('copy')}
-                </Button>
-              </div>
+          }
+          action={
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5"><RefreshCw className="h-3 w-3" />Sample</Button>
+              <Button variant="ghost" size="icon" onClick={() => setInput('')} title={tCommon('clear')} className="h-6 w-6 hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
             </div>
-            <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-muted/20">
-              <pre className="flex-1 font-mono text-xs p-3 overflow-auto whitespace-pre-wrap break-all leading-relaxed text-foreground">
-                {output || tCommon('ui.result')}
-              </pre>
-            </Card>
-          </div>
-        </div>
+          }
+          contentClassName="p-0 flex flex-col h-[500px]"
+        >
+          <Textarea
+            placeholder={t('placeholder')}
+            className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+        </ToolCard>
 
-        {/* Settings Card */}
-        <div className="lg:col-span-3 space-y-4">
-          <Card className="border border-border shadow-none rounded-md bg-background">
-            <CardHeader className="py-3 px-4 border-b">
-              <CardTitle className="text-xs font-semibold flex items-center gap-2">
-                <Settings2 className="h-3.5 w-3.5" />
-                {tCommon('ui.customization')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label className="text-xs">{t('enable_tables')}</Label>
-                  <p className="text-[10px] text-muted-foreground leading-tight">Support tables</p>
-                </div>
-                <Switch checked={enableTables} onCheckedChange={setEnableTables} className="scale-75 origin-right" />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label className="text-xs">{t('enable_task_lists')}</Label>
-                  <p className="text-[10px] text-muted-foreground leading-tight">Support task lists</p>
-                </div>
-                <Switch checked={enableTaskLists} onCheckedChange={setEnableTaskLists} className="scale-75 origin-right" />
-              </div>
-
-              <Button 
-                onClick={markdownToHtml}
-                className="w-full h-8 text-xs font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-md transition-colors"
-              >
-                {t('convert')}
-              </Button>
-            </CardContent>
-          </Card>
-
-          <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
-            <Info className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
-            <p className="text-[10px] text-muted-foreground leading-normal">
-              {t('article').split('.')[0]}.
-            </p>
-          </div>
-        </div>
+        {/* Output Card */}
+        <ToolCard 
+          title={
+            <div className="flex items-center gap-2">
+              {t('output')}
+              {output && <><div className="h-1 w-1 rounded-full bg-muted-foreground/30" /><span className="text-[10px] text-muted-foreground/60 normal-case tracking-normal">{output.length} chars</span></>}
+            </div>
+          }
+          action={
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="sm" onClick={downloadHtml} disabled={!output} className="h-6 px-2 text-[10px] gap-1.5">{downloaded ? <Check className="h-3 w-3 text-green-500" /> : <Download className="h-3 w-3" />}Download</Button>
+              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(output, 'html')} disabled={!output} className="h-6 px-2 text-[10px] gap-1.5">{copiedType === 'html' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}{tCommon('copy')}</Button>
+            </div>
+          }
+          contentClassName="p-0 flex flex-col h-[500px] bg-muted/20"
+        >
+          <pre className="flex-1 font-mono text-xs p-3 overflow-auto whitespace-pre-wrap break-all leading-relaxed text-foreground bg-transparent">
+            {output || tCommon('ui.result')}
+          </pre>
+        </ToolCard>
       </div>
 
-      <ToolNavigation currentToolId="markdown-to-html" />
+      <div className="md:col-span-1 space-y-4">
+        <ToolCard title={tCommon('ui.customization')} icon={Settings2} contentClassName="p-4 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5"><Label className="text-xs">{t('enable_tables')}</Label><p className="text-[10px] text-muted-foreground leading-tight">Support tables</p></div>
+            <Switch checked={enableTables} onCheckedChange={setEnableTables} className="scale-75 origin-right" />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5"><Label className="text-xs">{t('enable_task_lists')}</Label><p className="text-[10px] text-muted-foreground leading-tight">Support task lists</p></div>
+            <Switch checked={enableTaskLists} onCheckedChange={setEnableTaskLists} className="scale-75 origin-right" />
+          </div>
+
+          <Button onClick={markdownToHtml} className="w-full h-8 text-xs font-semibold">
+            {t('convert')}
+          </Button>
+          
+          <div className="p-3 mt-4 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
+            <Info className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
+            <p className="text-[10px] text-muted-foreground leading-normal">{t('article').split('.')[0]}.</p>
+          </div>
+        </ToolCard>
+      </div>
     </div>
   );
 }

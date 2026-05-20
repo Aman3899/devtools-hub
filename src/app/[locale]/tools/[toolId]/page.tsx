@@ -79,6 +79,7 @@ export default async function ToolPage({ params }: { params: Promise<{ locale: s
       <ToolLayout 
         title={t('title')} 
         description={t('description')}
+        toolId={toolId}
         article={hasArticle ? <p>{t('article')}</p> : undefined}
         faqs={(() => {
           try {

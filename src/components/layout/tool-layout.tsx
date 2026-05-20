@@ -7,6 +7,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { useTranslations } from 'next-intl';
 import { ROUTES } from '@/constants/routes';
 
+import { ToolNavigation } from '@/components/tool-navigation';
+
 interface FAQ {
   question: string;
   answer: string;
@@ -18,9 +20,10 @@ interface ToolLayoutProps {
   children: React.ReactNode;
   article?: React.ReactNode;
   faqs?: FAQ[];
+  toolId?: string;
 }
 
-export function ToolLayout({ title, description, children, article, faqs }: ToolLayoutProps) {
+export function ToolLayout({ title, description, children, article, faqs, toolId }: ToolLayoutProps) {
   const t = useTranslations('common');
   
   return (
@@ -39,7 +42,18 @@ export function ToolLayout({ title, description, children, article, faqs }: Tool
       </div>
 
       <div className="min-h-[400px]">
-        {children}
+        {toolId ? (
+          <div className="grid gap-6 lg:grid-cols-12 items-start">
+            <div className="lg:col-span-9 space-y-6">
+              {children}
+            </div>
+            <div className="lg:col-span-3 space-y-6">
+              <ToolNavigation currentToolId={toolId} />
+            </div>
+          </div>
+        ) : (
+          children
+        )}
       </div>
 
       {(article || faqs) && (

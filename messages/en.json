@@ -1913,6 +1913,181 @@
         "q1": "Where should I define my variables?",
         "a1": "It is standard practice to define global variables inside the :root pseudo-class, which makes them available throughout your entire document."
       }
+    },
+    "unix-time-now": {
+      "title": "Unix Time Now",
+      "description": "Get the current Unix timestamp and copy it instantly.",
+      "current_unix_time": "Current Unix Timestamp",
+      "pause": "Pause",
+      "resume": "Resume",
+      "iso_format": "ISO 8601",
+      "local_format": "Local Time",
+      "utc_format": "UTC Time",
+      "faqs": {
+        "q0": "How often does it update?",
+        "a0": "It updates every second to show the live current Unix time."
+      },
+      "article": "A live Unix Epoch time counter displaying the number of seconds elapsed since January 1, 1970. Provides instant copyable values in UTC, local time, and decimal millisecond counts."
+    },
+    "date-difference-calc": {
+      "title": "Date Difference Calculator",
+      "description": "Calculate the difference between two dates in days, weeks, months, and years.",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "days": "Days",
+      "weeks": "Weeks",
+      "months": "Months",
+      "years": "Years",
+      "faqs": {
+        "q0": "Does it account for leap years?",
+        "a0": "Yes, it accounts for leap years and different month lengths."
+      },
+      "article": "Calculate the precise amount of time elapsed between two calendar dates. Ideal for project planning, tracking milestones, or computing chronological milestones with high accuracy."
+    },
+    "cron-expression-builder": {
+      "title": "Cron Expression Builder",
+      "description": "Visually build cron expressions and see the next scheduled runs.",
+      "minute": "Minute",
+      "hour": "Hour",
+      "day_of_month": "Day of Month",
+      "month": "Month",
+      "day_of_week": "Day of Week",
+      "next_runs": "Next Scheduled Runs",
+      "faqs": {
+        "q0": "What is a cron expression?",
+        "a0": "A cron expression is a string representing a schedule for running a task at specified times."
+      },
+      "article": "A Cron Expression Builder allows you to visually build schedules for automated tasks, system scripts, and repetitive jobs. It validates your schedule syntax in real-time, helping prevent misconfigured intervals."
+    },
+    "number-base-converter": {
+      "title": "Number Base Converter",
+      "description": "Convert numbers between Binary, Octal, Decimal, and Hexadecimal.",
+      "faqs": {
+        "q0": "What bases are supported?",
+        "a0": "Binary (base 2), Octal (base 8), Decimal (base 10), and Hexadecimal (base 16) are supported."
+      },
+      "article": "Number systems define how we represent values. The most common is Decimal (base 10), which uses digits 0-9. In computing, Binary (base 2), Octal (base 8), and Hexadecimal (base 16) are essential because they map perfectly to how computers store and process data in bits and bytes."
+    },
+    "percentage-calculator": {
+      "title": "Percentage Calculator",
+      "description": "Calculate percentages, percentage change, and reverse percentages.",
+      "faqs": {
+        "q0": "What formulas are used?",
+        "a0": "Standard percentage formulas are used to calculate part, whole, and percentage values."
+      },
+      "article": "A percentage calculator helps you compute percentages, find out what percentage one number is of another, and calculate percentage increases or decreases. It is an essential tool for finance, sales, and general mathematics."
+    },
+    "aspect-ratio-calculator": {
+      "title": "Aspect Ratio Calculator",
+      "description": "Calculate aspect ratios and constrain dimensions.",
+      "faqs": {
+        "q0": "What is an aspect ratio?",
+        "a0": "The aspect ratio of an image describes the proportional relationship between its width and its height."
+      },
+      "article": "An aspect ratio calculator helps you resize images and video resolutions proportionally. By entering a known width or height and a target ratio, you can easily determine the missing dimension without distorting the media."
+    },
+    "byte-size-converter": {
+      "title": "Byte Size Converter",
+      "description": "Convert between KB, MB, GB, TB, and PB instantly.",
+      "faqs": {
+        "q0": "Does it use base 2 or base 10?",
+        "a0": "It uses base 2 (1024 bytes = 1 KB) as is standard in computing."
+      },
+      "article": "A byte size converter is crucial for software developers and IT professionals. It converts digital storage units between Bytes, Kilobytes, Megabytes, Gigabytes, and Terabytes, making it easy to understand file sizes and network bandwidth."
+    },
+    "roman-numeral-converter": {
+      "title": "Roman Numeral Converter",
+      "description": "Convert numbers to Roman numerals and vice versa.",
+      "faqs": {
+        "q0": "What is the valid range?",
+        "a0": "Typically from 1 to 3999, as standard Roman numerals do not easily support larger numbers without special notation."
+      },
+      "article": "The Roman Numeral Converter translates standard decimal numbers into ancient Roman numerals (I, V, X, L, C, D, M) and vice versa. It helps in understanding historical dates, clock faces, and outlines."
+    },
+    "random-number-generator": {
+      "title": "Random Number Generator",
+      "description": "Generate random numbers within a specified range.",
+      "faqs": {
+        "q0": "Can it generate unique numbers?",
+        "a0": "Yes, you can enable the 'no-repeat' option to generate a sequence of unique random numbers."
+      },
+      "article": "A Random Number Generator (RNG) creates unpredictable numerical values within a specified range. It is widely used in gaming, statistical sampling, cryptography, and randomized testing."
+    },
+    "fibonacci-generator": {
+      "title": "Fibonacci Generator",
+      "description": "Generate the Fibonacci sequence up to N numbers.",
+      "faqs": {
+        "q0": "What is the Fibonacci sequence?",
+        "a0": "It is a series of numbers where each number is the sum of the two preceding ones, usually starting with 0 and 1."
+      },
+      "article": "The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones. This generator computes the sequence up to a specific limit, which is useful in algorithms, design (Golden Ratio), and mathematics."
+    },
+    "prime-number-checker": {
+      "title": "Prime Number Checker",
+      "description": "Check if a number is prime and find the next prime.",
+      "article": "A prime number is a natural number greater than 1 that cannot be formed by multiplying two smaller natural numbers. This checker quickly verifies if a number is prime, a fundamental concept in cryptography and number theory."
+    },
+    "gcd-lcm-calculator": {
+      "title": "GCD & LCM Calculator",
+      "description": "Calculate the Greatest Common Divisor and Least Common Multiple.",
+      "article": "The Greatest Common Divisor (GCD) and Least Common Multiple (LCM) are foundational mathematical concepts. The GCD helps in simplifying fractions, while the LCM is used when finding common denominators."
+    },
+    "bmi-calculator": {
+      "title": "BMI Calculator",
+      "description": "Calculate your Body Mass Index (BMI) and see your category.",
+      "article": "Body Mass Index (BMI) is a measure of body fat based on height and weight. This calculator provides a quick assessment of whether a person has a healthy body weight for their height."
+    },
+    "scientific-calculator": {
+      "title": "Scientific Calculator",
+      "description": "Perform advanced mathematical calculations.",
+      "article": "A scientific calculator handles advanced mathematical functions like trigonometry, logarithms, and exponential operations. It is a necessary tool for engineering, physics, and advanced mathematics."
+    },
+    "currency-converter": {
+      "title": "Currency Converter",
+      "description": "Convert currencies with live rates.",
+      "article": "A currency converter provides real-time exchange rates to convert value from one currency to another. It is essential for international trade, travel, and financial planning."
+    },
+    "temperature-converter": {
+      "title": "Temperature Converter",
+      "description": "Convert temperatures between Celsius, Fahrenheit, and Kelvin.",
+      "article": "Temperature conversion translates thermal values between scales like Celsius, Fahrenheit, and Kelvin. It is critical for scientific experiments, weather forecasting, and international communication.",
+      "faqs": {
+        "q0": "What is absolute zero?",
+        "a0": "Absolute zero is 0 Kelvin or -273.15°C, representing the state where thermal motion of particles is minimal."
+      }
+    },
+    "timezone-converter": {
+      "title": "Timezone Converter",
+      "description": "Compare times across different time zones side-by-side.",
+      "add_timezone": "Add Timezone",
+      "select_timezone": "Select Timezone",
+      "current_time": "Current Time",
+      "faqs": {
+        "q0": "Can I add multiple cities?",
+        "a0": "Yes, you can add multiple cities to compare their times simultaneously."
+      }
+    },
+    "age-calculator": {
+      "title": "Age Calculator",
+      "description": "Calculate your exact age in years, months, and days based on your date of birth.",
+      "dob": "Date of Birth",
+      "years": "Years",
+      "months": "Months",
+      "days": "Days",
+      "faqs": {
+        "q0": "Does it calculate to the exact day?",
+        "a0": "Yes, it calculates the exact number of years, months, and days since your birth."
+      },
+      "article": "Calculate your exact age down to the precise number of years, months, and days. Ideal for census forms, legal declarations, or curiosity about your exact lifetime metrics."
+    },
+    "loan-emi-calculator": {
+      "title": "Loan EMI Calculator",
+      "description": "Calculate your loan EMI and view the amortization schedule.",
+      "faqs": {
+        "q0": "What is EMI?",
+        "a0": "Equated Monthly Installment (EMI) is a fixed payment amount made by a borrower to a lender at a specified date each calendar month."
+      },
+      "article": "An Equated Monthly Installment (EMI) calculator computes the monthly amount payable to a lender. It factors in the principal loan amount, interest rate, and loan tenure, helping you plan your finances."
     }
   },
   "privacy": {

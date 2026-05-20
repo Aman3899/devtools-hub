@@ -1,19 +1,20 @@
-"use client"
+﻿"use client"
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Copy, Check, Settings2, Info, RefreshCw, Zap, Box } from 'lucide-react';
-import { ToolNavigation } from '@/components/tool-navigation';
+import { ToolCard } from '@/components/layout/tool-card';
+import { CopyButton, DownloadButton, ToolActions, InfoBox, StatsDisplay, CodeTextarea } from '@/components/common';
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 
 export function NeumorphismGeneratorClient() {
   const t = useTranslations('tools.neumorphism-generator');
   const commonT = useTranslations('common');
+  const { copiedType, copyToClipboard } = useCopyToClipboard();
 
   const [size, setSize] = useState(150);
   const [radius, setRadius] = useState(30);
@@ -22,7 +23,6 @@ export function NeumorphismGeneratorClient() {
   const [blur, setBlur] = useState(40);
   const [color, setColor] = useState('#e0e0e0');
   const [shape, setShape] = useState('flat');
-  const [copied, setCopied] = useState(false);
 
   const getShadows = () => {
     const hexToRgb = (hex: string) => {
@@ -62,12 +62,6 @@ export function NeumorphismGeneratorClient() {
 border-radius: ${radius}px;
 box-shadow: ${getShadows()};`;
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(cssCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const applySample = (s: string) => {
     setShape(s);
   };
@@ -83,129 +77,122 @@ box-shadow: ${getShadows()};`;
   };
 
   return (
-    <div className="space-y-12">
-      <div className="grid gap-6 lg:grid-cols-12 items-start">
-        <div className="lg:col-span-9 space-y-6">
-          {/* Preview Area */}
-          <div className="flex flex-col gap-2">
-            <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{commonT('ui.preview')}</Label>
-            <Card 
-              className="border border-border shadow-none rounded-md overflow-hidden min-h-[400px] relative p-20 flex items-center justify-center transition-colors duration-300"
-              style={{ backgroundColor: color }}
+    <div className="grid gap-6 md:grid-cols-3 items-start">
+      <div className="md:col-span-2 grid gap-4 sm:grid-cols-2">
+        {/* Preview Area */}
+        <ToolCard 
+          title={commonT('ui.preview')}
+          contentClassName="p-0 border-none shadow-none rounded-none flex items-center justify-center relative overflow-hidden"
+          className="overflow-hidden"
+        >
+          <div 
+            className="w-full h-full min-h-[400px] flex items-center justify-center transition-colors duration-300"
+            style={{ backgroundColor: color }}
+          >
+            <div 
+              className="transition-all duration-300 flex items-center justify-center text-muted-foreground/20"
+              style={neumorphicStyle}
             >
-               <div 
-                 className="transition-all duration-300 flex items-center justify-center text-muted-foreground/20"
-                 style={neumorphicStyle}
-               >
-                  <Box className="h-12 w-12" />
-               </div>
-            </Card>
+              <Box className="h-12 w-12" />
+            </div>
           </div>
+        </ToolCard>
 
-          {/* Result Area */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{commonT('ui.result')}</Label>
-              <Button variant="ghost" size="sm" onClick={copyToClipboard} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
-                {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
-                {commonT('copy')}
+        {/* Result Area */}
+        <ToolCard 
+          title={commonT('ui.result')}
+          action={
+            <Button variant="ghost" size="sm" onClick={() => copyToClipboard(cssCode, 'css')} className="h-6 px-2 text-[10px] gap-1.5 transition-colors">
+              {copiedType === 'css' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+              {commonT('copy')}
+            </Button>
+          }
+          contentClassName="p-4 font-mono text-xs overflow-x-auto whitespace-pre bg-muted/20 min-h-[400px]"
+        >
+          {cssCode}
+        </ToolCard>
+      </div>
+
+      <div className="md:col-span-1 space-y-4">
+        <ToolCard 
+          title={commonT('ui.settings')} 
+          icon={Settings2} 
+          action={
+            <div className="flex items-center gap-1">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => applySample('pressed')} 
+                className="h-6 px-1.5 text-[10px] w-auto"
+                title="Pressed Effect"
+              >
+                <Zap className="h-3 w-3" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={reset} className="h-6 w-6 text-muted-foreground">
+                <RefreshCw className="h-3 w-3" />
               </Button>
             </div>
-            <Card className="border border-border shadow-none rounded-md bg-muted/20 p-4 font-mono text-xs overflow-x-auto whitespace-pre">
-               {cssCode}
-            </Card>
+          }
+          contentClassName="p-4 space-y-6"
+        >
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('color')}</Label>
+              <div className="flex gap-2">
+                <Input 
+                  type="color" 
+                  value={color} 
+                  onChange={(e) => setColor(e.target.value)}
+                  className="w-8 h-8 p-0 border-none bg-transparent cursor-pointer"
+                />
+                <Input 
+                  type="text" 
+                  value={color} 
+                  onChange={(e) => setColor(e.target.value)}
+                  className="h-8 text-xs font-mono uppercase"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('size')}</Label>
+                <span className="text-[10px] font-mono">{size}px</span>
+              </div>
+              <Slider value={[size]} onValueChange={(v) => setSize(Array.isArray(v) ? v[0] : v)} min={50} max={300} step={1} />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('radius')}</Label>
+                <span className="text-[10px] font-mono">{radius}px</span>
+              </div>
+              <Slider value={[radius]} onValueChange={(v) => setRadius(Array.isArray(v) ? v[0] : v)} max={150} step={1} />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('distance')}</Label>
+                <span className="text-[10px] font-mono">{distance}px</span>
+              </div>
+              <Slider value={[distance]} onValueChange={(v) => setDistance(Array.isArray(v) ? v[0] : v)} max={50} step={1} />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('blur')}</Label>
+                <span className="text-[10px] font-mono">{blur}px</span>
+              </div>
+              <Slider value={[blur]} onValueChange={(v) => setBlur(Array.isArray(v) ? v[0] : v)} max={100} step={1} />
+            </div>
           </div>
-        </div>
 
-        {/* Sidebar Settings */}
-        <div className="lg:col-span-3 space-y-4">
-          <Card className="border border-border shadow-none rounded-md bg-background">
-            <CardHeader className="py-3 px-4 border-b">
-              <CardTitle className="text-xs font-semibold flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Settings2 className="h-3.5 w-3.5" />
-                  {commonT('ui.settings')}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => applySample('pressed')} 
-                    className="h-6 px-1.5 text-[10px] w-auto"
-                    title="Pressed Effect"
-                  >
-                    <Zap className="h-3 w-3" />
-                  </Button>
-                  <Button variant="ghost" size="icon" onClick={reset} className="h-6 w-6 text-muted-foreground">
-                    <RefreshCw className="h-3 w-3" />
-                  </Button>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 space-y-6">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('color')}</Label>
-                  <div className="flex gap-2">
-                    <Input 
-                      type="color" 
-                      value={color} 
-                      onChange={(e) => setColor(e.target.value)}
-                      className="w-8 h-8 p-0 border-none bg-transparent cursor-pointer"
-                    />
-                    <Input 
-                      type="text" 
-                      value={color} 
-                      onChange={(e) => setColor(e.target.value)}
-                      className="h-8 text-xs font-mono uppercase"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('size')}</Label>
-                    <span className="text-[10px] font-mono">{size}px</span>
-                  </div>
-                  <Slider value={[size]} onValueChange={(v) => setSize(Array.isArray(v) ? v[0] : v)} min={50} max={300} step={1} />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('radius')}</Label>
-                    <span className="text-[10px] font-mono">{radius}px</span>
-                  </div>
-                  <Slider value={[radius]} onValueChange={(v) => setRadius(Array.isArray(v) ? v[0] : v)} max={150} step={1} />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('distance')}</Label>
-                    <span className="text-[10px] font-mono">{distance}px</span>
-                  </div>
-                  <Slider value={[distance]} onValueChange={(v) => setDistance(Array.isArray(v) ? v[0] : v)} max={50} step={1} />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <Label className="text-[10px] font-medium text-muted-foreground uppercase">{t('blur')}</Label>
-                    <span className="text-[10px] font-mono">{blur}px</span>
-                  </div>
-                  <Slider value={[blur]} onValueChange={(v) => setBlur(Array.isArray(v) ? v[0] : v)} max={100} step={1} />
-                </div>
-              </div>
-
-              <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
-                <Info className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
-                <p className="text-[10px] text-muted-foreground leading-normal">
-                  {t('sidebar_desc')}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
+            <Info className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
+            <p className="text-[10px] text-muted-foreground leading-normal">{t('sidebar_desc')}</p>
+          </div>
+        </ToolCard>
       </div>
-      <ToolNavigation currentToolId="neumorphism-generator" />
     </div>
   );
 }

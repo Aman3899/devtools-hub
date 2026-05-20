@@ -1,14 +1,15 @@
-"use client"
+﻿"use client"
 
 import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Copy, Check, Search, Filter, Info, Settings2, Zap, Globe } from 'lucide-react';
-import { ToolNavigation } from '@/components/tool-navigation';
-import { toast } from 'sonner';
+import { ToolCard } from '@/components/layout/tool-card';
+import { CopyButton, DownloadButton, ToolActions, InfoBox, StatsDisplay, CodeTextarea } from '@/components/common';
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 
 const TAILWIND_CLASSES = [
   { category: 'Layout', classes: [
@@ -79,9 +80,9 @@ const TAILWIND_CLASSES = [
 export function TailwindClassLookupClient() {
   const t = useTranslations('tools.tailwind-class-lookup');
   const commonT = useTranslations('common');
+  const { copiedType, copyToClipboard } = useCopyToClipboard();
 
   const [search, setSearch] = useState('');
-  const [copiedClass, setCopiedClass] = useState<string | null>(null);
 
   const filteredData = useMemo(() => {
     if (!search) return TAILWIND_CLASSES;
@@ -96,114 +97,94 @@ export function TailwindClassLookupClient() {
     })).filter(cat => cat.classes.length > 0);
   }, [search]);
 
-  const copyClass = (className: string) => {
-    navigator.clipboard.writeText(className);
-    setCopiedClass(className);
-    toast.success(`${className} ${commonT('copied')}`);
-    setTimeout(() => setCopiedClass(null), 2000);
-  };
-
   return (
-    <div className="space-y-12">
-      <div className="grid gap-6 lg:grid-cols-12 items-start">
-        <div className="lg:col-span-9 space-y-6">
-          {/* Search Header */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('search')}</Label>
-              <span className="text-[10px] text-muted-foreground">{filteredData.reduce((acc, cat) => acc + cat.classes.length, 0)} {t('results')}</span>
-            </div>
-            <div className="relative group">
-               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition-colors" />
-               <Input 
-                 placeholder={t('placeholder')}
-                 className="pl-10 h-12 text-sm bg-background border-border shadow-sm focus-visible:ring-primary/20"
-                 value={search}
-                 onChange={(e) => setSearch(e.target.value)}
-               />
-            </div>
+    <div className="grid gap-6 md:grid-cols-3 items-start">
+      <div className="md:col-span-2 space-y-6">
+        {/* Search Header */}
+        <ToolCard 
+          title={t('search')} 
+          action={<span className="text-[10px] text-muted-foreground">{filteredData.reduce((acc, cat) => acc + cat.classes.length, 0)} {t('results')}</span>}
+          contentClassName="p-4"
+        >
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition-colors" />
+            <Input 
+              placeholder={t('placeholder')}
+              className="pl-10 h-12 text-sm bg-background border-border shadow-sm focus-visible:ring-primary/20"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
+        </ToolCard>
 
-          {/* Cheatsheet Grid */}
-          <div className="space-y-8">
-             {filteredData.map((cat) => (
-               <div key={cat.category} className="space-y-3">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground px-1 flex items-center gap-2">
-                     <Filter className="h-3 w-3" />
-                     {cat.category}
-                  </h3>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                     {cat.classes.map((c) => (
-                       <Card 
-                         key={c.name} 
-                         className="group p-3 hover:border-primary/50 transition-all cursor-pointer bg-background border-border shadow-none overflow-hidden relative"
-                         onClick={() => copyClass(c.name)}
-                       >
-                          <div className="flex items-center justify-between relative z-10">
-                             <div className="space-y-1">
-                                <code className="text-xs font-bold text-primary font-mono">{c.name}</code>
-                                <p className="text-[10px] text-muted-foreground font-mono leading-tight truncate max-w-[200px] md:max-w-none">
-                                   {c.desc}
-                                </p>
-                             </div>
-                             <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                {copiedClass === c.name ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
-                             </div>
-                          </div>
-                          <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
-                             <Zap className="h-16 w-16 rotate-12" />
-                          </div>
-                       </Card>
-                     ))}
-                  </div>
-               </div>
-             ))}
-
-             {filteredData.length === 0 && (
-               <div className="text-center py-20 bg-muted/10 rounded-xl border border-dashed border-border">
-                  <Search className="h-10 w-10 text-muted-foreground/20 mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground">{t('no_results')} "{search}"</p>
-               </div>
-             )}
-          </div>
-        </div>
-
-        {/* Sidebar Settings */}
-        <div className="lg:col-span-3 space-y-4">
-          <Card className="border border-border shadow-none rounded-md bg-background">
-            <CardHeader className="py-3 px-4 border-b">
-              <CardTitle className="text-xs font-semibold flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Settings2 className="h-3.5 w-3.5" />
-                  {commonT('ui.info')}
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 space-y-4">
-               <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
-                <Info className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
-                <p className="text-[10px] text-muted-foreground leading-normal">
-                  {t('sidebar_desc')}
-                </p>
-              </div>
-              <div className="space-y-3">
-                 <Label className="text-[10px] font-bold text-foreground uppercase tracking-widest">{t('quick_tips')}</Label>
-                 <div className="space-y-2">
-                    <div className="flex items-start gap-2 p-2 rounded bg-primary/5 border border-primary/10">
-                       <Zap className="h-3 w-3 text-primary mt-0.5" />
-                       <p className="text-[10px] leading-tight text-muted-foreground">{t('tip_copy')}</p>
+        {/* Cheatsheet Grid */}
+        <div className="space-y-8">
+          {filteredData.map((cat) => (
+            <div key={cat.category} className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground px-1 flex items-center gap-2">
+                <Filter className="h-3 w-3" />
+                {cat.category}
+              </h3>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {cat.classes.map((c) => (
+                  <Card 
+                    key={c.name} 
+                    className="group p-3 hover:border-primary/50 transition-all cursor-pointer bg-background border-border shadow-none overflow-hidden relative"
+                    onClick={() => copyToClipboard(c.name, c.name)}
+                  >
+                    <div className="flex items-center justify-between relative z-10">
+                      <div className="space-y-1">
+                        <code className="text-xs font-bold text-primary font-mono">{c.name}</code>
+                        <p className="text-[10px] text-muted-foreground font-mono leading-tight truncate max-w-[200px] md:max-w-none">
+                          {c.desc}
+                        </p>
+                      </div>
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        {copiedType === c.name ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
+                      </div>
                     </div>
-                    <div className="flex items-start gap-2 p-2 rounded bg-blue-500/5 border border-blue-500/10">
-                       <Globe className="h-3 w-3 text-blue-500 mt-0.5" />
-                       <p className="text-[10px] leading-tight text-muted-foreground">{t('tip_search')}</p>
+                    <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
+                      <Zap className="h-16 w-16 rotate-12" />
                     </div>
-                 </div>
+                  </Card>
+                ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          ))}
+
+          {filteredData.length === 0 && (
+            <div className="text-center py-20 bg-muted/10 rounded-xl border border-dashed border-border">
+              <Search className="h-10 w-10 text-muted-foreground/20 mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">{t('no_results')} "{search}"</p>
+            </div>
+          )}
         </div>
       </div>
-      <ToolNavigation currentToolId="tailwind-class-lookup" />
+
+      {/* Sidebar Settings */}
+      <div className="md:col-span-1 space-y-4">
+        <ToolCard title={commonT('ui.info')} icon={Settings2} contentClassName="p-4 space-y-4">
+          <div className="p-3 rounded-md bg-muted/30 border border-border flex gap-2.5 items-start">
+            <Info className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
+            <p className="text-[10px] text-muted-foreground leading-normal">
+              {t('sidebar_desc')}
+            </p>
+          </div>
+          <div className="space-y-3">
+            <Label className="text-[10px] font-bold text-foreground uppercase tracking-widest">{t('quick_tips')}</Label>
+            <div className="space-y-2">
+              <div className="flex items-start gap-2 p-2 rounded bg-primary/5 border border-primary/10">
+                <Zap className="h-3 w-3 text-primary mt-0.5" />
+                <p className="text-[10px] leading-tight text-muted-foreground">{t('tip_copy')}</p>
+              </div>
+              <div className="flex items-start gap-2 p-2 rounded bg-blue-500/5 border border-blue-500/10">
+                <Globe className="h-3 w-3 text-blue-500 mt-0.5" />
+                <p className="text-[10px] leading-tight text-muted-foreground">{t('tip_search')}</p>
+              </div>
+            </div>
+          </div>
+        </ToolCard>
+      </div>
     </div>
   );
 }
