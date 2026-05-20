@@ -156,4 +156,45 @@
   ::selection {
     @apply bg-primary/20 text-foreground;
   }
+
+  /* Interactive elements pointer cursor */
+  a,
+  button,
+  select,
+  summary,
+  label,
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="range"],
+  input[type="button"],
+  input[type="submit"],
+  [role="button"],
+  [role="link"],
+  [role="tab"],
+  [role="switch"],
+  [role="checkbox"],
+  [role="radio"],
+  [role="menuitem"],
+  [data-slot="select-trigger"],
+  [data-slot="select-item"],
+  [data-slot="accordion-trigger"],
+  [data-slot="tabs-trigger"],
+  [data-slot="dropdown-menu-trigger"],
+  [data-slot="dropdown-menu-item"],
+  [data-slot="dropdown-menu-checkbox-item"],
+  [data-slot="dropdown-menu-radio-item"],
+  [data-slot="dropdown-menu-sub-trigger"],
+  [data-slot="switch"] {
+    cursor: pointer !important;
+  }
+
+  /* Disabled state cursor override */
+  button:disabled,
+  input:disabled,
+  [disabled],
+  .disabled,
+  [aria-disabled="true"],
+  [data-disabled] {
+    cursor: not-allowed !important;
+  }
 }

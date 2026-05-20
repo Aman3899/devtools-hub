@@ -1,0 +1,496 @@
+{
+  "jwt-decoder": {
+    "title": "JWT Decoder",
+    "description": "Decode and inspect JSON Web Tokens safely.",
+    "input": "Encoded Token",
+    "header": "Header",
+    "payload": "Payload",
+    "placeholder": "Paste your JWT here...",
+    "invalid": "Invalid JWT format",
+    "invalidToken": "Invalid Token",
+    "structureOk": "Structure OK",
+    "decodedHeader": "Decoded header...",
+    "decodedPayload": "Decoded payload...",
+    "article": "JSON Web Tokens (JWT) are an open, industry standard RFC 7519 method for representing claims securely between two parties. This decoder allows you to view the decoded header and payload of a JWT without needing to send it to a remote server.",
+    "faqs": {
+      "q0": "Is my token validated?",
+      "a0": "No, this tool only decodes the Base64Url encoded payload and header. Signature verification requires the secret key.",
+      "q1": "Can I decode expired tokens?",
+      "a1": "Yes, you can decode any JWT regardless of expiration. This tool shows the expiry status but doesn't prevent decoding expired tokens."
+    },
+    "invalid_jwt_for": "Invalid JWT format (requires 3 parts)",
+    "invalid_token_s": "Invalid token signature or payload",
+    "expired": "Expired",
+    "invalid_token": "Invalid Token",
+    "valid_structure": "Valid Structure",
+    "sample": "Sample",
+    "paste_your_jwt": "Paste your JWT string here...",
+    "token_info": "Token Info",
+    "expiry_status": "Expiry Status",
+    "no_expiry_claim": "No expiry claim (exp) found",
+    "important_note": "Important Note",
+    "decoding_a_jwt": "Decoding a JWT only shows its contents. It does not verify the signature. You should still verify tokens on your server."
+  },
+  "base64-encoder": {
+    "title": "Base64 Encoder",
+    "description": "Encode and decode strings to/from Base64.",
+    "input": "Input Text",
+    "result": "Result",
+    "placeholder": "Enter text to encode or Base64 to decode...",
+    "article": "Base64 is an encoding scheme that represents binary data in an ASCII string format. It's commonly used when there is a need to encode data that needs to be stored and transferred over media that are designed to deal with textual data.",
+    "faqs": {
+      "q0": "What is URL-safe Base64?",
+      "a0": "URL-safe Base64 replaces the '+' and '/' characters with '-' and '_' respectively, making the encoded string safe for use in URLs and filenames.",
+      "q1": "Can I encode files?",
+      "a1": "Yes! This tool supports file upload for encoding. The file is read locally in your browser and converted to Base64 without any server upload."
+    },
+    "custom": {
+      "urlSafe": "URL Safe",
+      "urlSafeDesc": "Replace + and / with - and _",
+      "stripPadding": "Strip Padding",
+      "stripPaddingDesc": "Remove trailing = signs"
+    },
+    "sample": "Sample",
+    "result_will_app": "Result will appear here...",
+    "upload_file": "Upload File",
+    "select_text_fil": "Select text file",
+    "quick_tip": "Quick Tip"
+  },
+  "env-checker": {
+    "title": "ENV Checker",
+    "description": "Validate and check environment variable formats.",
+    "input": ".env Content",
+    "validate": "Validate ENV",
+    "validatedTitle": "Validated Variables",
+    "sensitive": "SENSITIVE",
+    "noVars": "No variables detected",
+    "maskSecrets": "Mask Sensitive Data",
+    "maskDesc": "Hide values with KEY/SECRET/TOKEN",
+    "security": "SECURITY",
+    "securityDesc": "ENV variables are parsed locally. This tool helps you visualize and clean your configuration before committing.",
+    "textareaPlaceholder": "PASTE YOUR .ENV CONTENT HERE...\nAPI_KEY=12345\nDATABASE_URL=postgres://...",
+    "article": "Environment variables (.env files) store configuration settings and sensitive secrets. The ENV Checker helps you validate syntax, identify sensitive keys, and safely mask them before sharing or committing code.",
+    "faqs": {
+      "q0": "Are my secrets safe here?",
+      "a0": "Yes, the tool is 100% client-side. No data is transmitted over the network.",
+      "q1": "How does the tool identify secrets?",
+      "a1": "It uses pattern matching to find common keywords like KEY, SECRET, PASSWORD, and TOKEN in the variable names."
+    }
+  },
+  "url-encoder": {
+    "title": "URL Encoder/Decoder",
+    "description": "Encode or decode URLs and parameters with full component mode toggles.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "URL encoding (also known as percent-encoding) converts special characters in URLs into a format that can be transmitted over the Internet. This tool supports both full URL encoding (encodeURI) and component encoding (encodeURIComponent) for query parameters, ensuring your URLs are properly formatted and safe for web transmission.",
+    "faqs": {
+      "q0": "What's the difference between Component Mode and Full URL encoding?",
+      "a0": "Component Mode (encodeURIComponent) encodes all special characters including / ? : @ & = +, making it ideal for query string parameters. Full URL mode (encodeURI) preserves these characters, suitable for encoding complete URLs.",
+      "q1": "When should I use URL encoding?",
+      "a1": "Use URL encoding when passing data in query strings, handling user input in URLs, or when special characters like spaces, &, or = appear in your URL parameters."
+    },
+    "sample": "Sample",
+    "result_will_app": "Result will appear here...",
+    "component_mode": "Component Mode",
+    "encodes_all_spe": "Encodes all special characters including / ? : @ & = +",
+    "quick_tip": "Quick Tip",
+    "use_component_m": "Use Component Mode (encodeURIComponent) for query string parameters. Turn it off to encode full URLs (encodeURI)."
+  },
+  "jwt-builder": {
+    "title": "JWT Builder",
+    "description": "Build and sign JSON Web Tokens with custom payloads and algorithms.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "JSON Web Tokens (JWT) are a compact, URL-safe means of representing claims to be transferred between two parties. A JWT consists of three parts: Header (algorithm and token type), Payload (claims/data), and Signature (verification). This builder allows you to create custom JWTs with various signing algorithms (HS256, HS384, HS512) for testing and development purposes.",
+    "faqs": {
+      "q0": "What algorithms are supported?",
+      "a0": "This tool supports HMAC-based algorithms: HS256 (SHA-256), HS384 (SHA-384), and HS512 (SHA-512). These are symmetric algorithms that use the same secret key for signing and verification.",
+      "q1": "Should I use this for production tokens?",
+      "a1": "This tool is designed for development and testing. For production, always generate and sign JWTs on your secure backend server, never in the browser where secrets can be exposed."
+    },
+    "invalid_json_in": "Invalid JSON in Header or Payload",
+    "header__json": "Header (JSON)",
+    "payload__json": "Payload (JSON)",
+    "sample": "Sample",
+    "generated_jwt": "Generated JWT",
+    "signature_optio": "Signature Options",
+    "algorithm": "Algorithm",
+    "secret_key": "Secret Key",
+    "secure_generati": "Secure Generation",
+    "tokens_are_gene": "Tokens are generated locally using the Web Crypto API. Your secret key never leaves your browser."
+  },
+  "md5-generator": {
+    "title": "MD5 Generator",
+    "description": "Generate MD5 hashes for strings and files instantly.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "MD5 (Message Digest Algorithm 5) is a widely used cryptographic hash function that produces a 128-bit (32-character hexadecimal) hash value. While MD5 is fast and commonly used for checksums and file integrity verification, it is considered cryptographically broken and should NOT be used for password hashing or security-critical applications due to collision vulnerabilities.",
+    "faqs": {
+      "q0": "Is MD5 secure for passwords?",
+      "a0": "No! MD5 is cryptographically broken and vulnerable to collision attacks. Never use MD5 for password hashing. Use bcrypt, Argon2, or scrypt instead.",
+      "q1": "What should I use MD5 for?",
+      "a1": "MD5 is still acceptable for non-security purposes like file integrity checks, checksums, and detecting accidental data corruption. For security purposes, use SHA-256 or stronger algorithms."
+    },
+    "file_hashed_suc": "File hashed successfully",
+    "sample": "Sample",
+    "enter_text_to_g": "Enter text to generate MD5 hash...",
+    "md5_hash": "MD5 Hash",
+    "hash_will_appea": "Hash will appear here...",
+    "file_hash__loca": "File Hash (Local)",
+    "select_any_file": "Select any file",
+    "security_note": "Security Note",
+    "md5_is_consider": "MD5 is considered cryptographically broken and is prone to collision attacks. It should only be used for checksums and verifying data integrity, not for storing passwords."
+  },
+  "sha-generator": {
+    "title": "SHA-1/256/512 Generator",
+    "description": "Generate and compare SHA family hashes securely.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "SHA (Secure Hash Algorithm) is a family of cryptographic hash functions designed by the NSA. SHA-1 produces a 160-bit hash but is now deprecated for security use. SHA-256 (256-bit) and SHA-512 (512-bit) are part of the SHA-2 family and remain cryptographically secure. These algorithms are widely used for digital signatures, certificate generation, and data integrity verification.",
+    "faqs": {
+      "q0": "Which SHA algorithm should I use?",
+      "a0": "Use SHA-256 for most applications as it provides excellent security with good performance. SHA-512 offers higher security but is slower. Avoid SHA-1 for security purposes as it's deprecated due to collision vulnerabilities.",
+      "q1": "Can I use SHA for password hashing?",
+      "a1": "While SHA algorithms are secure, they're too fast for password hashing, making them vulnerable to brute-force attacks. Use specialized password hashing algorithms like bcrypt, Argon2, or PBKDF2 instead."
+    },
+    "file_hashed_suc": "File hashed successfully",
+    "sample": "Sample",
+    "enter_text_to_g": "Enter text to generate SHA hashes...",
+    "file_hash__loca": "File Hash (Local)",
+    "select_any_file": "Select any file",
+    "security_note": "Security Note",
+    "sha_256_and_sha": "SHA-256 and SHA-512 are cryptographically secure and widely used for data integrity. SHA-1 is deprecated for security purposes but still used for legacy checksums."
+  },
+  "bcrypt-generator": {
+    "title": "Bcrypt Generator",
+    "description": "Hash passwords using Bcrypt with configurable cost factors.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "Bcrypt is a password-hashing function designed by Niels Provos and David Mazières, based on the Blowfish cipher. It incorporates a salt to protect against rainbow table attacks and an adaptive cost factor that makes it resistant to brute-force attacks. The cost factor (work factor) determines how computationally expensive the hash is - each increment doubles the time required, making bcrypt future-proof as hardware improves.",
+    "faqs": {
+      "q0": "What cost factor should I use?",
+      "a0": "A cost factor of 10-12 is recommended for most applications, providing a good balance between security and performance. Higher values (13-14) offer more security but may impact user experience during login.",
+      "q1": "Why does bcrypt take so long?",
+      "a1": "Bcrypt is intentionally slow to prevent brute-force attacks. The cost factor determines the number of iterations - higher values exponentially increase computation time, making password cracking impractical."
+    },
+    "error_generatin": "Error generating hash",
+    "generate_hash": "Generate Hash",
+    "verify_hash": "Verify Hash",
+    "enter_password": "Enter password to hash...",
+    "hash_password": "Hash Password",
+    "generated_hash": "Generated hash will appear here...",
+    "plain_text_pass": "Plain Text Password",
+    "ui_text_1": "Enter password to verify...",
+    "bcrypt_hash": "Bcrypt Hash",
+    "verify_match": "Verify Match",
+    "verification_re": "Verification Result",
+    "enter_values_an": "Enter values and click verify",
+    "match_found": "Match Found!",
+    "no_match": "No Match",
+    "invalid_hash_fo": "Invalid Hash Format",
+    "cost_factor": "Cost Factor",
+    "higher_cost_fac": "Higher cost factors take exponentially longer to compute. Values > 12 may freeze your browser.",
+    "bcrypt_info": "Bcrypt Info",
+    "bcrypt_is_a_pas": "Bcrypt is a password-hashing function designed to be slow and compute-intensive. This protects against brute-force attacks."
+  },
+  "argon2-generator": {
+    "title": "Argon2 Hash Generator",
+    "description": "Generate modern Argon2 password hashes with tunable memory and iterations.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "Argon2 is the winner of the 2015 Password Hashing Competition and is considered the most secure password hashing algorithm available today. It comes in three variants: Argon2d (data-dependent, resistant to GPU attacks), Argon2i (data-independent, resistant to side-channel attacks), and Argon2id (hybrid, recommended for most use cases). Argon2 is designed to resist both GPU and ASIC attacks by requiring significant memory resources.",
+    "faqs": {
+      "q0": "Why is Argon2 better than bcrypt?",
+      "a0": "Argon2 provides better resistance to GPU and ASIC attacks by utilizing memory-hard functions. It also offers more tunable parameters (memory cost, time cost, parallelism) allowing better customization for your security needs.",
+      "q1": "What parameters should I use?",
+      "a1": "For web applications, recommended settings are: memory cost 65536 KB (64 MB), time cost 3 iterations, and parallelism 4. Adjust based on your server's capabilities and security requirements."
+    },
+    "error_generatin": "Error generating hash",
+    "generate_hash": "Generate Hash",
+    "verify_hash": "Verify Hash",
+    "enter_password": "Enter password to hash...",
+    "hash_password": "Hash Password",
+    "generated_hash": "Generated hash will appear here...",
+    "plain_text_pass": "Plain Text Password",
+    "ui_text_1": "Enter password to verify...",
+    "argon2_hash": "Argon2 Hash",
+    "verify_match": "Verify Match",
+    "verification_re": "Verification Result",
+    "enter_values_an": "Enter values and click verify",
+    "match_found": "Match Found!",
+    "no_match": "No Match",
+    "invalid_hash_fo": "Invalid Hash Format",
+    "memory_cost__kb": "Memory Cost (KB)",
+    "time_cost__iter": "Time Cost (Iterations)",
+    "parallelism": "Parallelism",
+    "argon2_info": "Argon2 Info",
+    "argon2_is_the_w": "Argon2 is the winner of the Password Hashing Competition. It is designed to be highly resistant to GPU cracking attacks by utilizing heavy memory constraints."
+  },
+  "hmac-generator": {
+    "title": "HMAC Generator",
+    "description": "Generate Hash-based Message Authentication Codes with various algorithms.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "HMAC (Hash-based Message Authentication Code) is a mechanism for message authentication using cryptographic hash functions combined with a secret key. Unlike simple hashing, HMAC provides both data integrity and authenticity verification. It's widely used in API authentication (like AWS Signature), JWT signing, and secure communication protocols. HMAC can use various hash functions (MD5, SHA-1, SHA-256, SHA-512) with SHA-256 being the most commonly recommended.",
+    "faqs": {
+      "q0": "What's the difference between HMAC and regular hashing?",
+      "a0": "Regular hashing only verifies data integrity. HMAC adds authentication by incorporating a secret key, ensuring both that the data hasn't been tampered with AND that it came from someone who knows the secret key.",
+      "q1": "When should I use HMAC?",
+      "a1": "Use HMAC for API request signing, webhook verification, secure cookie signing, and any scenario where you need to verify both the integrity and authenticity of a message. It's commonly used in OAuth, JWT, and AWS API authentication."
+    },
+    "sample": "Sample",
+    "enter_message_t": "Enter message to sign...",
+    "hash_will_appea": "Hash will appear here...",
+    "secret_key": "Secret Key",
+    "algorithm": "Algorithm",
+    "output_format": "Output Format",
+    "information": "Information",
+    "hmac_uses_a_cry": "HMAC uses a cryptographic hash function in combination with a secret key to verify both data integrity and authenticity."
+  },
+  "base-converter": {
+    "title": "Base Converter",
+    "description": "Convert between Binary, Octal, Decimal, and Hexadecimal.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "Number base conversion is fundamental in computer science and programming. Binary (base-2) uses only 0 and 1, representing how computers store data. Octal (base-8) uses digits 0-7 and was historically used in computing. Decimal (base-10) is our everyday number system. Hexadecimal (base-16) uses 0-9 and A-F, commonly used for memory addresses, color codes, and compact binary representation. This tool uses JavaScript's BigInt for handling extremely large numbers without precision loss.",
+    "faqs": {
+      "q0": "Why do programmers use hexadecimal?",
+      "a0": "Hexadecimal provides a compact way to represent binary data. Each hex digit represents exactly 4 binary bits, making it easier to read and write than long binary strings. It's commonly used for memory addresses, color codes (#FF5733), and debugging.",
+      "q1": "What's the largest number I can convert?",
+      "a1": "This tool uses JavaScript's BigInt, which can handle arbitrarily large integers limited only by available memory. You can safely convert numbers with hundreds or thousands of digits."
+    },
+    "invalid_charact": "Invalid character for the selected base",
+    "instant_convert": "Instant Converter Table",
+    "sample": "Sample",
+    "bigint_support": "BigInt Support",
+    "this_converter": "This converter uses BigInt, allowing you to convert extremely large numbers safely without losing precision."
+  },
+  "caesar-cipher": {
+    "title": "Caesar Cipher",
+    "description": "Encrypt and decrypt text using the Caesar cipher with adjustable shifts.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "The Caesar cipher is one of the oldest and simplest encryption techniques, named after Julius Caesar who used it for military communications. It works by shifting each letter in the alphabet by a fixed number of positions. For example, with a shift of 3, A becomes D, B becomes E, and so on. While historically significant, Caesar cipher is not secure by modern standards and should only be used for educational purposes or simple obfuscation.",
+    "faqs": {
+      "q0": "Is Caesar cipher secure?",
+      "a0": "No, Caesar cipher is extremely insecure by modern standards. With only 25 possible shifts, it can be easily broken by trying all possibilities (brute force) or using frequency analysis. Never use it for protecting sensitive information.",
+      "q1": "What is the brute force feature?",
+      "a1": "The brute force feature shows all 25 possible decryptions by trying every shift value from 1 to 25. This demonstrates how easy it is to break Caesar cipher encryption without knowing the key."
+    },
+    "sample": "Sample",
+    "enter_text_to_s": "Enter text to shift...",
+    "result_will_app": "Result will appear here...",
+    "encode": "Encode",
+    "decode": "Decode",
+    "shift_value": "Shift Value",
+    "ui_text_1": "Info",
+    "caesar_cipher_i": "Caesar Cipher is a substitution cipher where each letter is shifted a certain number of places down the alphabet.",
+    "brute_force": "Brute Force (All 25)"
+  },
+  "rot13-encoder": {
+    "title": "ROT13 Encoder",
+    "description": "Quickly encode and decode text using ROT13 cipher.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "ROT13 (\"rotate by 13 places\") is a special case of the Caesar cipher with a shift of 13. Because the English alphabet has 26 letters, applying ROT13 twice returns the original text, making encoding and decoding the same operation. ROT13 is commonly used on internet forums to hide spoilers, punchlines, or potentially offensive content. It provides no security and is purely for obfuscation.",
+    "faqs": {
+      "q0": "Why is ROT13 special?",
+      "a0": "ROT13 is its own inverse - applying it twice returns the original text. This is because shifting by 13 in a 26-letter alphabet means encoding and decoding use the exact same operation, making it simple and symmetric.",
+      "q1": "Where is ROT13 used?",
+      "a1": "ROT13 is commonly used in online forums, newsgroups, and comment sections to hide spoilers, puzzle solutions, or potentially offensive jokes. It's not encryption - it's just a way to prevent accidental reading."
+    },
+    "sample": "Sample",
+    "enter_text_to_e": "Enter text to encode/decode with ROT13...",
+    "result_will_app": "Result will appear here...",
+    "ui_text_1": "Info",
+    "rot13_is_a_simp": "ROT13 is a simple letter substitution cipher that replaces a letter with the 13th letter after it in the alphabet. Because there are 26 letters in the alphabet, encoding and decoding use the same operation."
+  },
+  "aes-encryptor": {
+    "title": "AES Encryptor",
+    "description": "Encrypt and decrypt data using AES with CBC/GCM modes.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "AES (Advanced Encryption Standard) is a symmetric encryption algorithm adopted by the U.S. government and used worldwide for securing sensitive data. AES-256 uses a 256-bit key, providing extremely strong encryption. This tool implements AES in CBC (Cipher Block Chaining) mode with PBKDF2 key derivation, converting your passphrase into a secure encryption key. The output is Base64-encoded for easy storage and transmission.",
+    "faqs": {
+      "q0": "How secure is AES-256?",
+      "a0": "AES-256 is considered military-grade encryption and is virtually unbreakable with current technology. It would take billions of years to crack using brute force. However, security depends on using a strong, unique passphrase.",
+      "q1": "Can I decrypt data encrypted elsewhere?",
+      "a1": "This tool uses OpenSSL-compatible format (Salted__ prefix). You can decrypt the output using OpenSSL command-line tools or other compatible libraries, as long as you use the same passphrase."
+    },
+    "decryption_fail": "Decryption failed. Incorrect passphrase or invalid ciphertext.",
+    "encrypt": "Encrypt",
+    "decrypt": "Decrypt",
+    "plain_text": "Plain Text",
+    "sample": "Sample",
+    "enter_text_to_e": "Enter text to encrypt...",
+    "cipher_text__ba": "Cipher Text (Base64)",
+    "result_will_app": "Result will appear here...",
+    "passphrase___se": "Passphrase / Secret Key",
+    "this_acts_as_th": "This acts as the master password to encrypt/decrypt.",
+    "aes_256__cbc": "AES-256 (CBC)",
+    "advanced_encryp": "Advanced Encryption Standard (AES) is a symmetric encryption algorithm. The ciphertext is encoded in Base64 and prefixed with the OpenSSL salt marker (U2Fsd...).",
+    "enter_aes_ciphe": "Enter AES ciphertext (starting with U2Fsd...) to decrypt..."
+  },
+  "rsa-key-generator": {
+    "title": "RSA Key Generator",
+    "description": "Generate RSA public and private key pairs securely.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "RSA (Rivest-Shamir-Adleman) is an asymmetric cryptographic algorithm that uses a pair of keys: a public key for encryption and a private key for decryption. RSA is fundamental to modern internet security, used in HTTPS, SSH, digital signatures, and secure email. This tool generates RSA key pairs in PEM format, compatible with OpenSSL and most cryptographic libraries. Key sizes of 2048 or 4096 bits are recommended for security.",
+    "faqs": {
+      "q0": "What key size should I use?",
+      "a0": "2048-bit keys are currently considered secure for most applications and offer good performance. 4096-bit keys provide extra security margin but are slower. Avoid 1024-bit keys as they're no longer considered secure.",
+      "q1": "How do I use these keys?",
+      "a1": "The public key can be shared freely and is used to encrypt data or verify signatures. The private key must be kept secret and is used to decrypt data or create signatures. Never share your private key!"
+    },
+    "rsa_key_pair_ge": "RSA Key Pair Generated",
+    "public_key": "Public Key",
+    "public_key_will": "Public key will appear here...",
+    "private_key": "Private Key",
+    "private_key_wil": "Private key will appear here...",
+    "key_size__bits": "Key Size (Bits)",
+    "generating": "Generating...",
+    "client_side_onl": "Client-Side Only",
+    "keys_are_genera": "Keys are generated entirely within your browser memory. They are never transmitted over the internet.",
+    "generate_key_pair": "Generate Key Pair"
+  },
+  "date-difference-calc": {
+    "title": "Date Difference Calculator",
+    "description": "Calculate the difference between two dates in days, weeks, months, and years.",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "days": "Days",
+    "weeks": "Weeks",
+    "months": "Months",
+    "years": "Years",
+    "faqs": {
+      "q0": "Does it account for leap years?",
+      "a0": "Yes, it accounts for leap years and different month lengths."
+    },
+    "article": "Calculate the precise amount of time elapsed between two calendar dates. Ideal for project planning, tracking milestones, or computing chronological milestones with high accuracy."
+  },
+  "number-base-converter": {
+    "title": "Number Base Converter",
+    "description": "Convert numbers between Binary, Octal, Decimal, and Hexadecimal.",
+    "faqs": {
+      "q0": "What bases are supported?",
+      "a0": "Binary (base 2), Octal (base 8), Decimal (base 10), and Hexadecimal (base 16) are supported."
+    },
+    "article": "Number systems define how we represent values. The most common is Decimal (base 10), which uses digits 0-9. In computing, Binary (base 2), Octal (base 8), and Hexadecimal (base 16) are essential because they map perfectly to how computers store and process data in bits and bytes."
+  },
+  "percentage-calculator": {
+    "title": "Percentage Calculator",
+    "description": "Calculate percentages, percentage change, and reverse percentages.",
+    "faqs": {
+      "q0": "What formulas are used?",
+      "a0": "Standard percentage formulas are used to calculate part, whole, and percentage values."
+    },
+    "article": "A percentage calculator helps you compute percentages, find out what percentage one number is of another, and calculate percentage increases or decreases. It is an essential tool for finance, sales, and general mathematics."
+  },
+  "byte-size-converter": {
+    "title": "Byte Size Converter",
+    "description": "Convert between KB, MB, GB, TB, and PB instantly.",
+    "faqs": {
+      "q0": "Does it use base 2 or base 10?",
+      "a0": "It uses base 2 (1024 bytes = 1 KB) as is standard in computing."
+    },
+    "article": "A byte size converter is crucial for software developers and IT professionals. It converts digital storage units between Bytes, Kilobytes, Megabytes, Gigabytes, and Terabytes, making it easy to understand file sizes and network bandwidth."
+  },
+  "roman-numeral-converter": {
+    "title": "Roman Numeral Converter",
+    "description": "Convert numbers to Roman numerals and vice versa.",
+    "faqs": {
+      "q0": "What is the valid range?",
+      "a0": "Typically from 1 to 3999, as standard Roman numerals do not easily support larger numbers without special notation."
+    },
+    "article": "The Roman Numeral Converter translates standard decimal numbers into ancient Roman numerals (I, V, X, L, C, D, M) and vice versa. It helps in understanding historical dates, clock faces, and outlines."
+  },
+  "fibonacci-generator": {
+    "title": "Fibonacci Generator",
+    "description": "Generate the Fibonacci sequence up to N numbers.",
+    "faqs": {
+      "q0": "What is the Fibonacci sequence?",
+      "a0": "It is a series of numbers where each number is the sum of the two preceding ones, usually starting with 0 and 1."
+    },
+    "article": "The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones. This generator computes the sequence up to a specific limit, which is useful in algorithms, design (Golden Ratio), and mathematics."
+  },
+  "prime-number-checker": {
+    "title": "Prime Number Checker",
+    "description": "Check if a number is prime and find the next prime.",
+    "article": "A prime number is a natural number greater than 1 that cannot be formed by multiplying two smaller natural numbers. This checker quickly verifies if a number is prime, a fundamental concept in cryptography and number theory."
+  },
+  "gcd-lcm-calculator": {
+    "title": "GCD & LCM Calculator",
+    "description": "Calculate the Greatest Common Divisor and Least Common Multiple.",
+    "article": "The Greatest Common Divisor (GCD) and Least Common Multiple (LCM) are foundational mathematical concepts. The GCD helps in simplifying fractions, while the LCM is used when finding common denominators."
+  },
+  "bmi-calculator": {
+    "title": "BMI Calculator",
+    "description": "Calculate your Body Mass Index (BMI) and see your category.",
+    "article": "Body Mass Index (BMI) is a measure of body fat based on height and weight. This calculator provides a quick assessment of whether a person has a healthy body weight for their height."
+  },
+  "scientific-calculator": {
+    "title": "Scientific Calculator",
+    "description": "Perform advanced mathematical calculations.",
+    "article": "A scientific calculator handles advanced mathematical functions like trigonometry, logarithms, and exponential operations. It is a necessary tool for engineering, physics, and advanced mathematics."
+  },
+  "currency-converter": {
+    "title": "Currency Converter",
+    "description": "Convert currencies with live rates.",
+    "article": "A currency converter provides real-time exchange rates to convert value from one currency to another. It is essential for international trade, travel, and financial planning."
+  },
+  "temperature-converter": {
+    "title": "Temperature Converter",
+    "description": "Convert temperatures between Celsius, Fahrenheit, and Kelvin.",
+    "article": "Temperature conversion translates thermal values between scales like Celsius, Fahrenheit, and Kelvin. It is critical for scientific experiments, weather forecasting, and international communication.",
+    "faqs": {
+      "q0": "What is absolute zero?",
+      "a0": "Absolute zero is 0 Kelvin or -273.15°C, representing the state where thermal motion of particles is minimal."
+    }
+  },
+  "timezone-converter": {
+    "title": "Timezone Converter",
+    "description": "Compare times across different time zones side-by-side.",
+    "add_timezone": "Add Timezone",
+    "select_timezone": "Select Timezone",
+    "current_time": "Current Time",
+    "faqs": {
+      "q0": "Can I add multiple cities?",
+      "a0": "Yes, you can add multiple cities to compare their times simultaneously."
+    }
+  },
+  "age-calculator": {
+    "title": "Age Calculator",
+    "description": "Calculate your exact age in years, months, and days based on your date of birth.",
+    "dob": "Date of Birth",
+    "years": "Years",
+    "months": "Months",
+    "days": "Days",
+    "faqs": {
+      "q0": "Does it calculate to the exact day?",
+      "a0": "Yes, it calculates the exact number of years, months, and days since your birth."
+    },
+    "article": "Calculate your exact age down to the precise number of years, months, and days. Ideal for census forms, legal declarations, or curiosity about your exact lifetime metrics."
+  },
+  "loan-emi-calculator": {
+    "title": "Loan EMI Calculator",
+    "description": "Calculate your loan EMI and view the amortization schedule.",
+    "faqs": {
+      "q0": "What is EMI?",
+      "a0": "Equated Monthly Installment (EMI) is a fixed payment amount made by a borrower to a lender at a specified date each calendar month."
+    },
+    "article": "An Equated Monthly Installment (EMI) calculator computes the monthly amount payable to a lender. It factors in the principal loan amount, interest rate, and loan tenure, helping you plan your finances."
+  }
+}

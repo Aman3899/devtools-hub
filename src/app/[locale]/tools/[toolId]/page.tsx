@@ -54,9 +54,11 @@ export default async function ToolPage({ params }: { params: Promise<{ locale: s
 
   let article = undefined;
   try {
-    const rawArticle = t.raw('article');
-    if (typeof rawArticle === 'string' && rawArticle !== `tools.${toolId}.article`) {
-      article = rawArticle;
+    if (t.has('article')) {
+      const rawArticle = t.raw('article');
+      if (typeof rawArticle === 'string' && rawArticle !== `tools.${toolId}.article`) {
+        article = rawArticle;
+      }
     }
   } catch (e) {
     // missing article is fine
@@ -83,6 +85,9 @@ export default async function ToolPage({ params }: { params: Promise<{ locale: s
         article={hasArticle ? <p>{t('article')}</p> : undefined}
         faqs={(() => {
           try {
+            if (!t.has('faqs')) {
+              return undefined;
+            }
             // Check if faqs exists and is an object
             const faqsRaw = t.raw('faqs');
             if (!faqsRaw || typeof faqsRaw !== 'object' || Array.isArray(faqsRaw)) {

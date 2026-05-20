@@ -42,18 +42,7 @@ export function ToolLayout({ title, description, children, article, faqs, toolId
       </div>
 
       <div className="min-h-[400px]">
-        {toolId ? (
-          <div className="grid gap-6 lg:grid-cols-12 items-start">
-            <div className="lg:col-span-9 space-y-6">
-              {children}
-            </div>
-            <div className="lg:col-span-3 space-y-6">
-              <ToolNavigation currentToolId={toolId} />
-            </div>
-          </div>
-        ) : (
-          children
-        )}
+        {children}
       </div>
 
       {(article || faqs) && (
@@ -95,6 +84,10 @@ export function ToolLayout({ title, description, children, article, faqs, toolId
             </div>
           )}
         </div>
+      )}
+
+      {toolId && (
+        <ToolNavigation currentToolId={toolId} />
       )}
 
       <footer className="pt-16 border-t pb-8 flex justify-between items-center text-[11px] text-muted-foreground font-medium uppercase tracking-wider">

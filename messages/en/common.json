@@ -1,0 +1,231 @@
+{
+  "title": "DevTools Hub",
+  "description": "Enterprise-grade developer tools for modern workflows.",
+  "tools": "Tools",
+  "input": "Input",
+  "output": "Output",
+  "search": "Search tools...",
+  "version": "Version 1.0 Live",
+  "exploreTools": "Explore Tools",
+  "learnMore": "Learn More",
+  "allTools": "All Tools",
+  "active": "Active",
+  "showing": "Showing",
+  "of": "of",
+  "clearAll": "Clear all",
+  "searchPlaceholder": "Search tools by name or description...",
+  "filter": "Filter",
+  "subject": "Subject",
+  "subjectPlaceholder": "What's this about?",
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "navigation": {
+    "back": "Back to Home",
+    "home": "Home",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "copy": "Copy",
+  "copied": "Copied to clipboard!",
+  "clear": "Clear",
+  "cleared": "Cleared successfully!",
+  "status": {
+    "underConstruction": "Under Construction",
+    "comingSoon": "We are working hard to bring this feature to you soon!"
+  },
+  "format": "Format",
+  "minify": "Minify",
+  "decode": "Decode",
+  "encode": "Encode",
+  "generate": "Generate",
+  "upload": "Upload",
+  "error": "Error",
+  "success": "Success",
+  "hero": {
+    "title": "All-in-One Developer Hub",
+    "subtitle": "A suite of powerful, fast, and secure tools for modern developers. Everything runs in your browser.",
+    "searchPlaceholder": "Find a tool..."
+  },
+  "benefits": {
+    "clientSide": {
+      "title": "100% Client-Side",
+      "desc": "Your data never leaves your browser. Secure and private by design."
+    },
+    "fast": {
+      "title": "Blazing Fast",
+      "desc": "No server latency. Tools are instant and lightweight."
+    },
+    "free": {
+      "title": "Always Free",
+      "desc": "No tracking, no ads. Built for developers by developers."
+    }
+  },
+  "categories": {
+    "text": "Text & String",
+    "data": "Data & Security",
+    "dev": "Development",
+    "design": "Design & Style",
+    "web": "Web Utilities"
+  },
+  "ui": {
+    "settings": "Settings",
+    "customization": "Customization",
+    "preview": "Preview",
+    "editor": "Editor",
+    "options": "Options",
+    "result": "Result",
+    "output": "Output",
+    "code": "Code",
+    "privacy": "Privacy",
+    "security": "Security",
+    "layout": "Layout",
+    "livePreview": "Live Preview",
+    "details": "Details",
+    "info": "Info",
+    "sample": "Sample"
+  },
+  "about": "About this Tool",
+  "faqsHeading": "Frequently Asked Questions",
+  "footerText": "Built with ♥ by DevTools Hub © {year}",
+  "backToTools": "Back to Tools",
+  "aboutUs": {
+    "title": "About Us",
+    "p1": "DevTools Hub was created with a single mission: to provide developers with a reliable, fast, and secure set of utilities for their everyday workflow. We understand the importance of privacy, which is why all our tools run 100% locally in your browser. No data is ever sent to a server.",
+    "p2": "Whether you are decoding tokens, formatting messy code, or generating secure UUIDs, we've got you covered with a clean and distraction-free environment built entirely on modern web standards."
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "How can we help you?",
+    "send": "Send Message"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Simple, secure, and privacy-first tools for your daily development tasks.",
+    "steps": {
+      "s1": {
+        "title": "Pick a tool",
+        "desc": "Select from our wide range of utilities."
+      },
+      "s2": {
+        "title": "Input data",
+        "desc": "Paste your code, text, or files locally."
+      },
+      "s3": {
+        "title": "Transform",
+        "desc": "Our logic processes everything in-browser."
+      },
+      "s4": {
+        "title": "Profit",
+        "desc": "Copy results without server delays."
+      }
+    }
+  },
+  "noMatches": {
+    "title": "No matches found",
+    "desc": "We couldn't find any tools matching \"{search}\"",
+    "clear": "Clear Search"
+  },
+  "footerNav": {
+    "privacy": "Privacy",
+    "github": "Github",
+    "changelog": "Changelog",
+    "support": "Support",
+    "copyright": "Built by developers for developers. © {year}"
+  },
+  "catDesc": "Tools for {category} workflows and optimization.",
+  "clientSideLabel": "Client Side",
+  "serverless": "Serverless",
+  "secureLabel": "Secure",
+  "openSource": "Open Source",
+  "notFound": {
+    "title": "Page Not Found",
+    "desc": "The tool or page you are looking for does not exist or has been moved.",
+    "return": "Return to Dashboard",
+    "goBack": "Go back to previous page",
+    "lost": "Lost? Search for a tool on our {link}."
+  },
+  "landing": {
+    "title": "Developer Utilities",
+    "subtitle": "Privacy-first, client-side tools for your daily development workflow.",
+    "searchPlaceholder": "Search tools (e.g. 'json', 'jwt', 'regex')...",
+    "categories": "Categories",
+    "allTools": "All Tools",
+    "privacyNote": "Privacy Note",
+    "privacyDesc": "All tools run entirely in your browser. Your data never leaves your machine.",
+    "clientSide": "Client-side",
+    "noTools": "No tools found",
+    "noToolsDesc": "Try adjusting your search or category filters.",
+    "clearFilters": "Clear all filters"
+  },
+  "loadSample": "Load Sample",
+  "download": "Download",
+  "importFile": "Import File",
+  "dropFile": "Drop file here or click to upload",
+  "sample": "Sample",
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Your privacy is our top priority. Learn how we handle your data.",
+    "intro": "At DevTools Hub, we take your privacy seriously. Our platform is designed with a privacy-first approach.",
+    "section1": {
+      "title": "100% Client-Side Processing",
+      "content": "All tools on this platform run entirely in your browser. We do not use servers to process your data, meaning your code, JSON, tokens, and images never leave your machine."
+    },
+    "section2": {
+      "title": "No Data Storage",
+      "content": "We do not store your inputs, outputs, or any personal information. Once you close the tab or refresh the page, all session data is cleared from your browser's memory."
+    },
+    "section3": {
+      "title": "Analytics and Cookies",
+      "content": "We may use minimal, privacy-respecting analytics to understand how our tools are used. No personal identifiers are collected, and we do not use tracking cookies for advertising."
+    },
+    "lastUpdated": "Last updated: May 2024"
+  },
+  "github": {
+    "title": "GitHub Repository",
+    "description": "DevTools Hub is an open-source project. Contribute on GitHub.",
+    "intro": "We believe in the power of open-source. DevTools Hub is built by developers, for developers.",
+    "cta": "View on GitHub",
+    "contribute": {
+      "title": "Contribute to the Project",
+      "content": "Found a bug? Have a feature request? Feel free to open an issue or submit a pull request. We welcome contributions from the community."
+    },
+    "license": {
+      "title": "MIT License",
+      "content": "The project is licensed under the MIT License, which means you are free to use, modify, and distribute the code."
+    },
+    "openSource": "Open Source",
+    "communityBuilt": "Community Built"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "description": "Stay updated with the latest features and improvements.",
+    "v1": {
+      "version": "v1.0.0",
+      "date": "May 2024",
+      "title": "Initial Release",
+      "items": [
+        "Launched DevTools Hub with 15+ essential tools.",
+        "Full support for English and Urdu localization.",
+        "100% Client-side processing for maximum privacy.",
+        "Optimized SEO and performance architecture."
+      ]
+    },
+    "v1_1": {
+      "version": "v1.1.0",
+      "date": "May 2024",
+      "title": "UX & Performance Update",
+      "items": [
+        "Enhanced HTML Previewer with internal scrolling and beautifier.",
+        "Added Bootstrap 5 and Font Awesome support to Previewer.",
+        "Improved accessibility and keyboard navigation.",
+        "Reduced bundle size and optimized hydration performance."
+      ]
+    }
+  }
+}

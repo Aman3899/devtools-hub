@@ -12,6 +12,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { ToolCard } from '@/components/layout/tool-card';
 import { CopyButton, DownloadButton, ToolActions, InfoBox, StatsDisplay, CodeTextarea } from '@/components/common';
+import { useLanguage } from '@/hooks/tool';
 
 const SAMPLE_OLD = `function calculateTotal(price, quantity) {
   const tax = 0.05;
