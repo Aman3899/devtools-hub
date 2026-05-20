@@ -1,28 +1,28 @@
-'use client';
+﻿"use client"
 
 import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Settings2, Info, Copy, Key, Check, Download, ShieldCheck, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
-import { ToolNavigation } from '@/components/tool-navigation';
 import forge from 'node-forge';
+import { ToolCard } from '@/components/layout/tool-card';
+import { CopyButton, DownloadButton, ToolActions, InfoBox, StatsDisplay, CodeTextarea } from '@/components/common';
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 
 export function RsaKeyGeneratorClient() {
   const t = useTranslations('tools.rsa-key-generator');
   const commonT = useTranslations('common');
+  const { copiedType, copyToClipboard } = useCopyToClipboard();
   
   const [keySize, setKeySize] = useState('2048');
   const [publicKey, setPublicKey] = useState('');
   const [privateKey, setPrivateKey] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
-  const [copiedStates, setCopiedStates] = useState({ pub: false, priv: false });
 
-  
   const generateKeys = useCallback(() => {
     setIsGenerating(true);
     setPublicKey('');
@@ -50,14 +50,6 @@ export function RsaKeyGeneratorClient() {
     }, 100);
   }, [keySize, commonT]);
 
-  const copyToClipboard = (type: 'pub' | 'priv') => {
-    const text = type === 'pub' ? publicKey : privateKey;
-    navigator.clipboard.writeText(text);
-    setCopiedStates(prev => ({ ...prev, [type]: true }));
-    setTimeout(() => setCopiedStates(prev => ({ ...prev, [type]: false })), 2000);
-    toast.success(commonT('copied'));
-  };
-
   const handleDownload = (type: 'pub' | 'priv') => {
     const text = type === 'pub' ? publicKey : privateKey;
     const filename = type === 'pub' ? 'public_key.pem' : 'private_key.pem';
@@ -70,120 +62,100 @@ export function RsaKeyGeneratorClient() {
     URL.revokeObjectURL(url);
   };
 
-  const clear = () => {
-    setPublicKey('');
-    setPrivateKey('');
-  };
-
   return (
-    <div className="space-y-12">
-      <div className="grid gap-6 lg:grid-cols-12 items-start">
-        <div className="lg:col-span-9 grid gap-4 md:grid-cols-2">
-          
-          {/* Public Key Area */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('public_key')}</Label>
-              <div className="flex items-center gap-1">
-                <Button variant="ghost" size="sm" onClick={() => handleDownload('pub')} disabled={!publicKey} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
-                  <Download className="h-3 w-3" />
-                  {commonT('download')}
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => copyToClipboard('pub')} disabled={!publicKey} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
-                  {copiedStates.pub ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
-                  {commonT('copy')}
-                </Button>
-              </div>
-            </div>
-            
-            <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-background">
-              <Textarea
-                readOnly
-                placeholder={t('public_key_will')}
-                className="flex-1 font-mono text-[10px] sm:text-xs resize-none border-none focus-visible:ring-0 p-3 bg-muted/20 leading-relaxed text-[#98c379]"
-                value={publicKey}
-              />
-            </Card>
-          </div>
-
-          {/* Private Key Area */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('private_key')}</Label>
-              <div className="flex items-center gap-1">
-                <Button variant="ghost" size="sm" onClick={() => handleDownload('priv')} disabled={!privateKey} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
-                  <Download className="h-3 w-3" />
-                  {commonT('download')}
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => copyToClipboard('priv')} disabled={!privateKey} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
-                  {copiedStates.priv ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
-                  {commonT('copy')}
-                </Button>
-              </div>
-            </div>
-            
-            <Card className="flex flex-col h-[500px] border border-border shadow-none rounded-md overflow-hidden bg-background">
-              <Textarea
-                readOnly
-                placeholder={t('private_key_wil')}
-                className="flex-1 font-mono text-[10px] sm:text-xs resize-none border-none focus-visible:ring-0 p-3 bg-muted/20 leading-relaxed text-[#e06c75]"
-                value={privateKey}
-              />
-            </Card>
-          </div>
-        </div>
-
-        {/* Sidebar Settings */}
-        <div className="lg:col-span-3 space-y-4">
-          <Card className="border border-border shadow-none rounded-md bg-background">
-            <CardHeader className="py-3 px-4 border-b">
-              <CardTitle className="text-xs font-semibold flex items-center gap-2">
-                <Settings2 className="h-3.5 w-3.5" />
-                {commonT('ui.customization')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 space-y-6">
-              
-              <div className="space-y-2">
-                <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('key_size__bits')}</Label>
-                <Select value={keySize} onValueChange={(val) => val && setKeySize(val)} disabled={isGenerating}>
-                  <SelectTrigger className="h-8 text-xs bg-muted/30 border-border">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="1024" className="text-xs">1024-bit (Fast, Less Secure)</SelectItem>
-                    <SelectItem value="2048" className="text-xs">2048-bit (Standard)</SelectItem>
-                    <SelectItem value="4096" className="text-xs">4096-bit (Secure, Slow)</SelectItem>
-                  </SelectContent>
-                </Select>
-                {keySize === '4096' && (
-                  <p className="text-[9px] text-destructive font-medium mt-1">Warning: 4096-bit generation may freeze your browser for several seconds.</p>
-                )}
-              </div>
-
-              <Button 
-                className="w-full h-9 text-xs font-semibold" 
-                onClick={generateKeys} 
-                disabled={isGenerating}
-              >
-                {isGenerating ? <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> : <Key className="h-4 w-4 mr-2" />}
-                {isGenerating ? (t('generating')) : (t('generate_key_pair'))}
+    <div className="grid gap-6 md:grid-cols-3 items-start">
+      <div className="md:col-span-2 grid gap-4 sm:grid-cols-2">
+        {/* Public Key Area */}
+        <ToolCard 
+          title={t('public_key')}
+          action={
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="sm" onClick={() => handleDownload('pub')} disabled={!publicKey} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                <Download className="h-3 w-3" />
+                {commonT('download')}
               </Button>
+              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(publicKey, 'pub')} disabled={!publicKey} className="h-6 px-2 text-[10px] gap-1.5 transition-colors">
+                {copiedType === 'pub' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                {commonT('copy')}
+              </Button>
+            </div>
+          }
+          contentClassName="p-0 flex flex-col h-[500px]"
+        >
+          <Textarea
+            readOnly
+            placeholder={t('public_key_will')}
+            className="flex-1 font-mono text-[10px] sm:text-xs resize-none border-none focus-visible:ring-0 p-3 bg-muted/20 leading-relaxed text-[#98c379]"
+            value={publicKey}
+          />
+        </ToolCard>
 
-              <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5 mt-4">
-                <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
-                  <ShieldCheck className="h-3 w-3" />
-                  {t('client_side_onl')}
-                </div>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  {t('keys_are_genera')}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        {/* Private Key Area */}
+        <ToolCard 
+          title={t('private_key')}
+          action={
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="sm" onClick={() => handleDownload('priv')} disabled={!privateKey} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                <Download className="h-3 w-3" />
+                {commonT('download')}
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(privateKey, 'priv')} disabled={!privateKey} className="h-6 px-2 text-[10px] gap-1.5 transition-colors">
+                {copiedType === 'priv' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                {commonT('copy')}
+              </Button>
+            </div>
+          }
+          contentClassName="p-0 flex flex-col h-[500px]"
+        >
+          <Textarea
+            readOnly
+            placeholder={t('private_key_wil')}
+            className="flex-1 font-mono text-[10px] sm:text-xs resize-none border-none focus-visible:ring-0 p-3 bg-muted/20 leading-relaxed text-[#e06c75]"
+            value={privateKey}
+          />
+        </ToolCard>
       </div>
-      <ToolNavigation currentToolId="rsa-key-generator" />
+
+      {/* Sidebar Settings */}
+      <div className="md:col-span-1 space-y-4">
+        <ToolCard title={commonT('ui.customization')} icon={Settings2} contentClassName="p-4 space-y-6">
+          <div className="space-y-2">
+            <Label className="text-[10px] font-medium text-muted-foreground uppercase tracking-tight">{t('key_size__bits')}</Label>
+            <Select value={keySize} onValueChange={(val) => val && setKeySize(val)} disabled={isGenerating}>
+              <SelectTrigger className="h-8 text-xs bg-muted/30 border-border">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1024" className="text-xs">1024-bit (Fast, Less Secure)</SelectItem>
+                <SelectItem value="2048" className="text-xs">2048-bit (Standard)</SelectItem>
+                <SelectItem value="4096" className="text-xs">4096-bit (Secure, Slow)</SelectItem>
+              </SelectContent>
+            </Select>
+            {keySize === '4096' && (
+              <p className="text-[9px] text-destructive font-medium mt-1">Warning: 4096-bit generation may freeze your browser for several seconds.</p>
+            )}
+          </div>
+
+          <Button 
+            className="w-full h-9 text-xs font-semibold" 
+            onClick={generateKeys} 
+            disabled={isGenerating}
+          >
+            {isGenerating ? <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> : <Key className="h-4 w-4 mr-2" />}
+            {isGenerating ? (t('generating')) : (t('generate_key_pair'))}
+          </Button>
+
+          <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5 mt-4">
+            <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
+              <ShieldCheck className="h-3 w-3" />
+              {t('client_side_onl')}
+            </div>
+            <p className="text-[10px] text-muted-foreground leading-relaxed">
+              {t('keys_are_genera')}
+            </p>
+          </div>
+        </ToolCard>
+      </div>
     </div>
   );
 }

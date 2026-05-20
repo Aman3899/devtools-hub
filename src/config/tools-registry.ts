@@ -94,6 +94,27 @@ export const TOOLS_REGISTRY: Record<string, any> = {
   'timestamp-converter': {
     component: dynamic(() => import('@/features/timestamp-converter/components/timestamp-converter-client').then(m => m.TimestampConverterClient)),
   },
+  'unix-time-now': {
+    component: dynamic(() => import('@/features/unix-time-now/components/unix-time-now-client').then(m => m.UnixTimeNowClient)),
+  },
+  'date-difference-calc': {
+    component: dynamic(() => import('@/features/date-difference-calc/components/date-difference-calc-client').then(m => m.DateDifferenceCalcClient)),
+  },
+  'cron-expression-builder': {
+    component: dynamic(() => import('@/features/cron-expression-builder/components/cron-expression-builder-client').then(m => m.CronExpressionBuilderClient)),
+  },
+  'number-base-converter': {
+    component: dynamic(() => import('@/features/number-base-converter/components/number-base-converter-client').then(m => m.NumberBaseConverterClient)),
+  },
+  'percentage-calculator': {
+    component: dynamic(() => import('@/features/percentage-calculator/components/percentage-calculator-client').then(m => m.PercentageCalculatorClient)),
+  },
+  'timezone-converter': {
+    component: dynamic(() => import('@/features/timezone-converter/components/timezone-converter-client').then(m => m.TimezoneConverterClient)),
+  },
+  'age-calculator': {
+    component: dynamic(() => import('@/features/age-calculator/components/age-calculator-client').then(m => m.AgeCalculatorClient)),
+  },
   'uuid-generator': {
     component: dynamic(() => import('@/features/uuid-generator/components/uuid-generator-client').then(m => m.UuidGeneratorClient)),
   },
@@ -255,5 +276,41 @@ export const TOOLS_REGISTRY: Record<string, any> = {
   },
   'css-variables-generator': {
     component: dynamic(() => import('@/features/css-variables-generator/components/css-variables-generator-client').then(m => m.CssVariablesGeneratorClient)),
+  },
+  'aspect-ratio-calculator': {
+    component: dynamic(() => import('@/features/aspect-ratio-calculator/components/aspect-ratio-calculator-client').then(m => m.AspectRatioCalculatorClient)),
+  },
+  'byte-size-converter': {
+    component: dynamic(() => import('@/features/byte-size-converter/components/byte-size-converter-client').then(m => m.ByteSizeConverterClient)),
+  },
+  'roman-numeral-converter': {
+    component: dynamic(() => import('@/features/roman-numeral-converter/components/roman-numeral-converter-client').then(m => m.RomanNumeralConverterClient)),
+  },
+  'random-number-generator': {
+    component: dynamic(() => import('@/features/random-number-generator/components/random-number-generator-client').then(m => m.RandomNumberGeneratorClient)),
+  },
+  'fibonacci-generator': {
+    component: dynamic(() => import('@/features/fibonacci-generator/components/fibonacci-generator-client').then(m => m.FibonacciGeneratorClient)),
+  },
+  'prime-number-checker': {
+    component: dynamic(() => import('@/features/prime-number-checker/components/prime-number-checker-client').then(m => m.PrimeNumberCheckerClient)),
+  },
+  'gcd-lcm-calculator': {
+    component: dynamic(() => import('@/features/gcd-lcm-calculator/components/gcd-lcm-calculator-client').then(m => m.GcdLcmCalculatorClient)),
+  },
+  'bmi-calculator': {
+    component: dynamic(() => import('@/features/bmi-calculator/components/bmi-calculator-client').then(m => m.BmiCalculatorClient)),
+  },
+  'scientific-calculator': {
+    component: dynamic(() => import('@/features/scientific-calculator/components/scientific-calculator-client').then(m => m.ScientificCalculatorClient)),
+  },
+  'currency-converter': {
+    component: dynamic(() => import('@/features/currency-converter/components/currency-converter-client').then(m => m.CurrencyConverterClient)),
+  },
+  'temperature-converter': {
+    component: dynamic(() => import('@/features/temperature-converter/components/temperature-converter-client').then(m => m.TemperatureConverterClient)),
+  },
+  'loan-emi-calculator': {
+    component: dynamic(() => import('@/features/loan-emi-calculator/components/loan-emi-calculator-client').then(m => m.LoanEmiCalculatorClient)),
   },
 };

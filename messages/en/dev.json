@@ -1,0 +1,151 @@
+{
+  "regex-tester": {
+    "title": "Regex Tester",
+    "description": "Test and debug regular expressions in real-time.",
+    "regex": "Regular Expression",
+    "flags": "Flags",
+    "testString": "Test String",
+    "matches": "Matches",
+    "noMatches": "No matches found",
+    "pattern": "Pattern & Flags",
+    "replace": "Replace",
+    "replacementText": "Replacement Text",
+    "previewArea": "Preview Area",
+    "results": "Results",
+    "totalMatches": "TOTAL MATCHES",
+    "article": "Regular expressions (Regex) are sequences of characters that define a search pattern. They are used for string matching and manipulation. This tester provides real-time feedback, supporting common flags like global (g), case-insensitive (i), and multiline (m).",
+    "faqs": {
+      "q0": "What regex engine is used?",
+      "a0": "This tool uses the standard JavaScript (ECMAScript) regular expression engine.",
+      "q1": "Can I perform replacements?",
+      "a1": "Yes, use the 'Replace' tab to test regex replacements with capture group support (e.g., $1)."
+    }
+  },
+  "timestamp-converter": {
+    "title": "Timestamp Converter",
+    "description": "Convert between Unix timestamps and human dates.",
+    "current": "Current Unix Timestamp",
+    "useCurrent": "Use Current",
+    "unix": "Unix Timestamp (Seconds)",
+    "iso": "ISO 8601",
+    "local": "Local Time",
+    "utc": "UTC Time",
+    "relative": "Relative",
+    "relativeFormat": {
+      "inSeconds": "in {v}s",
+      "secondsAgo": "{v}s ago",
+      "inMinutes": "in {v}m",
+      "minutesAgo": "{v}m ago",
+      "inHours": "in {v}h",
+      "hoursAgo": "{v}h ago",
+      "inDays": "in {v}d",
+      "daysAgo": "{v}d ago"
+    },
+    "article": "A Unix timestamp is a way to track time as a running total of seconds. This tool helps you convert these numbers into readable date formats (ISO, Local, UTC) and calculate relative time differences.",
+    "faqs": {
+      "q0": "Does this handle milliseconds?",
+      "a0": "Yes, the tool automatically detects if the timestamp is in seconds or milliseconds and converts accordingly.",
+      "q1": "How is local time calculated?",
+      "a1": "Local time is calculated using your browser's current timezone settings."
+    }
+  },
+  "api-tester": {
+    "title": "API Tester",
+    "description": "Test REST APIs with custom headers and bodies.",
+    "url": "URL",
+    "method": "Method",
+    "body": "Request Body (JSON)",
+    "response": "Response",
+    "send": "Send",
+    "sending": "Sending...",
+    "headers": "Headers",
+    "addHeader": "Add Header",
+    "responsePlaceholder": "Send a request to see the response here",
+    "article": "An API (Application Programming Interface) tester allows developers to send HTTP requests to test RESTful APIs. You can customize headers, query parameters, and the request body to simulate complex API interactions.",
+    "faqs": {
+      "q0": "Can I test local APIs (localhost)?",
+      "a0": "Yes, as long as your local API has CORS enabled to accept requests from this application.",
+      "q1": "Are my requests saved?",
+      "a1": "No, all request history and data are ephemeral and cleared when you refresh the page."
+    }
+  },
+  "curl-generator": {
+    "title": "Curl Generator",
+    "description": "Convert UI requests into executable Curl commands.",
+    "details": "Request Details",
+    "headers": "Headers",
+    "generated": "Generated Curl",
+    "endpoint": "Endpoint",
+    "addHeader": "Add Header",
+    "key": "Key",
+    "value": "Value",
+    "multiline": "Multiline Output",
+    "multilineDesc": "Use \\ for better readability",
+    "article": "cURL is a command-line tool used to transfer data over various network protocols. This generator provides a user-friendly interface to construct complex cURL commands with headers, bodies, and methods.",
+    "faqs": {
+      "q0": "Can I generate multi-line cURL commands?",
+      "a0": "Yes, toggle the 'Multiline Output' setting to format the command with backslashes for easier reading.",
+      "q1": "Are headers automatically escaped?",
+      "a1": "Yes, header values and JSON bodies are properly escaped to prevent shell injection and syntax errors."
+    }
+  },
+  "uuid-generator": {
+    "title": "UUID Generator",
+    "description": "Generate cryptographically secure random UUIDs.",
+    "new": "Generate New UUID",
+    "generatedUuids": "Generated UUIDs",
+    "copyAll": "Copy All",
+    "placeholder": "Click generate to create UUIDs",
+    "quantity": "Quantity",
+    "version": "Version",
+    "v4Label": "Version 4 (Random)",
+    "v1Label": "Version 1 (Time-based)",
+    "v4Desc": "UUID v4 is the most commonly used version for random unique identifiers.",
+    "article": "A UUID (Universally Unique Identifier) is a 128-bit number used to identify information in computer systems. This tool generates UUID Version 4, which is based on random (or pseudo-random) numbers.",
+    "faqs": {
+      "q0": "Are the generated UUIDs truly unique?",
+      "a0": "They use the browser's crypto API to generate highly secure, random UUIDs, making collisions practically impossible.",
+      "q1": "Can I generate UUIDs in bulk?",
+      "a1": "Yes, use the quantity slider to generate up to 20 UUIDs at once and copy them all with a single click."
+    }
+  },
+  "unix-time-now": {
+    "title": "Unix Time Now",
+    "description": "Get the current Unix timestamp and copy it instantly.",
+    "current_unix_time": "Current Unix Timestamp",
+    "pause": "Pause",
+    "resume": "Resume",
+    "iso_format": "ISO 8601",
+    "local_format": "Local Time",
+    "utc_format": "UTC Time",
+    "faqs": {
+      "q0": "How often does it update?",
+      "a0": "It updates every second to show the live current Unix time."
+    },
+    "article": "A live Unix Epoch time counter displaying the number of seconds elapsed since January 1, 1970. Provides instant copyable values in UTC, local time, and decimal millisecond counts."
+  },
+  "cron-expression-builder": {
+    "title": "Cron Expression Builder",
+    "description": "Visually build cron expressions and see the next scheduled runs.",
+    "minute": "Minute",
+    "hour": "Hour",
+    "day_of_month": "Day of Month",
+    "month": "Month",
+    "day_of_week": "Day of Week",
+    "next_runs": "Next Scheduled Runs",
+    "faqs": {
+      "q0": "What is a cron expression?",
+      "a0": "A cron expression is a string representing a schedule for running a task at specified times."
+    },
+    "article": "A Cron Expression Builder allows you to visually build schedules for automated tasks, system scripts, and repetitive jobs. It validates your schedule syntax in real-time, helping prevent misconfigured intervals."
+  },
+  "random-number-generator": {
+    "title": "Random Number Generator",
+    "description": "Generate random numbers within a specified range.",
+    "faqs": {
+      "q0": "Can it generate unique numbers?",
+      "a0": "Yes, you can enable the 'no-repeat' option to generate a sequence of unique random numbers."
+    },
+    "article": "A Random Number Generator (RNG) creates unpredictable numerical values within a specified range. It is widely used in gaming, statistical sampling, cryptography, and randomized testing."
+  }
+}

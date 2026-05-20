@@ -1,0 +1,328 @@
+{
+  "case-converter": {
+    "title": "Text Case Converter",
+    "description": "Convert text between camelCase, snake_case, PascalCase, and more.",
+    "input": "Input Text",
+    "output": "Converted Text",
+    "placeholder": "Enter text to convert...",
+    "article": "Easily switch between different naming conventions used in programming.",
+    "faqs": {
+      "q0": "Does it support kebab-case?",
+      "a0": "Yes, kebab-case, snake_case, camelCase, and PascalCase are all included."
+    },
+    "upper": "UPPERCASE",
+    "lower": "lowercase",
+    "camel": "camelCase",
+    "snake": "snake_case",
+    "pascal": "PascalCase",
+    "kebab": "kebab-case"
+  },
+  "json-to-csv": {
+    "title": "JSON to CSV Converter",
+    "description": "Convert JSON data to CSV format with header detection.",
+    "input": "Input JSON",
+    "output": "CSV Output",
+    "placeholder": "Paste JSON array or object here...",
+    "article": "Convert structured JSON data into flat CSV format. Ideal for spreadsheet imports and data analysis.",
+    "faqs": {
+      "q0": "Does it handle nested objects?",
+      "a0": "Yes, nested objects are flattened using dot notation."
+    },
+    "convert": "Convert to CSV",
+    "flatten": "Flatten nested objects"
+  },
+  "json-formatter": {
+    "title": "JSON Formatter",
+    "description": "Clean and format JSON data with ease.",
+    "input": "Input JSON",
+    "output": "Formatted Output",
+    "placeholder": "Paste your JSON here...",
+    "article": "JSON (JavaScript Object Notation) is a lightweight data-interchange format. Our JSON Formatter helps you beautify minified JSON, sort keys alphabetically, and even escape unicode characters for safe transmission.",
+    "faqs": {
+      "q0": "Is my JSON data sent to a server?",
+      "a0": "No, all formatting is done entirely in your browser. Your data is 100% secure and private.",
+      "q1": "Can I minify JSON here?",
+      "a1": "Yes! Use the Minify toggle in the customization settings to remove all whitespace."
+    },
+    "custom": {
+      "indentation": "Indentation",
+      "spaces2": "2 Spaces",
+      "spaces4": "4 Spaces",
+      "tabs": "Tabs",
+      "minify": "Minify",
+      "minifyDesc": "Remove all whitespace",
+      "sortKeys": "Sort Keys",
+      "sortKeysDesc": "Alphabetical order",
+      "escapeUnicode": "Escape Unicode",
+      "escapeUnicodeDesc": "Non-ASCII to \\uXXXX"
+    }
+  },
+  "csv-to-json": {
+    "title": "CSV to JSON Converter",
+    "description": "Convert CSV data to JSON format with multi-row header support.",
+    "input": "Input CSV",
+    "output": "JSON Output",
+    "placeholder": "Paste CSV data here...",
+    "article": "Transform comma-separated values into JSON. Supports custom delimiters and header detection.",
+    "faqs": {
+      "q0": "Can I use semicolons?",
+      "a0": "Yes, you can specify the delimiter in the settings."
+    },
+    "convert": "Convert to JSON",
+    "header": "First row as header",
+    "delimiter": "Delimiter"
+  },
+  "xml-formatter": {
+    "title": "XML Formatter",
+    "description": "Beautify and format XML data with syntax highlighting.",
+    "input": "Input XML",
+    "output": "Formatted XML",
+    "placeholder": "Paste XML here...",
+    "article": "Clean up messy XML code with proper indentation and node collapsing.",
+    "faqs": {
+      "q0": "Does it validate XML?",
+      "a0": "Yes, it will highlight syntax errors if the XML is malformed."
+    },
+    "format": "Beautify XML"
+  },
+  "yaml-validator": {
+    "title": "YAML Validator",
+    "description": "Validate and lint YAML data with line-level errors.",
+    "input": "Input YAML",
+    "output": "Validation Result",
+    "placeholder": "Paste YAML here...",
+    "article": "Check your YAML files for syntax errors and structural validity. Supports YAML 1.2 standards.",
+    "faqs": {}
+  },
+  "toml-validator": {
+    "title": "TOML Validator",
+    "description": "Check TOML syntax and preview as JSON.",
+    "input": "Input TOML",
+    "output": "JSON Preview",
+    "placeholder": "Paste TOML here...",
+    "article": "Validate TOML configuration files and see how they map to JSON objects.",
+    "faqs": {}
+  },
+  "markdown-previewer": {
+    "title": "Markdown Previewer",
+    "description": "Live preview GitHub-flavored Markdown with styling.",
+    "input": "Markdown Editor",
+    "output": "Live Preview",
+    "placeholder": "Type Markdown here...",
+    "article": "Write Markdown and see the rendered HTML instantly. Supports tables, task lists, and syntax highlighting.",
+    "faqs": {
+      "q0": "Is GitHub-flavored Markdown supported?",
+      "a0": "Yes, all standard GFM features like tables and task lists work perfectly."
+    },
+    "input_label": "Markdown Editor",
+    "output_label": "Live Preview"
+  },
+  "word-counter": {
+    "title": "Word & Char Counter",
+    "description": "Count words, characters, lines, and reading time.",
+    "input": "Input Text",
+    "output": "Statistics",
+    "placeholder": "Type or paste text here...",
+    "article": "Get detailed metrics for your writing, including readability scores and character counts with/without spaces.",
+    "faqs": {
+      "q0": "How is reading time calculated?",
+      "a0": "It's based on an average reading speed of 200-250 words per minute."
+    },
+    "lines": "Lines",
+    "readingTime": "Reading Time (min)"
+  },
+  "lorem-ipsum": {
+    "title": "Lorem Ipsum Generator",
+    "description": "Generate custom placeholder text for your designs.",
+    "input": "Options",
+    "output": "Generated Text",
+    "placeholder": "Configure generator settings...",
+    "article": "Generate standard Lorem Ipsum text by paragraphs, sentences, or words.",
+    "faqs": {
+      "q0": "Can I generate bytes?",
+      "a0": "Yes, you can specify the exact byte count for the output."
+    },
+    "generate": "Generate"
+  },
+  "slug-generator": {
+    "title": "Slug Generator",
+    "description": "Generate URL-safe slugs by stripping special characters.",
+    "input": "Input String",
+    "output": "URL Slug",
+    "placeholder": "Enter title or name...",
+    "article": "Create SEO-friendly URLs by converting titles into lowercase, hyphenated strings.",
+    "faqs": {
+      "q0": "Are special characters removed?",
+      "a0": "Yes, all non-alphanumeric characters except hyphens are stripped."
+    },
+    "placeholder_slug": "your-slug-will-appear-here"
+  },
+  "duplicate-remover": {
+    "title": "Duplicate Line Remover",
+    "description": "Remove duplicate lines, sort, and trim whitespace.",
+    "input": "Input List",
+    "output": "Unique List",
+    "placeholder": "Paste list here...",
+    "article": "Clean up lists by removing repeated entries and normalizing whitespace.",
+    "faqs": {
+      "q0": "Is it case-sensitive?",
+      "a0": "You can toggle case-sensitivity in the settings."
+    },
+    "remove": "Remove Duplicate Lines"
+  },
+  "whitespace-remover": {
+    "title": "Whitespace Remover",
+    "description": "Trim all, leading, trailing, or extra whitespace.",
+    "input": "Input Text",
+    "output": "Cleaned Text",
+    "placeholder": "Paste text with extra spaces...",
+    "article": "Remove unnecessary spaces from your text to make it cleaner and more compact.",
+    "faqs": {
+      "q0": "Can it remove all spaces?",
+      "a0": "Yes, the 'Strip All' option removes every single space character."
+    },
+    "trim": "Trim Edges",
+    "extra": "Remove Extra Spaces",
+    "all": "Remove All Spaces",
+    "lines": "Remove Empty Lines"
+  },
+  "ascii-art": {
+    "title": "Text to ASCII Art",
+    "description": "Convert text into stylized ASCII banner fonts.",
+    "input": "Input Text",
+    "output": "ASCII Result",
+    "placeholder": "Type text to banerize...",
+    "article": "Turn your text into large ASCII art banners for use in code comments or terminal headers.",
+    "faqs": {
+      "q0": "Can I choose fonts?",
+      "a0": "Yes, multiple classic ASCII fonts like 'Big', 'Slant', and 'Shadow' are available."
+    }
+  },
+  "emoji-picker": {
+    "title": "Emoji Picker & Search",
+    "description": "Search and copy emojis for your projects.",
+    "input": "Search Emojis",
+    "output": "Selected Emoji",
+    "placeholder": "Search by keyword (e.g. 'rocket', 'smile')...",
+    "article": "Find the perfect emoji quickly and copy it with a single click. Includes all the latest Emoji 15.0 additions.",
+    "faqs": {
+      "q0": "Are these unicode emojis?",
+      "a0": "Yes, they are standard unicode emojis that work across all modern platforms."
+    }
+  },
+  "text-sorter": {
+    "title": "Text Sorter",
+    "description": "Sort text lines alphabetically, numerically, or shuffle them.",
+    "input": "Input List",
+    "output": "Sorted List",
+    "placeholder": "Paste lines to sort...",
+    "article": "Organize lists of data quickly with various sorting algorithms.",
+    "faqs": {
+      "q0": "Does it support reverse sort?",
+      "a0": "Yes, you can sort in both ascending and descending order."
+    },
+    "asc": "A-Z",
+    "desc": "Z-A",
+    "shuffle": "Shuffle"
+  },
+  "line-number-adder": {
+    "title": "Line Number Adder",
+    "description": "Add custom line numbers, padding, and delimiters to text.",
+    "input": "Input Text",
+    "output": "Numbered Text",
+    "placeholder": "Paste text here...",
+    "article": "Enumerate lines of text or code with customizable formatting.",
+    "faqs": {
+      "q0": "Can I start from a specific number?",
+      "a0": "Yes, the starting number and increment are both configurable."
+    },
+    "add": "Add Line Numbers"
+  },
+  "find-replace": {
+    "title": "Find & Replace Tool",
+    "description": "Advanced find and replace with regex and case support.",
+    "input": "Input Text",
+    "output": "Modified Text",
+    "placeholder": "Paste text here...",
+    "article": "Perform bulk text transformations using simple strings or powerful regular expressions.",
+    "faqs": {
+      "q0": "Does it support regex?",
+      "a0": "Yes, full JavaScript regular expression support is included."
+    },
+    "find": "Find",
+    "replace": "Replace With",
+    "replaceAll": "Replace All"
+  },
+  "string-reverse": {
+    "title": "String Reverse",
+    "description": "Reverse characters or words with instant output.",
+    "input": "Input String",
+    "output": "Reversed String",
+    "placeholder": "Enter text...",
+    "article": "Quickly flip your text backwards or reverse the order of words.",
+    "faqs": {
+      "q0": "Can I reverse by word?",
+      "a0": "Yes, there is a toggle to reverse words instead of individual characters."
+    },
+    "reverseChars": "Reverse Chars",
+    "reverseWords": "Reverse Words"
+  },
+  "code-diff-checker": {
+    "title": "Code Diff Checker",
+    "description": "Compare two blocks of code to find differences.",
+    "original": "Original Code",
+    "new": "New Code",
+    "compare": "Compare",
+    "result": "Diff Result",
+    "originalPlaceholder": "Paste original code here...",
+    "newPlaceholder": "Paste new code here...",
+    "ignoreWhitespace": "Ignore Whitespace",
+    "split": "Split",
+    "unified": "Unified",
+    "article": "A Code Diff Checker compares two text files or code snippets to highlight the differences. It is an essential tool for reviewing changes, debugging, and understanding modifications between code versions.",
+    "faqs": {
+      "q0": "What is the difference between Split and Unified views?",
+      "a0": "Split view shows the old and new code side-by-side. Unified view shows all changes linearly in a single column.",
+      "q1": "Can I ignore whitespace changes?",
+      "a1": "Yes, simply toggle 'Ignore Whitespace' to focus only on structural code changes."
+    }
+  },
+  "morse-converter": {
+    "title": "Morse Code Converter",
+    "description": "Translate text to Morse code and vice versa.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "Morse code is a method of encoding text characters as sequences of dots (·) and dashes (−), developed by Samuel Morse in the 1830s. Each letter, number, and punctuation mark has a unique pattern. Morse code was historically used for long-distance communication via telegraph and radio, and remains relevant today in aviation, amateur radio, and assistive technology for people with disabilities.",
+    "faqs": {
+      "q0": "How do I read Morse code?",
+      "a0": "Dots (·) represent short signals and dashes (−) represent long signals. Letters are separated by spaces, and words by longer spaces. For example, SOS is ··· −−− ··· (three dots, three dashes, three dots).",
+      "q1": "Can I hear the Morse code?",
+      "a1": "Yes! This tool includes an audio playback feature that converts the Morse code into audible beeps, with short beeps for dots and longer beeps for dashes, just like traditional telegraph communication."
+    },
+    "encode": "Text to Morse",
+    "decode": "Morse to Text",
+    "play_audio": "Play Audio",
+    "info": "Convert plain text into Morse code dots and dashes, or translate Morse back into text. You can also play the Morse code as audio."
+  },
+  "unicode-inspector": {
+    "title": "Unicode Inspector",
+    "description": "Inspect Unicode characters, code points, and categories.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "Unicode is a universal character encoding standard that assigns a unique number (code point) to every character across all writing systems, symbols, and emoji. Code points are typically written in hexadecimal with a U+ prefix (e.g., U+0041 for 'A'). This inspector helps developers debug text encoding issues, understand character composition, and identify invisible or special characters that may cause problems in code or data.",
+    "faqs": {
+      "q0": "What is a code point?",
+      "a0": "A code point is Unicode's unique identifier for each character, written as U+ followed by hexadecimal digits. For example, U+0041 is 'A', U+1F600 is 😀. Code points range from U+0000 to U+10FFFF.",
+      "q1": "Why do some characters show multiple code points?",
+      "a1": "Some characters are composed of multiple code points, like emoji with skin tone modifiers or accented letters using combining diacritical marks. For example, 👨‍👩‍👧 (family) is actually multiple code points joined together."
+    },
+    "text_input": "Input String",
+    "character_details": "Character Breakdown",
+    "char": "Character",
+    "code_point": "Hex Code Point",
+    "decimal": "Decimal",
+    "info": "Inspect string characters to reveal their exact Unicode hex code points and decimal representations."
+  }
+}

@@ -1,0 +1,410 @@
+{
+  "image-to-base64": {
+    "title": "Image to Base64",
+    "description": "Convert images into Base64 strings.",
+    "upload": "Upload Image",
+    "hint": "Click or drag to upload",
+    "limit": "PNG, JPG, GIF up to 10MB",
+    "dropHint": "Drop your image here",
+    "selectImage": "Select Image",
+    "outputTitle": "Base64 Output",
+    "outputFormat": "Output Format",
+    "dataUri": "Data URI (for HTML/img)",
+    "raw": "Raw Base64 string",
+    "css": "CSS background-image",
+    "privacyNote": "Images are processed entirely in your browser and never uploaded to any server.",
+    "placeholder": "No image selected...",
+    "article": "Converting an image to Base64 allows you to embed the image data directly into HTML, CSS, or JSON without needing external image files. This can reduce HTTP requests and improve initial page load times for small icons.",
+    "faqs": {
+      "q0": "Is my image uploaded anywhere?",
+      "a0": "Absolutely not. The conversion happens entirely within your browser using the FileReader API.",
+      "q1": "What is the maximum image size?",
+      "a1": "While there is no hard limit, we recommend keeping images under 5MB to avoid browser performance issues."
+    }
+  },
+  "css-gradient-generator": {
+    "title": "CSS Gradient Generator",
+    "description": "Design and generate CSS linear/radial gradients.",
+    "customize": "Customize Gradient",
+    "color1": "Color 1",
+    "color2": "Color 2",
+    "angle": "Angle",
+    "presets": "Quick Presets",
+    "type": "Type",
+    "linear": "Linear",
+    "radial": "Radial",
+    "colorStops": "Color Stops",
+    "output": "CSS Output",
+    "tip": "Drag the sliders to adjust color positions. You can have up to 5 color stops for complex gradients.",
+    "article": "CSS gradients let you display smooth transitions between two or more specified colors. This generator supports both linear and radial gradients, allowing you to visually design complex backgrounds and instantly copy the CSS code.",
+    "faqs": {
+      "q0": "How many color stops can I add?",
+      "a0": "You can add up to 5 color stops to create intricate and detailed gradients.",
+      "q1": "Can I adjust the angle of the gradient?",
+      "a1": "Yes, for linear gradients, you can use the angle slider to rotate the gradient from 0 to 360 degrees."
+    }
+  },
+  "html-color-to-hex": {
+    "title": "HTML Color to HEX",
+    "description": "Convert named HTML colors to their HEX equivalents.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "HTML supports 140 named colors (like 'red', 'blue', 'coral') that can be used in CSS and HTML. However, hexadecimal color codes (#RRGGBB) are more precise and universally supported. This tool converts between named colors, RGB, HSL, and HEX formats, helping you maintain consistency across your designs. HEX colors are preferred in production code for their compactness and universal browser support.",
+    "faqs": {
+      "q0": "What color formats can I convert?",
+      "a0": "This tool accepts HTML named colors (e.g., 'tomato'), RGB format (rgb(255, 99, 71)), HSL format (hsl(9, 100%, 64%)), and HEX codes. It converts all formats to standardized HEX output.",
+      "q1": "Why use HEX instead of named colors?",
+      "a1": "HEX codes offer precise color control with 16.7 million possible colors, while named colors are limited to 140 options. HEX is also more compact, universally supported, and easier to manipulate programmatically."
+    },
+    "color_input": "Color Value (Name, RGB, HSL)",
+    "hex_output": "Hexadecimal Result",
+    "color_preview": "Color Preview",
+    "invalid_color": "Invalid color format",
+    "info": "Convert standard HTML named colors, RGB, or HSL strings directly into standardized hexadecimal color codes."
+  },
+  "qrcode-decoder": {
+    "title": "QR Code Decoder",
+    "description": "Decode QR code images and extract text content.",
+    "input": "Input",
+    "output": "Output",
+    "placeholder": "Paste here...",
+    "article": "QR (Quick Response) codes are two-dimensional barcodes that can store various types of data including URLs, text, contact information, and more. Invented in 1994 by Denso Wave for automotive industry, QR codes are now ubiquitous in marketing, payments, and authentication. This decoder uses computer vision algorithms to detect and extract data from QR code images entirely in your browser, ensuring your data never leaves your device.",
+    "faqs": {
+      "q0": "What image formats are supported?",
+      "a0": "This tool supports common image formats including PNG, JPEG, GIF, and WebP. For best results, ensure the QR code is clearly visible, well-lit, and not distorted or damaged.",
+      "q1": "Why can't it read my QR code?",
+      "a1": "Common issues include low image quality, poor lighting, QR code damage, or extreme angles. Try taking a clearer photo with better lighting, ensuring the entire QR code is visible and in focus."
+    },
+    "upload_qr": "Upload QR Code Image",
+    "upload_desc": "Select an image containing a QR Code to decode locally.",
+    "decoded_result": "Decoded Data",
+    "no_qr_found": "No QR code found in the image.",
+    "file_loaded": "File loaded. Ready to decode.",
+    "decoding": "Decoding...",
+    "info": "QR Code Decoder reads and extracts text from QR images entirely within your browser for maximum privacy."
+  },
+  "box-shadow-generator": {
+    "title": "Box Shadow Generator",
+    "description": "Visual tool to create and preview custom CSS box shadows.",
+    "inset": "Inset Shadow",
+    "h_offset": "Horizontal Offset",
+    "v_offset": "Vertical Offset",
+    "blur": "Blur Radius",
+    "spread": "Spread Radius",
+    "color": "Shadow Color",
+    "sidebar_desc": "Box shadows add depth to elements by creating a shadow effect behind the frame.",
+    "about_title": "About Box Shadows",
+    "article": "The box-shadow CSS property adds shadow effects around an element's frame. You can set multiple effects separated by commas. A box shadow is described by X and Y offsets relative to the element, blur and spread radii, and color.",
+    "faq_title": "Frequently Asked Questions",
+    "faqs": {
+      "q0": "What does 'inset' mean?",
+      "a0": "The 'inset' keyword changes the shadow from an outer shadow (outset) to one inside the frame.",
+      "q1": "How do I create multiple shadows?",
+      "a1": "In CSS, you can list multiple shadows separated by commas. This generator creates a single shadow, which you can then combine manually."
+    }
+  },
+  "border-radius-generator": {
+    "title": "Border Radius Generator",
+    "description": "Visual tool to create and preview custom CSS border radii.",
+    "all_corners": "Link Corners",
+    "unit": "Unit",
+    "radius": "Radius",
+    "top_left": "Top Left",
+    "top_right": "Top Right",
+    "bottom_right": "Bottom Right",
+    "bottom_left": "Bottom Left",
+    "sidebar_desc": "Border radius allows you to round the corners of an element's outer border edge.",
+    "about_title": "About Border Radius",
+    "article": "The border-radius CSS property rounds the corners of an element's outer border edge. You can set a single radius to make circular corners, or different radii for each corner to create complex shapes like capsules or blobs.",
+    "faq_title": "Frequently Asked Questions",
+    "faqs": {
+      "q0": "What is the difference between px and %?",
+      "a0": "Pixels (px) provide a fixed radius regardless of element size, while percentage (%) creates a radius relative to the element's dimensions (50% makes a circle if the element is square).",
+      "q1": "Can I have different horizontal and vertical radii?",
+      "a1": "Yes, CSS supports elliptical corners using the 'x / y' syntax. This tool currently supports circular corners (equal x and y)."
+    }
+  },
+  "flexbox-playground": {
+    "title": "Flexbox Playground",
+    "description": "Interactive tool to experiment with CSS Flexbox properties and layouts.",
+    "direction": "Flex Direction",
+    "wrap": "Flex Wrap",
+    "justify": "Justify Content",
+    "align_items": "Align Items",
+    "gap": "Gap",
+    "items": "Number of Items",
+    "sidebar_desc": "Flexbox is a one-dimensional layout method for arranging items in rows or columns.",
+    "about_title": "Understanding Flexbox",
+    "article": "Flexbox (Flexible Box Layout) is a CSS3 layout mode. It provides an efficient way to lay out, align, and distribute space among items in a container, even when their size is unknown or dynamic. The main idea behind the flex layout is to give the container the ability to alter its items' width/height to best fill the available space.",
+    "faq_title": "Flexbox FAQ",
+    "faqs": {
+      "q0": "What is the difference between justify-content and align-items?",
+      "a0": "Justify-content aligns items along the main axis (horizontal by default), while align-items aligns them along the cross axis (vertical by default).",
+      "q1": "When should I use flex-wrap?",
+      "a1": "Use flex-wrap when you want items to move to a new line if they exceed the container's width, rather than shrinking or overflowing."
+    }
+  },
+  "grid-generator": {
+    "title": "CSS Grid Generator",
+    "description": "Visual tool to build complex CSS Grid layouts with ease.",
+    "columns": "Columns",
+    "rows": "Rows",
+    "col_gap": "Column Gap",
+    "row_gap": "Row Gap",
+    "justify_items": "Justify Items",
+    "align_items": "Align Items",
+    "sidebar_desc": "CSS Grid is a two-dimensional layout system that handles both columns and rows.",
+    "about_title": "Understanding CSS Grid",
+    "article": "CSS Grid Layout is the most powerful layout system available in CSS. It is a 2-dimensional system, meaning it can handle both columns and rows, unlike Flexbox which is largely a 1-dimensional system. You apply CSS rules both to a parent element (the Grid Container) and to that element’s children (the Grid Items).",
+    "faq_title": "Grid FAQ",
+    "faqs": {
+      "q0": "What is the 'fr' unit?",
+      "a0": "The 'fr' unit represents a fraction of the free space in the grid container.",
+      "q1": "Flexbox vs Grid: Which is better?",
+      "a1": "Grid is better for overall page layout (2D), while Flexbox is better for aligning items within a container (1D)."
+    }
+  },
+  "glassmorphism-generator": {
+    "title": "Glassmorphism Generator",
+    "description": "Visual tool to create trendy frosted-glass effects using CSS.",
+    "blur": "Blur Strength",
+    "transparency": "Transparency",
+    "border_opacity": "Border Opacity",
+    "radius": "Border Radius",
+    "color": "Overlay Color",
+    "sidebar_desc": "Glassmorphism uses backdrop filters and transparency to create a frosted glass aesthetic.",
+    "about_title": "What is Glassmorphism?",
+    "article": "Glassmorphism is a UI trend that emphasizes transparency and background blur. It creates a 'frosted glass' look that adds depth and hierarchy to your interface. Key properties include background-color with reduced opacity and the backdrop-filter: blur() property.",
+    "faq_title": "Glassmorphism FAQ",
+    "faqs": {
+      "q0": "What is backdrop-filter?",
+      "a0": "The backdrop-filter CSS property lets you apply graphical effects such as blurring or color shifting to the area behind an element.",
+      "q1": "Does it work in all browsers?",
+      "a1": "Most modern browsers support backdrop-filter, but some older browsers (like Internet Explorer) do not. We include the -webkit- prefix for better Safari compatibility."
+    }
+  },
+  "neumorphism-generator": {
+    "title": "Neumorphism Generator",
+    "description": "Visual tool to create soft, extruded UI elements using CSS shadows.",
+    "color": "Base Color",
+    "distance": "Distance",
+    "intensity": "Intensity",
+    "blur": "Blur",
+    "shape": "Shape",
+    "flat": "Flat",
+    "concave": "Concave",
+    "convex": "Convex",
+    "pressed": "Pressed",
+    "sidebar_desc": "Neumorphism creates a soft, plastic-like look by using light and dark shadows on a base color.",
+    "about_title": "Understanding Neumorphism",
+    "article": "Neumorphism (or Soft UI) is a design trend that uses shadows to make elements appear as if they are extruded from or pressed into the background. It relies on a very specific shadow technique where one side has a light shadow and the opposite side has a dark shadow, both matching the background color.",
+    "faq_title": "Neumorphism FAQ",
+    "faqs": {
+      "q0": "Why is the background color important?",
+      "a0": "Neumorphism relies on the element color being identical to the background color to create the 'soft' illusion.",
+      "q1": "Is Neumorphism accessible?",
+      "a1": "It can be challenging for users with low vision because of the subtle contrast. It's often best used for decorative elements or combined with clearer indicators."
+    }
+  },
+  "animation-builder": {
+    "title": "CSS Animation Builder",
+    "description": "Visual keyframe editor to create custom CSS animations with ease.",
+    "name": "Animation Name",
+    "duration": "Duration",
+    "timing": "Timing Function",
+    "keyframes": "Keyframes (100%)",
+    "rotate": "Rotate",
+    "scale": "Scale",
+    "opacity": "Opacity",
+    "sidebar_desc": "CSS animations let an element gradually change from one style to another.",
+    "about_title": "Understanding CSS Animations",
+    "article": "CSS animations make it possible to animate transitions from one CSS style configuration to another. Animations consist of two components: a style describing the CSS animation and a set of keyframes that indicate the start and end states of the animation’s style, as well as possible intermediate waypoints.",
+    "faq_title": "Animation FAQ",
+    "faqs": {
+      "q0": "What are @keyframes?",
+      "a0": "The @keyframes CSS at-rule controls the intermediate steps in a CSS animation sequence by defining styles for waypoints along the animation loop.",
+      "q1": "Which properties are best to animate?",
+      "a1": "For the best performance, try to only animate transform (scale, rotate, translate) and opacity, as these don't trigger layout recalculations."
+    }
+  },
+  "color-palette-generator": {
+    "title": "Color Palette Generator",
+    "description": "Create beautiful, harmonious color schemes for your designs.",
+    "base_color": "Base Color",
+    "mode": "Generation Mode",
+    "export": "Export Palette",
+    "modes": {
+      "complementary": "Complementary",
+      "analogous": "Analogous",
+      "triadic": "Triadic",
+      "tetradic": "Tetradic",
+      "monochromatic": "Monochromatic",
+      "shades": "Shades"
+    },
+    "sidebar_desc": "Generate color palettes based on color theory to ensure visual harmony.",
+    "about_title": "Color Theory & Palettes",
+    "article": "Color theory is both the science and art of using color. It explains how humans perceive color; and the visual effects of how colors mix, match or contrast with each other. A well-designed color palette can establish a brand identity, set a mood, and guide user behavior.",
+    "faq_title": "Color Palette FAQ",
+    "faqs": {
+      "q0": "What is a Triadic color scheme?",
+      "a0": "A triadic color scheme uses three colors that are evenly spaced around the color wheel, creating a high-contrast but balanced look.",
+      "q1": "How many colors should I use?",
+      "a1": "The 60-30-10 rule is a common guideline: 60% primary color, 30% secondary color, and 10% accent color."
+    }
+  },
+  "color-contrast-checker": {
+    "title": "Color Contrast Checker",
+    "description": "Ensure your text is readable and accessible according to WCAG standards.",
+    "foreground": "Foreground Color",
+    "background": "Background Color",
+    "contrast_ratio": "Contrast Ratio",
+    "wcag_aa": "WCAG AA Compliance",
+    "wcag_aaa": "WCAG AAA Compliance",
+    "normal_text": "Normal Text",
+    "large_text": "Large Text",
+    "sidebar_desc": "Contrast ratio is the difference in light between the foreground and background.",
+    "about_title": "Why Contrast Matters",
+    "article": "Accessible contrast is vital for users with visual impairments, including color blindness and low vision. The Web Content Accessibility Guidelines (WCAG) provide specific ratios to ensure content is readable by everyone. High contrast improves usability for all users, especially in high-glare environments or on low-quality screens.",
+    "faq_title": "Contrast FAQ",
+    "faqs": {
+      "q0": "What is the difference between AA and AAA?",
+      "a0": "Level AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text. Level AAA is stricter, requiring 7:1 for normal text and 4.5:1 for large text.",
+      "q1": "What is considered 'Large Text'?",
+      "a1": "Large text is typically defined as 18pt (approx. 24px) or larger, or 14pt (approx. 18.67px) and bold."
+    }
+  },
+  "color-format-converter": {
+    "title": "Color Format Converter",
+    "description": "Convert colors between HEX, RGB, HSL, and CMYK formats instantly.",
+    "pick_color": "Pick a Color",
+    "sidebar_desc": "Different color models are used for different purposes (e.g., RGB for screens, CMYK for printing).",
+    "about_title": "Color Models Explained",
+    "article": "Colors can be represented in various mathematical models. HEX and RGB are standard for web and screen displays. HSL (Hue, Saturation, Lightness) is often more intuitive for humans to adjust. CMYK is the standard model used in color printing. Converting between these formats is essential for cross-platform design and development.",
+    "faq_title": "Color Format FAQ",
+    "faqs": {
+      "q0": "When should I use CMYK?",
+      "a0": "CMYK (Cyan, Magenta, Yellow, Black) should be used when you are designing for physical print, as it matches the way printers mix ink.",
+      "q1": "What is the benefit of HSL?",
+      "a1": "HSL is great for creating variations of a color. For example, to make a color lighter or darker, you only need to change the 'Lightness' value."
+    }
+  },
+  "tailwind-class-lookup": {
+    "title": "Tailwind Class Lookup",
+    "description": "Quickly search and find the right Tailwind CSS utility classes.",
+    "search": "Search Classes",
+    "placeholder": "Search classes (e.g., flex, text-sm, shadow)...",
+    "results": "results",
+    "no_results": "No classes found for",
+    "sidebar_desc": "Tailwind CSS uses utility classes to build custom designs directly in your markup.",
+    "quick_tips": "Quick Tips",
+    "tip_copy": "Click any card to instantly copy the class name to your clipboard.",
+    "tip_search": "Use the search bar to find classes by name or CSS property.",
+    "about_title": "Utility-First CSS",
+    "article": "Tailwind CSS is a utility-first CSS framework packed with classes like flex, pt-4, text-center and rotate-90 that can be composed to build any design, directly in your markup. It allows developers to build custom designs without ever leaving their HTML.",
+    "faq_title": "Tailwind FAQ",
+    "faqs": {
+      "q0": "Why use utility classes instead of CSS?",
+      "a0": "Utility classes allow for faster development, consistent design tokens, and smaller CSS bundles because you don't write custom CSS for every component.",
+      "q1": "How do I use these classes?",
+      "a1": "Copy the class name and add it to the 'className' (React) or 'class' (HTML) attribute of your element."
+    }
+  },
+  "css-specificity-calculator": {
+    "title": "CSS Specificity Calculator",
+    "description": "Calculate and understand the specificity score of CSS selectors.",
+    "input_label": "Enter CSS Selector",
+    "ids": "IDs",
+    "classes": "Classes",
+    "elements": "Elements",
+    "total_specificity": "Total Specificity Score",
+    "score_explanation": "Specificity is represented as a three-part score (IDs, Classes, Elements). Higher numbers in earlier categories always beat higher numbers in later ones.",
+    "sidebar_desc": "Specificity determines which CSS rule is applied by the browser when multiple rules target the same element.",
+    "quick_examples": "Quick Examples",
+    "about_title": "Understanding Specificity",
+    "article": "CSS Specificity is a weight that is applied to a given CSS declaration, determined by the number of each selector type in the matching selector. When multiple declarations have equal specificity, the last declaration found in the CSS is applied to the element. Specificity only applies when the same element is targeted by multiple declarations.",
+    "faq_title": "Specificity FAQ",
+    "faqs": {
+      "q0": "What about !important?",
+      "a0": "The !important rule is not part of the specificity calculation, but it overrides all other declarations. Use it sparingly as it makes debugging difficult.",
+      "q1": "What about inline styles?",
+      "a1": "Inline styles always have higher specificity than any selector in an external or internal stylesheet (effectively a 1-0-0-0 score)."
+    }
+  },
+  "css-unit-converter": {
+    "title": "CSS Unit Converter",
+    "description": "Convert between pixels, rem, em, vh, vw, and more.",
+    "px_to_all": "Pixels to All Units",
+    "px_desc": "Enter a pixel value to see its equivalent in other units.",
+    "base_size": "Base Font Size (px)",
+    "vw_width": "Viewport Width (px)",
+    "vw_height": "Viewport Height (px)",
+    "sidebar_desc": "Configure the base size and viewport dimensions for accurate relative unit calculations.",
+    "common_values": "Common Pixel Values",
+    "why_rem": "Why use REM?",
+    "rem_quote": "Relative units like REM are essential for accessibility as they respect the user's browser font size settings.",
+    "units": {
+      "px": "Fixed size unit (Pixels).",
+      "rem": "Relative to root font size (usually 16px).",
+      "em": "Relative to parent element font size.",
+      "vw": "Percentage of viewport width.",
+      "vh": "Percentage of viewport height.",
+      "percent": "Percentage of parent container."
+    },
+    "about_title": "Absolute vs Relative Units",
+    "article": "In CSS, units can be absolute or relative. Absolute units like pixels (px) are fixed and appear the same size regardless of other settings. Relative units like rem and em are flexible and change based on font sizes or viewport dimensions. Using relative units is a best practice for creating responsive and accessible layouts that adapt to different devices and user preferences.",
+    "faq_title": "Unit Conversion FAQ",
+    "faqs": {
+      "q0": "What is the difference between rem and em?",
+      "a0": "REM stands for 'Root EM' and is always relative to the <html> element's font size. EM is relative to the font size of its nearest parent element, which can lead to compounding effects.",
+      "q1": "When should I use vh and vw?",
+      "a1": "Viewport units (vh/vw) are great for sizing elements relative to the screen size, such as hero sections that should always fill the full height of the screen."
+    }
+  },
+  "typography-scale-generator": {
+    "title": "Typography Scale Generator",
+    "description": "Create a consistent typographic hierarchy using mathematical scales.",
+    "base_size": "Base Size (px)",
+    "scale": "Scale Ratio",
+    "preview_text": "The quick brown fox jumps over the lazy dog",
+    "copy_variables": "Copy CSS Variables",
+    "sidebar_desc": "A typographic scale creates a harmonious rhythm between different text sizes in your design.",
+    "about_title": "Visual Hierarchy in Typography",
+    "article": "A typographic scale is a set of font sizes that are related to each other by a fixed ratio. By using a mathematical scale, you ensure that the difference between font sizes (like H1 vs H2) feels intentional and balanced. This creates a better visual rhythm and helps users understand the hierarchy of information on your page.",
+    "faq_title": "Typography FAQ",
+    "faqs": {
+      "q0": "What is the best scale ratio?",
+      "a0": "There is no single 'best' ratio, but 'Perfect Fourth' (1.333) and 'Major Third' (1.250) are popular for web applications as they provide a balanced contrast.",
+      "q1": "Should I use pixels or rem for my scale?",
+      "a1": "It is best practice to define your scale using 'rem' units. This ensures that if a user changes their browser's default font size, your entire scale adjusts proportionally."
+    }
+  },
+  "css-variables-generator": {
+    "title": "CSS Variables Generator",
+    "description": "Extract colors and values from your CSS and convert them into reusable variables.",
+    "input_label": "Paste your CSS code",
+    "placeholder": "body {\n  color: #333;\n  background: white;\n}",
+    "extracted_variables": "Extracted Variables (:root)",
+    "refactored_css": "Refactored CSS (with var())",
+    "did_you_know": "Did you know?",
+    "did_you_know_desc": "CSS Variables (Custom Properties) allow you to change values in one place and have them update everywhere in your styles, making them much easier to maintain than hardcoded values.",
+    "about_title": "Why Use CSS Variables?",
+    "article": "CSS Variables, officially known as Custom Properties, allow you to store specific values in your stylesheet and reuse them throughout your project. They make your CSS more maintainable, easier to theme (like adding Dark Mode), and more readable. This tool helps you transition from old-school hardcoded values to a modern, token-based system by automatically identifying repeating colors and values.",
+    "faq_title": "CSS Variables FAQ",
+    "faqs": {
+      "q0": "What is the difference between SASS variables and CSS variables?",
+      "a0": "SASS variables are processed during build time and are static in the browser. CSS variables are native to the browser, can be updated at runtime via JavaScript, and are subject to the CSS cascade.",
+      "q1": "Where should I define my variables?",
+      "a1": "It is standard practice to define global variables inside the :root pseudo-class, which makes them available throughout your entire document."
+    }
+  },
+  "aspect-ratio-calculator": {
+    "title": "Aspect Ratio Calculator",
+    "description": "Calculate aspect ratios and constrain dimensions.",
+    "faqs": {
+      "q0": "What is an aspect ratio?",
+      "a0": "The aspect ratio of an image describes the proportional relationship between its width and its height."
+    },
+    "article": "An aspect ratio calculator helps you resize images and video resolutions proportionally. By entering a known width or height and a target ratio, you can easily determine the missing dimension without distorting the media."
+  }
+}

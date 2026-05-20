@@ -7,6 +7,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { useTranslations } from 'next-intl';
 import { ROUTES } from '@/constants/routes';
 
+import { ToolNavigation } from '@/components/tool-navigation';
+
 interface FAQ {
   question: string;
   answer: string;
@@ -18,9 +20,10 @@ interface ToolLayoutProps {
   children: React.ReactNode;
   article?: React.ReactNode;
   faqs?: FAQ[];
+  toolId?: string;
 }
 
-export function ToolLayout({ title, description, children, article, faqs }: ToolLayoutProps) {
+export function ToolLayout({ title, description, children, article, faqs, toolId }: ToolLayoutProps) {
   const t = useTranslations('common');
   
   return (
@@ -81,6 +84,10 @@ export function ToolLayout({ title, description, children, article, faqs }: Tool
             </div>
           )}
         </div>
+      )}
+
+      {toolId && (
+        <ToolNavigation currentToolId={toolId} />
       )}
 
       <footer className="pt-16 border-t pb-8 flex justify-between items-center text-[11px] text-muted-foreground font-medium uppercase tracking-wider">

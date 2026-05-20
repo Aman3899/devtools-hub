@@ -1,9 +1,8 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { Switch } from '@/components/ui/switch';
@@ -11,7 +10,10 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Settings2, Search, Replace, Info, Download, Share2, RefreshCw, Trash2, Check, Copy } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/lib/utils';
+import { ToolCard } from '@/components/layout/tool-card';
+import { CopyButton, DownloadButton, ToolActions, InfoBox, StatsDisplay, CodeTextarea } from '@/components/common';
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
+import { useLanguage } from '@/hooks/tool';
 
 const SAMPLE_DATA = {
   regex: "([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]{2,})",
@@ -19,11 +21,11 @@ const SAMPLE_DATA = {
   replace: "HIDDEN_EMAIL"
 };
 
-import { ToolNavigation } from '@/components/tool-navigation';
-
 export function RegexTesterClient() {
   const t = useTranslations('tools.regex-tester');
   const tCommon = useTranslations('common');
+  const { copiedType, copyToClipboard } = useCopyToClipboard();
+
   const [regex, setRegex] = useState('');
   const [flags, setFlags] = useState('g');
   const [testString, setTestString] = useState('');
@@ -32,9 +34,8 @@ export function RegexTesterClient() {
   const [error, setError] = useState<string | null>(null);
   const [replacedResult, setReplacedResult] = useState('');
   const [downloaded, setDownloaded] = useState(false);
-  const [copied, setCopied] = useState(false);
 
-  const isEnglish = tCommon('hero.searchPlaceholder' as any) === 'Find a tool...';
+  const { isEnglish } = useLanguage();
 
   const runRegex = useCallback(() => {
     if (!regex) {
@@ -105,210 +106,186 @@ export function RegexTesterClient() {
     setTimeout(() => setDownloaded(false), 2000);
   };
 
-  const copyResult = () => {
-    navigator.clipboard.writeText(replacedResult || testString);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
-    <div className="space-y-12">
-      <div className="grid gap-6 lg:grid-cols-12 items-start">
-        <div className="lg:col-span-9 space-y-4">
-          {/* Pattern Card */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between px-1">
-              <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('pattern')}</Label>
-              <div className="flex items-center gap-1">
-                <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
-                  <RefreshCw className="h-3 w-3" />
-                  {isEnglish ? 'Sample' : 'مثال'}
-                </Button>
-                <Button variant="ghost" size="icon" onClick={() => { setRegex(''); setTestString(''); setReplaceString(''); }} className="h-6 w-6 text-muted-foreground hover:text-destructive">
-                  <Trash2 className="h-3 w-3" />
-                </Button>
-              </div>
+    <div className="grid gap-6 md:grid-cols-3 items-start">
+      <div className="md:col-span-2 space-y-4">
+        {/* Pattern Card */}
+        <ToolCard 
+          title={t('pattern')}
+          action={
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="sm" onClick={loadSample} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
+                <RefreshCw className="h-3 w-3" />
+                {isEnglish ? 'Sample' : 'مثال'}
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => { setRegex(''); setTestString(''); setReplaceString(''); }} className="h-6 w-6 text-muted-foreground hover:text-destructive">
+                <Trash2 className="h-3 w-3" />
+              </Button>
             </div>
-            <Card className="border border-border shadow-none rounded-md bg-background overflow-hidden p-2">
-              <div className="flex items-center gap-2">
-                <div className="flex-1 flex items-center gap-1.5 px-2 py-1 bg-muted/30 rounded border border-border group focus-within:border-foreground/20 transition-colors">
-                  <span className="text-muted-foreground font-mono text-sm">/</span>
-                  <Input
-                    placeholder="[a-zA-Z]+"
-                    className="font-mono text-sm h-8 border-none focus-visible:ring-0 bg-transparent p-0 shadow-none"
-                    value={regex}
-                    onChange={(e) => setRegex(e.target.value)}
-                  />
-                  <span className="text-muted-foreground font-mono text-sm">/</span>
-                </div>
-                <Input
-                  placeholder="flags"
-                  className="w-16 font-mono text-sm h-8 bg-muted/30 border-border text-center"
-                  value={flags}
-                  onChange={(e) => setFlags(e.target.value)}
-                />
-              </div>
-              {error && <p className="text-[10px] text-destructive font-medium px-2 mt-2">{isEnglish ? 'Error' : 'خرابی'}: {error}</p>}
-            </Card>
+          }
+          contentClassName="p-4 space-y-2"
+        >
+          <div className="flex items-center gap-2">
+            <div className="flex-1 flex items-center gap-1.5 px-3 py-1.5 bg-muted/30 rounded border border-border group focus-within:border-foreground/20 transition-colors">
+              <span className="text-muted-foreground font-mono text-sm">/</span>
+              <Input
+                placeholder="[a-zA-Z]+"
+                className="font-mono text-sm h-8 border-none focus-visible:ring-0 bg-transparent p-0 shadow-none"
+                value={regex}
+                onChange={(e) => setRegex(e.target.value)}
+              />
+              <span className="text-muted-foreground font-mono text-sm">/</span>
+            </div>
+            <Input
+              placeholder="flags"
+              className="w-16 font-mono text-sm h-11 bg-muted/30 border-border text-center"
+              value={flags}
+              onChange={(e) => setFlags(e.target.value)}
+            />
           </div>
+          {error && <p className="text-[10px] text-destructive font-medium px-2 mt-2">{isEnglish ? 'Error' : 'خرابی'}: {error}</p>}
+        </ToolCard>
 
-          <Tabs defaultValue="match" className="space-y-4">
-            <TabsList className="bg-muted/50 p-0.5 border border-border h-9">
-              <TabsTrigger value="match" className="h-8 text-xs px-4 data-[state=active]:bg-background data-[state=active]:shadow-none">
-                <Search className="h-3 w-3 mr-2" />
-                {t('matches')}
-              </TabsTrigger>
-              <TabsTrigger value="replace" className="h-8 text-xs px-4 data-[state=active]:bg-background data-[state=active]:shadow-none">
-                <Replace className="h-3 w-3 mr-2" />
-                {t('replace')}
-              </TabsTrigger>
-            </TabsList>
+        <Tabs defaultValue="match" className="space-y-4">
+          <TabsList className="bg-muted/50 p-0.5 border border-border h-9">
+            <TabsTrigger value="match" className="h-8 text-xs px-4 data-[state=active]:bg-background data-[state=active]:shadow-none">
+              <Search className="h-3 w-3 mr-2" />
+              {t('matches')}
+            </TabsTrigger>
+            <TabsTrigger value="replace" className="h-8 text-xs px-4 data-[state=active]:bg-background data-[state=active]:shadow-none">
+              <Replace className="h-3 w-3 mr-2" />
+              {t('replace')}
+            </TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="match" className="m-0 space-y-4">
-              <div className="grid gap-4 md:grid-cols-12">
-                <div className="md:col-span-8 flex flex-col gap-2">
-                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('testString')}</Label>
-                  <Card className="border border-border shadow-none rounded-md bg-background focus-within:border-foreground/20 transition-colors">
-                    <Textarea
-                      className="min-h-[300px] font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
-                      value={testString}
-                      onChange={(e) => setTestString(e.target.value)}
-                      placeholder={isEnglish ? "Enter text to test against the pattern..." : "پیٹرن کے خلاف ٹیسٹ کرنے کے لیے متن درج کریں..."}
-                    />
-                  </Card>
-                </div>
-                <div className="md:col-span-4 flex flex-col gap-2">
-                  <div className="flex items-center justify-between px-1">
-                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t('results')}</Label>
-                    {matches.length > 0 && (
-                      <Button variant="ghost" size="sm" onClick={downloadResults} className="h-5 px-1.5 text-[9px] gap-1 text-muted-foreground hover:text-foreground">
-                        {downloaded ? <Check className="h-2.5 w-2.5 text-green-500" /> : <Download className="h-2.5 w-2.5" />}
-                        {isEnglish ? 'Export' : 'ایکسپورٹ'}
-                      </Button>
-                    )}
-                  </div>
-                  <Card className="border border-border shadow-none rounded-md bg-muted/20 flex-1 min-h-[300px] overflow-hidden flex flex-col">
-                    <div className="p-3 overflow-auto space-y-2 flex-1">
-                      {matches.length > 0 ? (
-                        <>
-                          <div className="flex items-center justify-between text-[10px] font-bold text-foreground pb-2 border-b border-border/50">
-                            <span>{isEnglish ? 'Total Matches' : 'کل نتائج'}</span>
-                            <Badge variant="outline" className="h-5 px-1.5 rounded-sm text-[9px] bg-foreground/5">{matches.length}</Badge>
-                          </div>
-                          {matches.map((m, i) => (
-                            <div key={i} className="p-2 rounded bg-background border border-border text-[10px] font-mono group hover:border-foreground/20 transition-colors">
-                              <div className="text-muted-foreground mb-1 flex justify-between">
-                                <span>{isEnglish ? 'Match' : 'میچ'} {i + 1}</span>
-                                <span className="opacity-50">index: {m.index}</span>
-                              </div>
-                              <div className="text-foreground font-semibold break-all">{m[0]}</div>
-                            </div>
-                          ))}
-                        </>
-                      ) : (
-                        <div className="h-full flex flex-col items-center justify-center text-muted-foreground text-[10px] text-center space-y-2 py-8">
-                          <div className="p-2 rounded-full bg-muted/50 border border-border">
-                            <Info className="h-4 w-4 opacity-30" />
-                          </div>
-                          <p>{isEnglish ? 'No matches found' : 'کوئی میچ نہیں ملا'}</p>
-                        </div>
-                      )}
-                    </div>
-                  </Card>
-                </div>
-              </div>
-            </TabsContent>
+          <TabsContent value="match" className="m-0 space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <ToolCard title={t('testString')} contentClassName="p-0 flex flex-col h-[300px]">
+                <Textarea
+                  className="flex-1 font-mono text-xs resize-none border-none focus-visible:ring-0 p-3 bg-transparent leading-relaxed"
+                  value={testString}
+                  onChange={(e) => setTestString(e.target.value)}
+                  placeholder={isEnglish ? "Enter text to test against the pattern..." : "پیٹرن کے خلاف ٹیسٹ کرنے کے لیے متن درج کریں..."}
+                />
+              </ToolCard>
 
-            <TabsContent value="replace" className="m-0 space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="flex flex-col gap-2">
-                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('replacementText')}</Label>
-                  <Card className="p-2 border border-border shadow-none rounded-md bg-background focus-within:border-foreground/20 transition-colors">
-                    <Input
-                      placeholder="e.g. $1"
-                      className="h-8 font-mono text-sm border-none focus-visible:ring-0 shadow-none bg-transparent"
-                      value={replaceString}
-                      onChange={(e) => setReplaceString(e.target.value)}
-                    />
-                  </Card>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between px-1">
-                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{tCommon('ui.result')}</Label>
-                    <Button variant="ghost" size="sm" onClick={copyResult} disabled={!replacedResult} className="h-6 px-2 text-[10px] gap-1.5 text-muted-foreground hover:text-foreground">
-                      {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
-                      {tCommon('copy')}
+              <ToolCard 
+                title={t('results')}
+                action={
+                  matches.length > 0 ? (
+                    <Button variant="ghost" size="sm" onClick={downloadResults} className="h-5 px-1.5 text-[9px] gap-1 text-muted-foreground hover:text-foreground">
+                      {downloaded ? <Check className="h-2.5 w-2.5 text-green-500" /> : <Download className="h-2.5 w-2.5" />}
+                      {isEnglish ? 'Export' : 'ایکسپورٹ'}
                     </Button>
-                  </div>
-                  <Card className="p-2 border border-border shadow-none rounded-md bg-muted/20 h-[44px] flex items-center px-3">
-                    <div className="font-mono text-xs truncate w-full">
-                      {replacedResult || testString || (isEnglish ? 'Replacement result...' : 'تبدیلی کا نتیجہ...')}
+                  ) : undefined
+                }
+                contentClassName="p-0 flex flex-col h-[300px] bg-muted/20"
+              >
+                <div className="p-3 overflow-auto space-y-2 flex-1">
+                  {matches.length > 0 ? (
+                    <>
+                      <div className="flex items-center justify-between text-[10px] font-bold text-foreground pb-2 border-b border-border/50">
+                        <span>{isEnglish ? 'Total Matches' : 'کل نتائج'}</span>
+                        <Badge variant="outline" className="h-5 px-1.5 rounded-sm text-[9px] bg-foreground/5">{matches.length}</Badge>
+                      </div>
+                      {matches.map((m, i) => (
+                        <div key={i} className="p-2 rounded bg-background border border-border text-[10px] font-mono group hover:border-foreground/20 transition-colors">
+                          <div className="text-muted-foreground mb-1 flex justify-between">
+                            <span>{isEnglish ? 'Match' : 'میچ'} {i + 1}</span>
+                            <span className="opacity-50">index: {m.index}</span>
+                          </div>
+                          <div className="text-foreground font-semibold break-all">{m[0]}</div>
+                        </div>
+                      ))}
+                    </>
+                  ) : (
+                    <div className="h-full flex flex-col items-center justify-center text-muted-foreground text-[10px] text-center space-y-2 py-8">
+                      <div className="p-2 rounded-full bg-muted/50 border border-border">
+                        <Info className="h-4 w-4 opacity-30" />
+                      </div>
+                      <p>{isEnglish ? 'No matches found' : 'کوئی میچ نہیں ملا'}</p>
                     </div>
-                  </Card>
+                  )}
                 </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-1">{t('previewArea')}</Label>
-                <Card className="border border-border shadow-none rounded-md bg-background min-h-[200px] overflow-hidden">
-                  <div className="p-3 font-mono text-xs whitespace-pre-wrap break-all leading-relaxed h-[200px] overflow-auto">
-                    {replacedResult || testString || (isEnglish ? 'Full preview...' : 'مکمل پیش نظارہ...')}
-                  </div>
-                </Card>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
+              </ToolCard>
+            </div>
+          </TabsContent>
 
-        {/* Settings Card */}
-        <div className="lg:col-span-3 space-y-4">
-          <Card className="border border-border shadow-none rounded-md bg-background">
-            <CardHeader className="py-3 px-4 border-b">
-              <CardTitle className="text-xs font-semibold flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Settings2 className="h-3.5 w-3.5" />
-                  {isEnglish ? 'Flags' : 'فلیگز'}
+          <TabsContent value="replace" className="m-0 space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <ToolCard title={t('replacementText')} contentClassName="p-2">
+                <Input
+                  placeholder="e.g. $1"
+                  className="h-8 font-mono text-sm border-none focus-visible:ring-0 shadow-none bg-transparent"
+                  value={replaceString}
+                  onChange={(e) => setReplaceString(e.target.value)}
+                />
+              </ToolCard>
+              <ToolCard 
+                title={tCommon('ui.result')}
+                action={
+                  <Button variant="ghost" size="sm" onClick={() => copyToClipboard(replacedResult || testString, 'replace')} disabled={!replacedResult} className="h-6 px-2 text-[10px] gap-1.5 transition-colors">
+                    {copiedType === 'replace' ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                    {tCommon('copy')}
+                  </Button>
+                }
+                contentClassName="p-2 h-[44px] flex items-center px-3 bg-muted/20"
+              >
+                <div className="font-mono text-xs truncate w-full">
+                  {replacedResult || testString || (isEnglish ? 'Replacement result...' : 'تبدیلی کا نتیجہ...')}
                 </div>
-                <Share2 className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-pointer" />
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 space-y-4">
-              {[
-                { id: 'g', label: 'Global (g)', desc: isEnglish ? 'Full search' : 'مکمل تلاش' },
-                { id: 'i', label: 'Case-insensitive (i)', desc: isEnglish ? 'Ignore case' : 'کیس کو نظر انداز کریں' },
-                { id: 'm', label: 'Multiline (m)', desc: isEnglish ? '^ and $ boundary' : '^ اور $ باؤنڈری' },
-                { id: 's', label: 'Dot All (s)', desc: isEnglish ? 'Dot matches \\n' : 'ڈاٹ \\n سے میچ کرتا ہے' },
-                { id: 'u', label: 'Unicode (u)', desc: isEnglish ? 'Unicode support' : 'یونیکوڈ سپورٹ' }
-              ].map((f) => (
-                <div key={f.id} className="flex items-center justify-between group cursor-pointer" onClick={() => toggleFlag(f.id)}>
-                  <div className="space-y-0.5">
-                    <Label className="text-xs cursor-pointer">{f.label}</Label>
-                    <p className="text-[9px] text-muted-foreground leading-tight">{f.desc}</p>
-                  </div>
-                  <Switch 
-                    checked={flags.includes(f.id)} 
-                    onCheckedChange={() => toggleFlag(f.id)} 
-                    className="scale-75 origin-right"
-                  />
-                </div>
-              ))}
-              
-              <div className="pt-2 border-t border-border">
-                <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
-                  <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
-                    <Info className="h-3 w-3" />
-                    {isEnglish ? 'Quick Tip' : 'فوری مشورہ'}
-                  </div>
-                  <p className="text-[10px] text-muted-foreground leading-relaxed">
-                    {t('article').split('.')[1]}.
-                  </p>
-                </div>
+              </ToolCard>
+            </div>
+            <ToolCard title={t('previewArea')} contentClassName="p-0">
+              <div className="p-3 font-mono text-xs whitespace-pre-wrap break-all leading-relaxed h-[200px] overflow-auto">
+                {replacedResult || testString || (isEnglish ? 'Full preview...' : 'مکمل پیش نظارہ...')}
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </ToolCard>
+          </TabsContent>
+        </Tabs>
       </div>
-      
-      <ToolNavigation currentToolId="regex-tester" />
+
+      {/* Settings Card */}
+      <div className="md:col-span-1 space-y-4">
+        <ToolCard 
+          title={isEnglish ? 'Flags' : 'فلیگز'}
+          icon={Settings2}
+          action={<Share2 className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground cursor-pointer" />}
+          contentClassName="p-4 space-y-4"
+        >
+          {[
+            { id: 'g', label: 'Global (g)', desc: isEnglish ? 'Full search' : 'مکمل تلاش' },
+            { id: 'i', label: 'Case-insensitive (i)', desc: isEnglish ? 'Ignore case' : 'کیس کو نظر انداز کریں' },
+            { id: 'm', label: 'Multiline (m)', desc: isEnglish ? '^ and $ boundary' : '^ اور $ باؤنڈری' },
+            { id: 's', label: 'Dot All (s)', desc: isEnglish ? 'Dot matches \\n' : 'ڈاٹ \\n سے میچ کرتا ہے' },
+            { id: 'u', label: 'Unicode (u)', desc: isEnglish ? 'Unicode support' : 'یونیکوڈ سپورٹ' }
+          ].map((f) => (
+            <div key={f.id} className="flex items-center justify-between group cursor-pointer" onClick={() => toggleFlag(f.id)}>
+              <div className="space-y-0.5">
+                <Label className="text-xs cursor-pointer">{f.label}</Label>
+                <p className="text-[9px] text-muted-foreground leading-tight">{f.desc}</p>
+              </div>
+              <Switch 
+                checked={flags.includes(f.id)} 
+                onCheckedChange={() => toggleFlag(f.id)} 
+                className="scale-75 origin-right"
+              />
+            </div>
+          ))}
+          
+          <div className="pt-2 border-t border-border">
+            <div className="p-3 rounded-md bg-muted/50 border border-border space-y-1.5">
+              <div className="flex items-center gap-2 text-[10px] font-semibold text-foreground uppercase tracking-tight">
+                <Info className="h-3 w-3" />
+                {isEnglish ? 'Quick Tip' : 'فوری مشورہ'}
+              </div>
+              <p className="text-[10px] text-muted-foreground leading-relaxed">
+                {t('article').split('.')[1]}.
+              </p>
+            </div>
+          </div>
+        </ToolCard>
+      </div>
     </div>
   );
 }

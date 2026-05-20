@@ -1,12 +1,13 @@
-'use client';
+﻿"use client"
 
 import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Settings2, Info, Search, Info as InfoIcon, CheckCircle2, AlertCircle, XCircle, AlertTriangle } from 'lucide-react';
-import { ToolNavigation } from '@/components/tool-navigation';
+import { ToolCard } from '@/components/layout/tool-card';
+import { CopyButton, DownloadButton, ToolActions, InfoBox, StatsDisplay, CodeTextarea } from '@/components/common';
+import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 const HTTP_STATUS_CODES = [
@@ -42,10 +43,7 @@ export function HttpStatusReferenceClient() {
   const [search, setSearch] = useState('');
 
   const filteredCodes = useMemo(() => {
-    return HTTP_STATUS_CODES.filter(item => 
-      item.code.toString().includes(search) || 
-      item.name.toLowerCase().includes(search.toLowerCase())
-    );
+    return HTTP_STATUS_CODES.filter(item => item.code.toString().includes(search) || item.name.toLowerCase().includes(search.toLowerCase()));
   }, [search]);
 
   const getStatusIcon = (code: number) => {
@@ -58,92 +56,50 @@ export function HttpStatusReferenceClient() {
   };
 
   return (
-    <div className="space-y-12">
-      <div className="grid gap-6 lg:grid-cols-12 items-start">
-        <div className="lg:col-span-9 space-y-4">
-          {/* Search Area */}
-          <div className="flex flex-col gap-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input 
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder={t('placeholder')}
-                className="pl-10 h-11 text-sm bg-background border-border shadow-sm"
-              />
-            </div>
-          </div>
+    <div className="grid gap-6 md:grid-cols-3 items-start">
+      <div className="md:col-span-2 space-y-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('placeholder')} className="pl-10 h-11 text-sm bg-background border-border shadow-sm" />
+        </div>
 
-          {/* Reference Grid */}
-          <div className="grid gap-3 sm:grid-cols-2">
-            {filteredCodes.map((item) => (
-              <Card key={item.code} className="border border-border shadow-none hover:border-foreground/10 transition-colors bg-background">
-                <CardContent className="p-4 flex flex-col gap-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl font-bold font-mono tracking-tight">{item.code}</span>
-                      <div className={cn(
-                        "flex items-center gap-1.5 px-2 py-0.5 rounded-full border text-[10px] font-semibold uppercase tracking-wider", 
-                        item.code < 200 ? "bg-zinc-500/10 text-zinc-600 border-zinc-500/20" :
-                        item.code < 300 ? "bg-green-500/10 text-green-600 border-green-500/20" :
-                        item.code < 400 ? "bg-blue-500/10 text-blue-600 border-blue-500/20" :
-                        item.code < 500 ? "bg-amber-500/10 text-amber-600 border-amber-500/20" :
-                        "bg-red-500/10 text-red-600 border-red-500/20"
-                      )}>
-                         {getStatusIcon(item.code)}
-                         {item.code < 200 ? t('cat_info') :
-                          item.code < 300 ? t('cat_success') :
-                          item.code < 400 ? t('cat_redirect') :
-                          item.code < 500 ? t('cat_client') :
-                          t('cat_server')}
-                      </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {filteredCodes.map((item) => (
+            <Card key={item.code} className="border border-border shadow-none hover:border-foreground/10 transition-colors bg-background">
+              <CardContent className="p-4 flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl font-bold font-mono tracking-tight">{item.code}</span>
+                    <div className={cn("flex items-center gap-1.5 px-2 py-0.5 rounded-full border text-[10px] font-semibold uppercase tracking-wider", item.code < 200 ? "bg-zinc-500/10 text-zinc-600 border-zinc-500/20" : item.code < 300 ? "bg-green-500/10 text-green-600 border-green-500/20" : item.code < 400 ? "bg-blue-500/10 text-blue-600 border-blue-500/20" : item.code < 500 ? "bg-amber-500/10 text-amber-600 border-amber-500/20" : "bg-red-500/10 text-red-600 border-red-500/20")}>
+                        {getStatusIcon(item.code)}
+                        {item.code < 200 ? t('cat_info') : item.code < 300 ? t('cat_success') : item.code < 400 ? t('cat_redirect') : item.code < 500 ? t('cat_client') : t('cat_server')}
                     </div>
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-sm font-semibold text-foreground">{t(`code_${item.code}_name`)}</p>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{t(`code_${item.code}_desc`)}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Sidebar Settings */}
-        <div className="lg:col-span-3 space-y-4">
-          <Card className="border border-border shadow-none rounded-md bg-background">
-            <CardHeader className="py-3 px-4 border-b">
-              <CardTitle className="text-xs font-semibold flex items-center gap-2">
-                <Settings2 className="h-3.5 w-3.5" />
-                {commonT('ui.options')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 space-y-4">
-               <div className="flex gap-2.5 items-start p-3 rounded-md bg-muted/30 border border-border">
-                  <Info className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
-                  <p className="text-[10px] text-muted-foreground leading-normal">
-                    {t('article').split('.')[0]}.
-                  </p>
                 </div>
-                <div className="space-y-3 pt-2">
-                   <div className="p-2.5 rounded-md bg-green-500/10 border border-green-500/20 text-[10px]">
-                      <span className="font-bold text-green-600">2xx:</span> {t('desc_2xx')}
-                   </div>
-                   <div className="p-2.5 rounded-md bg-blue-500/10 border border-blue-500/20 text-[10px]">
-                      <span className="font-bold text-blue-600">3xx:</span> {t('desc_3xx')}
-                   </div>
-                   <div className="p-2.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-[10px]">
-                      <span className="font-bold text-amber-600">4xx:</span> {t('desc_4xx')}
-                   </div>
-                   <div className="p-2.5 rounded-md bg-red-500/10 border border-red-500/20 text-[10px]">
-                      <span className="font-bold text-red-600">5xx:</span> {t('desc_5xx')}
-                   </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-semibold text-foreground">{t(`code_${item.code}_name`)}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{t(`code_${item.code}_desc`)}</p>
                 </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
-      <ToolNavigation currentToolId="http-status-reference" />
+
+      <div className="md:col-span-1 space-y-4">
+        <ToolCard title={commonT('ui.options')} icon={Settings2} contentClassName="p-4 space-y-4">
+           <div className="flex gap-2.5 items-start p-3 rounded-md bg-muted/30 border border-border">
+              <Info className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0" />
+              <p className="text-[10px] text-muted-foreground leading-normal">{t('article').split('.')[0]}.</p>
+            </div>
+            <div className="space-y-3 pt-2">
+               <div className="p-2.5 rounded-md bg-green-500/10 border border-green-500/20 text-[10px]"><span className="font-bold text-green-600">2xx:</span> {t('desc_2xx')}</div>
+               <div className="p-2.5 rounded-md bg-blue-500/10 border border-blue-500/20 text-[10px]"><span className="font-bold text-blue-600">3xx:</span> {t('desc_3xx')}</div>
+               <div className="p-2.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-[10px]"><span className="font-bold text-amber-600">4xx:</span> {t('desc_4xx')}</div>
+               <div className="p-2.5 rounded-md bg-red-500/10 border border-red-500/20 text-[10px]"><span className="font-bold text-red-600">5xx:</span> {t('desc_5xx')}</div>
+            </div>
+        </ToolCard>
+      </div>
     </div>
   );
 }
